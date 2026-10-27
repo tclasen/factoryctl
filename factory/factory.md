@@ -52,3 +52,9 @@ Follow the [commit and release policy](decisions/release-policy.md). The initial
 ## Runtime-extensible document behavior
 
 The [extension contract](specifications/extensions.md) describes user-defined types, structural definitions and agent-interpreted lifecycle instructions and namespaced tools loaded at runtime. Custom code runs in the browser UI; arbitrary local work is requested through prompts to the selected harness. Factoryctl remains a thin document interface and harness launcher, with no Git subprocesses or built-in agent scheduler. The [extension prototype](tasks/12-extension-contract.md) must qualify this boundary before implementation claims. These capabilities are design requirements; the repository still contains no application implementation.
+
+## Required collections, interaction and release evidence
+
+The product must exercise [one project, monorepo projects and sibling repositories](specifications/project-scenarios.md) with the same project-collection UI and depth-1 discovery. [Agent questions](specifications/user-interaction.md) add free text, choices and follow-up; MCP Apps and generated browser UI require a prototype before deciding whether to retire the interactive CLI. These are design requirements, not implemented features.
+
+The [requirements traceability matrix](specifications/requirements-traceability.md) maps each operator requirement to implementation tasks and acceptance. No runtime implementation evidence exists yet. Every release requires current regression evidence and a [full-feature Playwright video](specifications/release-evidence.md), covering older features as well as new ones with readable pacing, smooth scrolling, overlays and highlights.

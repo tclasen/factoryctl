@@ -24,6 +24,7 @@ depends_on:
 specifications:
   - "../specifications/interfaces.md"
 requirements:
+  - "R30"
   - "R13"
   - "R17"
   - "R22"
@@ -55,3 +56,7 @@ Acceptance coverage: A07 in [release acceptance](../specifications/acceptance.md
 ## Runtime extension integration
 
 Register namespaced tools and shared CLI/HTTP operation dispatch from the [extension contract](../specifications/extensions.md). Expose structural definitions and agent-interpreted Markdown instructions on reads; preserve shared structural validation, registry conflict handling and document persistence outcomes distinct from harness action status. Qualify tool refresh/reconnect with task 07; include R26–R28 and A14 integration evidence.
+
+## Collection, interaction and continuing evidence
+
+Expose the question tools, pending-result/wait semantics, scoped host answer routes and events from [user interaction](../specifications/user-interaction.md). Exercise S1–S3 transport parity and routing, including separate monorepo project identities. Use fake-broker tests here; task 13 qualifies runtime/Apps integration. Record A16/A17 evidence.

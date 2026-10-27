@@ -79,3 +79,9 @@ Scope and contracts are specified for implementation. The [runtime spike](../tas
 The [extension contract](../specifications/extensions.md) extends existing definition parsing, validation, templates and shared application services with structural definitions and namespaced document tools. No separate executable plugin runtime, custom backend validator or native helper is included. Browser HTML/CSS/JavaScript provides arbitrary UI behavior, including user-defined drag-and-drop boards. Prompt actions ask the selected harness to perform arbitrary local work. Mere rendering or saving never launches such work.
 
 The binary never launches Git, including for discovery/status. Inspect filesystem metadata/in-process libraries; harnesses perform Git operations. Codex is the initial adapter; Claude Code and pi-coding-agent are future adapters to qualify against the same runtime-neutral interface. No scheduler, agent task database or replacement harness is introduced.
+
+## Collections and user interaction
+
+Discovery separates Git working-tree roots from project roots; each project owns a bundle, registry and optional assets. In-memory selection tokens identify project instances, including multiple projects in one monorepo. All transports consume the same collection service and the [scenario matrix](../specifications/project-scenarios.md).
+
+A process-local interaction broker connects harness MCP question calls to the owning CLI/web conversation and routes the user's reply back. It carries no durable transcript or workflow policy. The [interaction contract](../specifications/user-interaction.md) defines answer correlation, child-process attachment, failure behavior and an optional MCP Apps host bridge. Browser-generated UI cannot add executable backend handlers. The [prototype task](../tasks/13-user-interaction.md) qualifies this material interface design before relying on it in the final UI or retiring the interactive CLI.

@@ -23,6 +23,7 @@ depends_on:
 specifications:
   - "../specifications/interfaces.md"
 requirements:
+  - "R30"
   - "R09"
   - "R18"
   - "R22"
@@ -49,3 +50,7 @@ Acceptance coverage: A06, A12 in [release acceptance](../specifications/acceptan
 ## Dependencies, risks and rollback
 
 `depends_on` identifies prerequisites; an agent interprets readiness. Factoryctl validates references but does not schedule this work. Preserve unknown metadata and source evidence. Roll back failed implementation through ordinary Git changes by the agent, retaining useful evidence. Do not expand into deployment, purchases or external messaging.
+
+## Collection, interaction and continuing evidence
+
+Run S1–S3 through the same collection commands. Implement the terminal surface for [agent questions](../specifications/user-interaction.md) with free text, choices/custom answers and same-thread follow-up; test no-surface/noninteractive failure without reading MCP protocol stdin. Task 13 qualifies the broker/harness integration. Retain CLI until an explicit qualified retirement decision. Record A16/A17 evidence.

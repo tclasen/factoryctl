@@ -98,3 +98,23 @@ Use two factories with identical document schemas but different Markdown instruc
 Show a prompt asking the harness to review a ticket and decide its next state. Factoryctl reports the conversation and observed document updates without claiming that structural validation proved approval, completion or truth. Custom browser UI still supports drag/drop through standardized writes; local arbitrary code and Git remain harness work. Reject workflow-policy handlers as tool bindings; do not misrepresent preserved unknown Markdown metadata as supported enforcement.
 
 Task 12 owns core boundary fixtures; tasks 06–09 cover interface/harness/UI behavior and task 11 verifies complete release evidence. These are planned tests, not implemented or passing product behavior. This acceptance criterion enforces the [minimal-interface decision](../decisions/minimal-interface.md).
+
+## A16 Project collection regression matrix
+
+Run every stage-appropriate journey in [S1–S3](project-scenarios.md) as features land and rerun the complete matrix at release. Prove identical collection UI, depth-1 discovery, distinct monorepo project identities/definitions/state, cross-links/backlinks and target-safe edits. Include same-named records, duplicate identities, absent targets and root-plus-child bundles. Separate documentary coverage from executed test evidence.
+
+## A17 Agent questions and dialogue
+
+Through an actual harness tool call, ask free-text and choice questions, submit real user answers, and continue with follow-up in the same conversation. Exercise both current CLI and web contracts until an explicit CLI retirement decision. Verify custom answers, refusal/cancel/timeout, concurrent request isolation, headless failure, stale/spoofed submissions and restart/reconnect behavior. No answer or approval may be synthesized from a default or timeout. Record separate fake-runtime and live-runtime evidence.
+
+## A18 MCP Apps and generative UI qualification
+
+Record the [prototype](../tasks/13-user-interaction.md) results for at least two distinct runtime-generated views, host/resource/bridge interoperability, actual user-to-agent replies and plain fallback. Verify generated code is browser-only, scoped and isolated. Pin versions and actual capability observations. Produce an explicit interactive-CLI decision with gaps, parity evidence and remaining executable/MCP/automation needs. An unsupported Apps result can satisfy the honest evaluation requirement with CLI retained; it cannot pass a rich-UI capability claim.
+
+## A19 Full-feature release video
+
+For every release, verify a Playwright recording covering the complete implemented feature inventory, including older and still-present deprecated features. Check the [recording contract](release-evidence.md): smooth scrolling, human-readable pauses, explanatory overlays, precise interaction highlights and finished-video review. Reconcile all scenes against requirements and executable results; missing features, missing artifacts or captions standing in for unrun tests fail the gate. Only deprecated-and-removed features may be omitted with evidence.
+
+## A20 Continuing requirements traceability
+
+Verify every operator requirement has an atomic row in the [matrix](requirements-traceability.md), an implementation/acceptance mapping and current release evidence or an explicit unfulfilled disposition. Check no previous result is silently reused as a current pass, no required feature disappears, and release artifacts/versions/revisions/timestamps are verifiable. Failed/blocked mandatory requirements prevent acceptance absent an explicit operator exception. Keep design-only evidence distinct from implemented behavior.

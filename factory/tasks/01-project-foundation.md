@@ -48,3 +48,7 @@ Acceptance coverage: A01, A12 in [release acceptance](../specifications/acceptan
 ## Dependencies, risks and rollback
 
 `depends_on` identifies prerequisites; an agent interprets readiness. Factoryctl validates references but does not schedule this work. Preserve unknown metadata and source evidence. Roll back failed implementation through ordinary Git changes by the agent, retaining useful evidence. Do not expand into deployment, purchases or external messaging.
+
+## Collection, interaction and continuing evidence
+
+Create and execute S1–S3 discovery fixtures from the [project matrix](../specifications/project-scenarios.md). Separate project root from Git root, include monorepo bundles without child .git markers, retain depth 1 and verify a one-project collection. Cover A16 as well as A01.

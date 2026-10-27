@@ -19,12 +19,14 @@ task_state: "planned"
 priority: "normal"
 owner: "unassigned"
 depends_on:
+  - "13-user-interaction.md"
   - "00-runtime-spike.md"
   - "06-transports.md"
 specifications:
   - "../specifications/personal-runtime.md"
   - "../specifications/agent-runtime.md"
 requirements:
+  - "R30"
   - "R11"
   - "R12"
   - "R13"
@@ -54,3 +56,7 @@ Acceptance coverage: A08 in [release acceptance](../specifications/acceptance.md
 `depends_on` identifies prerequisites; an agent interprets readiness. Factoryctl validates references but does not schedule this work. Preserve unknown metadata and source evidence. Roll back failed implementation through ordinary Git changes by the agent, retaining useful evidence. Do not expand into deployment, purchases or external messaging.
 
 Implement invocation/user-home preference resolution and adapter dispatch per [personal runtime preferences](../specifications/personal-runtime.md). Verify different contributors can use the same repository bytes, unsupported adapters fail explicitly, and profiles cannot override personal runtime/model/effort choices. Do not implement extra adapters as part of this first Codex slice.
+
+## Collection, interaction and continuing evidence
+
+Integrate the qualified question broker from task 13. Verify actual user answer → originating tool result → same-thread follow-up in CLI/web, concurrent-project isolation and honest unsupported Apps capability. Run S1–S3 conversation fixtures and record A16/A17/A18 integration evidence.

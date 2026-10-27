@@ -33,7 +33,8 @@ This is a proposed build plan for the [confirmed product scope](../specification
 | [Implement deterministic record and prompt templates](../tasks/04-templates.md) | 03-definition-validation | R06, R11, R14, R15, R19, R25 | A05 |
 | [Deliver the human and CI command interface](../tasks/05-cli.md) | 04-templates | R09, R18, R22, R24, R25 | A06, A12 |
 | [Expose shared MCP and local HTTP services](../tasks/06-transports.md) | 05-cli, 12-extension-contract | R13, R17, R22, R23, R24, R25 | A07 |
-| [Implement native Codex conversation integration](../tasks/07-codex-adapter.md) | 00-runtime-spike, 06-transports | R11, R12, R13, R14, R18, R24 | A08 |
+| [Qualify user questions and generative web views](../tasks/13-user-interaction.md) | 00-runtime-spike, 06-transports | R30, R31 | A17, A18 prototype |
+| [Implement native Codex conversation integration](../tasks/07-codex-adapter.md) | 00-runtime-spike, 06-transports, 13-user-interaction | R11, R12, R13, R14, R18, R24 | A08 |
 | [Deliver the default project, record, board and conversation GUI](../tasks/08-gui.md) | 07-codex-adapter | R07, R08, R10, R11, R17, R22, R24, R25 | A09 |
 | [Support optional trusted custom presentation](../tasks/09-custom-views.md) | 08-gui | R02, R15, R23, R26, R28 | A10, A14 browser integration |
 | [Qualify dogfooding and non-software workflows](../tasks/10-knowledge-work.md) | 09-custom-views | R06, R08, R19, R20, R25 | A11 |
@@ -59,7 +60,7 @@ These risks have explicit acceptance work; they are not hidden claims of compati
 
 ## Completion and handoff
 
-Completion requires A01–A15 in [acceptance](../specifications/acceptance.md), with failures and permitted platform exclusions explicit. Document actual capability in [the factory overview](../factory.md) as it ships. Keep intended behavior in specifications and observed verification in task/evidence records. Git operations are performed by the agent/user under the repository's delivery workflow, never by factoryctl itself.
+Completion requires A01–A20 in [acceptance](../specifications/acceptance.md), with failures and permitted platform exclusions explicit. Document actual capability in [the factory overview](../factory.md) as it ships. Keep intended behavior in specifications and observed verification in task/evidence records. Git operations are performed by the agent/user under the repository's delivery workflow, never by factoryctl itself.
 
 ## Revised first vertical slice
 
@@ -68,3 +69,9 @@ Qualify declarative definition and tool registration with two types and a third 
 ## Minimal implementation scope
 
 [The minimal-interface decision](../decisions/minimal-interface.md) supersedes core lifecycle enforcement. Task 12 extends existing definition/validation services only for structure and thin document-tool bindings; it must not become a workflow or policy subsystem. Tasks 06–09 expose Markdown instructions, custom UI and harness prompts. Task 11 verifies R29/A15. New domain workflows are content changes for the agent to interpret, not new backend branches.
+
+## Cross-cutting acceptance and traceability
+
+Exercise [S1–S3](../specifications/project-scenarios.md) in tasks 01–09 as their behavior becomes available, then rerun all at release (A16). Task 13 prototypes the [question/Apps contract](../specifications/user-interaction.md) after task 06 and the runtime spike; tasks 05–06 provide CLI/transport primitives and fake-broker checks without depending on downstream integration. Tasks 07–09 integrate actual harness/web behavior. R30 maps to tasks 05–08/13 and A17; R31 maps to tasks 09/13/11 and A18. CLI retirement remains conditional, not an implemented scope reduction.
+
+R32/R33 map to task 11 and A19/A20. Every implementation task supplies introducing code/tests and updates its [atomic requirement mappings](../specifications/requirements-traceability.md). Every release delivers fresh regression results and a human-paced, annotated Playwright video of all supported features under the [release evidence contract](../specifications/release-evidence.md). The matrix and release evidence supersede this table as the detailed requirement-level evidence source; table coverage alone is not implementation proof.
