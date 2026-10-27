@@ -14,7 +14,7 @@ sources:
     resource: "../sources/operator-brief.md"
     title: "Operator requirements and scope"
     author: "human:operator"
-task_state: "in_review"
+task_state: "done"
 priority: "normal"
 owner: "coordinator"
 depends_on: []
@@ -42,7 +42,7 @@ Coordinator is the sole document writer; reviewer has a read-only claim over the
 
 ## Verification and delivery
 
-Expected: all agreed constraints are discoverable in the living design, linked acceptance and planned tasks; Markdown remains navigable; no implementation claim. Author checks cover relative links, parseable metadata and diff whitespace. Independent review and PR/main verification remain required before task completion. Review findings and delivery evidence are reported with exact candidate/remote identities. This task remains in review until those conditions are satisfied; any closure in the candidate is conditional on its own delivery.
+Expected: all agreed constraints are discoverable in the living design, linked acceptance and planned tasks; Markdown remains navigable; no implementation claim. Author checks cover relative links, parseable metadata and diff whitespace. Independent review and PR/main verification remain required before task completion. Review findings and delivery evidence are reported with exact candidate/remote identities. The done state in this candidate is conditional on its own independent approval and verified PR/main delivery; until then it is proposed closure, not a delivered result.
 
 ## Revision 2 — operator correction and review repair
 
@@ -51,3 +51,9 @@ The operator explicitly rejected custom backend code execution. Remove the earli
 Independent reviewer `/root/review_factoryctl_extensions` reviewed candidate c21b6b881910c49201aad1db53b67e879221cc46. F01 (medium): prototype acceptance incorrectly required downstream GUI/harness work; revised task 12 and A14 now split core and integration ownership. F02 (low): baseline-to-candidate whitespace check found three blank EOF lines; repaired and changed verification to check the complete baseline diff. The initial working-tree-only check missed untracked files. This review was documentation-only; the revised scope requires a fresh pinned-candidate recheck before merge.
 
 Author validation for revision 2: all 62 Markdown frontmatters parse with required base metadata; all 256 relative Markdown link paths resolve; baseline-to-working-tree `git diff --check 2011d25` passes. These are document checks only. PR #4 is the delivery vehicle; fresh review and verified remote-main delivery remain pending.
+
+## Independent review and conditional closure
+
+Fresh reviewer `/root/review_factoryctl_extensions` approved documentation candidate `22a1551c1ea86503db4d6e646206c71b45abe75d` (tree `963a91e6adbe8203e56280ec482c2c8807791179`) against base `2011d25df79ea6f32d488d68031df09a47748fc3`. Architecture, comprehension and prototype readiness passed; F01/F02 were independently resolved. The reviewer searched the candidate for active backend execution requirements and found only exclusions/historical correction references. Review coverage included the required source manifest plus templates and affected GUI/tasks. Metadata/link checks remain author-reported; runtime, linkage and browser/harness behavior remain untested. Native model/usage telemetry is unknown.
+
+[PR #4](https://github.com/tclasen/factoryctl/pull/4) carries the reviewed design and this proposed closure. The Coordinator must recheck approval for this final evidence-only change, merge normally, verify the remote main tree equals the final candidate, and report the observed merge identity. The PR is the authoritative delivery receipt; this pre-merge record does not assert a merge has already occurred. No application implementation is completed by this task.
