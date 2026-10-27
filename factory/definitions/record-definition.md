@@ -24,6 +24,10 @@ fields:
   directory:
     kind: "string"
     required: true
+  enabled:
+    kind: "boolean"
+    required: false
+    default: true
   fields:
     kind: "mapping"
     required: true

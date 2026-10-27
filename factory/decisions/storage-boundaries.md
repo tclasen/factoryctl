@@ -1,7 +1,7 @@
 ---
 type: "Decision"
-title: "Separate configuration, assets and knowledge"
-description: "Separate configuration, assets and knowledge."
+title: "Separate knowledge, assets and personal preferences"
+description: "Separate knowledge, assets and personal preferences."
 status: "draft"
 factory:
   format: 1
@@ -18,22 +18,20 @@ sources:
 decision_state: "accepted"
 ---
 
-# Separate configuration, assets and knowledge
+# Separate knowledge, assets and personal preferences
 
-## Context and basis
+## Operator-authorized decision
 
-[Operator requirements](../sources/operator-brief.md) define the constraints. `accepted` here means the documented scope choice was explicitly made in the interview; it does not mean a human verified every sentence or the implementation. `proposed` marks an LLM-selected technical approach for review.
+The project requires no `factory.yaml`; remove it and do not load or generate it. Keep optional versioned `.factory/` assets and `factory/` as the OKF knowledge graph. Default operation needs no asset directory. Git supplies project status/history; agents handle Git operations. Runtime choice is contributor-specific, outside project Git.
 
-## Decision
+## Mechanism — LLM design proposal
 
-The operator explicitly selected root factory.yaml, optional .factory/ assets and factory/ as the only OKF graph. All default operation must work without .factory/. Git supplies history and the agent handles Git mutations.
+Keep project identity on the existing Factory node, type enablement on each definition and shared work intent on profiles/prompts. Use built-in operational defaults and invocation flags. An optional user-home Markdown file holds only personal runtime preferences. See [project discovery](../specifications/project-discovery.md) and [personal runtime preferences](../specifications/personal-runtime.md). This is not a replacement project config hidden inside Markdown.
 
-## Alternatives considered — LLM analysis
+## Deferred possibility
 
-A single hidden metadata directory would mix assets and knowledge; a Markdown-only config would contradict the explicitly selected YAML file.
+The operator identified remote tracking backends as a possible future reason for project config. GitHub Issues/Projects, Linear, Trello and Jira are not implemented or selected. Prove a routing need and resolve storage/synchronization semantics before adding a config file. Git-versioned Markdown remains the sole initial backend.
 
 ## Consequences — expected, not measured
 
-The graph stays readable and portable; configuration/assets are versioned but are not knowledge nodes. No generated index or transition log is required.
-
-See [architecture](../designs/architecture.md) and [release acceptance](../specifications/acceptance.md).
+A project can be shared by contributors with different runtime preferences without editing Git state. Application source and build inputs remain outside the knowledge graph. No index, registry or duplicate status history is introduced.

@@ -21,12 +21,6 @@ fields:
   role:
     kind: "string"
     required: true
-  model:
-    kind: "string"
-    required: false
-  reasoning_effort:
-    kind: "string"
-    required: false
 views:
   list:
     - "title"

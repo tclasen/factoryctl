@@ -24,8 +24,8 @@ The requirements below are synthesized from [operator statements](../sources/ope
 ## Repository and persistence
 
 - **R01 — Repository discovery.** Operate from a Git checkout or recursively from a directory containing checkouts; an explicit path overrides CWD. Preserve a multi-project model for one or many projects.
-- **R02 — Storage boundary.** Root `factory.yaml` contains configuration, optional `.factory/` contains assets, and `factory/` alone contains knowledge metadata. A configured project works with no `.factory/` directory.
-- **R03 — File persistence.** All durable factory knowledge is human-readable OKF Markdown. No database, external config file, durable index, conversation store or event ledger is introduced by factoryctl.
+- **R02 — Storage boundary.** No root configuration file is required or read. Optional `.factory/` contains assets; `factory/` alone contains knowledge metadata. A project works without either a root config file or `.factory/`.
+- **R03 — File persistence.** All durable factory knowledge is human-readable OKF Markdown. No database, project config file, durable index, conversation store or event ledger is introduced by factoryctl. Optional personal runtime preferences are human-readable Markdown outside the repo, as scoped by [personal runtime preferences](personal-runtime.md). Git-versioned records are the only initial tracking backend; external backends are deferred.
 - **R04 — Git responsibility.** Git is mandatory and supplies history. Factoryctl does not commit, stage, fetch, push, merge, create branches/worktrees or resolve Git conflicts. The external agent/user performs those operations. Read-only repository inspection is permitted.
 
 ## Knowledge model
@@ -40,9 +40,9 @@ The requirements below are synthesized from [operator statements](../sources/ope
 - **R09 — CLI.** Support interactive use and deterministic noninteractive CI workflows, with useful errors and machine-readable output available on stdout.
 - **R10 — GUI.** Launch a browser GUI with project overview/switcher, all-project lists, list/detail views for every type, configurable kanban, direct field/Markdown editing and an agent conversation panel.
 - **R11 — Agent actions.** Prompt templates define actions on records and compose reusable prompts. An action creates a fresh conversation; subsequent messages continue it. Several conversations can run concurrently.
-- **R12 — Codex.** Integrate current Codex CLI as the first runtime, including streaming output, follow-ups, input/approval requests, errors and cancellation. Codex owns authentication and conversation persistence.
+- **R12 — Codex.** Integrate current Codex CLI as the first supported adapter, selected by the contributor outside project Git, including streaming output, follow-ups, input/approval requests, errors and cancellation. Codex owns authentication and conversation persistence.
 - **R13 — MCP.** Expose discovery, context, read, creation and safe editing tools to the agent. CLI, GUI and MCP share the same validation and file behavior.
-- **R14 — Profiles.** Store profile instructions and optional model/reasoning settings as OKF nodes. Do not generate Codex-specific instruction/config files.
+- **R14 — Profiles.** Store shared profile instructions as runtime-neutral OKF nodes. Runtime, executable, model and reasoning preferences belong to the contributor outside Git. Do not generate Codex-specific instruction/config files.
 - **R15 — Presentation customization.** Support user-authored HTML, CSS and JS and nested templates. Default assets are embedded; customization is optional and versioned.
 
 ## Operation and collaboration

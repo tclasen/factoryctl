@@ -21,6 +21,9 @@ fields:
   project_id:
     kind: "string"
     required: true
+  bundle_uri:
+    kind: "string"
+    required: false
 views:
   list:
     - "title"

@@ -44,7 +44,7 @@ Implement the relevant modules in the [architecture](../designs/architecture.md)
 
 ## Verification and done criteria
 
-Use positive/negative corpus tests for required/null/enum/type cases, wrong locations, duplicate definitions, missing targets/anchors, source references, case collisions, unknown custom types and config changes. Validate the proposed graph and incoming dependents: reject heading removal and target-type changes that break references, validate creation/replacement self-links, and allow unrelated-error repairs. Reject invalid mutations without changing bytes; prove invalid external edits remain visible.
+Use positive/negative corpus tests for required/null/enum/type cases, wrong locations, duplicate definitions, missing targets/anchors, source references, case collisions, unknown custom types, Factory metadata and definition enablement changes. Validate the proposed graph and incoming dependents: reject heading removal and target-type changes that break references, validate creation/replacement self-links, and allow unrelated-error repairs. Reject invalid mutations without changing bytes; prove invalid external edits remain visible.
 
 Acceptance coverage: A03, A04 in [release acceptance](../specifications/acceptance.md). Include exact tested revision, commands, expected/observed results and remaining limitations in current task evidence when implemented. Do not equate a checked task field with proof of behavior. Run relevant negative tests as well as success journeys.
 
