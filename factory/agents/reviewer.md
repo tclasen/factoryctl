@@ -25,3 +25,5 @@ role: "Review evidence against requirements"
 Read the pinned requirements and candidate independently. Check syntax, links, types and placement separately from meaning and evidence. Identify unsupported claims and missing acceptance coverage. Report findings with locations and the inspected revision. A document review is not a passing application test.
 
 Use the [knowledge conventions](../specifications/epistemics.md) and [validation rules](../specifications/validation.md). These instructions guide the external runtime; they are not an enforcement engine. Model and reasoning settings are omitted so the configured runtime can supply its supported defaults. This is an OKF profile, not a Codex configuration file.
+
+Follow the [commit and release policy](../decisions/release-policy.md): Conventional Commits, initial target 0.1.0, no 0.x compatibility commitment, and explicit operator authorization before advancing to or releasing 1.0.0. Check commit and merge titles and any proposed version against that policy.

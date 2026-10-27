@@ -41,3 +41,7 @@ Read the [architecture](designs/architecture.md), [interaction specification](sp
 ## Knowledge quality
 
 [Epistemic conventions](specifications/epistemics.md) separate requirements, current observations, assumptions and LLM proposals. Markdown headings and links carry the same distinctions as the GUI. Source claims are not promoted to verified facts by being copied into this graph. Git supplies historical revisions; files describe current knowledge.
+
+## Development and releases
+
+Follow the [commit and release policy](decisions/release-policy.md). The initial release target is 0.1.0; there is no released executable yet.
