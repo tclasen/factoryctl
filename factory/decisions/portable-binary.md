@@ -26,7 +26,7 @@ decision_state: "proposed"
 
 ## Decision
 
-Use pure-Go backend dependencies, build-time browser compilation and embedded defaults/UI. An external browser and selected agent harness remain integrations. Factoryctl never spawns Git; agents/users own all Git operations. Embed the pure-Go WASM engine so runtime extension packages do not require a separate interpreter or native plugin loader.
+Use pure-Go backend dependencies, build-time browser compilation and embedded defaults/UI. An external browser and selected agent harness remain integrations. Factoryctl never spawns Git; agents/users own all Git operations. Document types are declarative data; custom browser code is served as optional assets. No backend plugin execution engine or native plugin loader is included.
 
 ## Alternatives considered — LLM analysis
 
@@ -40,4 +40,4 @@ See [architecture](../designs/architecture.md) and [release acceptance](../speci
 
 ## Clarification and unresolved platform qualification
 
-The operator explicitly requires a single static binary; a compiled executable alone is insufficient. Linux releases must demonstrate absence of dynamic-library dependencies. macOS/Windows normally retain platform system interfaces; the earlier self-contained interpretation is a documented platform limitation, not permission to silently weaken the static requirement. Release qualification must report actual linkage and resolve any unsupported target/requirement conflict with the operator before labeling it compliant. This documentation change makes no platform compliance claim. External type packages are user data/code loaded at runtime, not companion application libraries required for base operation.
+The operator explicitly requires a single static binary; a compiled executable alone is insufficient. Linux releases must demonstrate absence of dynamic-library dependencies. macOS/Windows normally retain platform system interfaces; the earlier self-contained interpretation is a documented platform limitation, not permission to silently weaken the static requirement. Release qualification must report actual linkage and resolve any unsupported target/requirement conflict with the operator before labeling it compliant. This documentation change makes no platform compliance claim. External type definitions are data; optional UI code runs in the browser. Neither is a companion backend library required for base operation.

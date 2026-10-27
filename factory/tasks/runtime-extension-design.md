@@ -44,3 +44,10 @@ Coordinator is the sole document writer; reviewer has a read-only claim over the
 
 Expected: all agreed constraints are discoverable in the living design, linked acceptance and planned tasks; Markdown remains navigable; no implementation claim. Author checks cover relative links, parseable metadata and diff whitespace. Independent review and PR/main verification remain required before task completion. Review findings and delivery evidence are reported with exact candidate/remote identities. This task remains in review until those conditions are satisfied; any closure in the candidate is conditional on its own delivery.
 
+## Revision 2 — operator correction and review repair
+
+The operator explicitly rejected custom backend code execution. Remove the earlier WASM/plugin proposal rather than defer it. Retain declarative type rules, arbitrary browser UI code (including custom kanban drag/drop) and prompt-backed harness execution for local work. This supersedes the first candidate's extension mechanism without changing the documentation-only grant.
+
+Independent reviewer `/root/review_factoryctl_extensions` reviewed candidate c21b6b881910c49201aad1db53b67e879221cc46. F01 (medium): prototype acceptance incorrectly required downstream GUI/harness work; revised task 12 and A14 now split core and integration ownership. F02 (low): baseline-to-candidate whitespace check found three blank EOF lines; repaired and changed verification to check the complete baseline diff. The initial working-tree-only check missed untracked files. This review was documentation-only; the revised scope requires a fresh pinned-candidate recheck before merge.
+
+Author validation for revision 2: all 62 Markdown frontmatters parse with required base metadata; all 256 relative Markdown link paths resolve; baseline-to-working-tree `git diff --check 2011d25` passes. These are document checks only. PR #4 is the delivery vehicle; fresh review and verified remote-main delivery remain pending.

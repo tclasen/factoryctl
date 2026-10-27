@@ -29,15 +29,15 @@ This is a proposed build plan for the [confirmed product scope](../specification
 | [Build the executable foundation and project discovery](../tasks/01-project-foundation.md) | None | R01, R02, R04, R16, R17 | A01, A12 |
 | [Implement OKF reading and safe file storage](../tasks/02-knowledge-store.md) | 01-project-foundation | R03, R05, R07, R08, R22 | A02, A06 |
 | [Implement definitions and live structural validation](../tasks/03-definition-validation.md) | 02-knowledge-store | R06, R07, R08, R24, R25 | A03, A04 |
-| [Qualify runtime document extensions](../tasks/12-extension-contract.md) | 03-definition-validation | R06, R13, R16, R26, R27, R28 | A14 |
+| [Qualify runtime document extensions](../tasks/12-extension-contract.md) | 03-definition-validation | R06, R13, R16, R26, R27, R28 | A14 core prototype |
 | [Implement deterministic record and prompt templates](../tasks/04-templates.md) | 03-definition-validation | R06, R11, R14, R15, R19, R25 | A05 |
 | [Deliver the human and CI command interface](../tasks/05-cli.md) | 04-templates | R09, R18, R22, R24, R25 | A06, A12 |
 | [Expose shared MCP and local HTTP services](../tasks/06-transports.md) | 05-cli, 12-extension-contract | R13, R17, R22, R23, R24, R25 | A07 |
 | [Implement native Codex conversation integration](../tasks/07-codex-adapter.md) | 00-runtime-spike, 06-transports | R11, R12, R13, R14, R18, R24 | A08 |
 | [Deliver the default project, record, board and conversation GUI](../tasks/08-gui.md) | 07-codex-adapter | R07, R08, R10, R11, R17, R22, R24, R25 | A09 |
-| [Support optional trusted custom presentation](../tasks/09-custom-views.md) | 08-gui | R02, R15, R23 | A10 |
+| [Support optional trusted custom presentation](../tasks/09-custom-views.md) | 08-gui | R02, R15, R23, R26, R28 | A10, A14 browser integration |
 | [Qualify dogfooding and non-software workflows](../tasks/10-knowledge-work.md) | 09-custom-views | R06, R08, R19, R20, R25 | A11 |
-| [Qualify performance, portability and complete release behavior](../tasks/11-release-qualification.md) | 10-knowledge-work | R01, R03, R04, R16, R17, R21, R22, R24, R25 | A12, A13 |
+| [Qualify performance, portability and complete release behavior](../tasks/11-release-qualification.md) | 10-knowledge-work | R01, R03, R04, R16, R17, R21, R22, R24, R25 | A12, A13, A14 complete integration |
 
 The runtime spike and project foundation can be investigated independently. Storage, definitions and structural validation establish the common contracts before transport/UI code. The first useful slice is a CLI that reads and validates this very bundle. The next adds MCP and native conversations; the GUI follows shared service contracts. Custom views and non-software examples prove extensibility before release qualification.
 
@@ -63,4 +63,4 @@ Completion requires A01–A14 in [acceptance](../specifications/acceptance.md), 
 
 ## Revised first vertical slice
 
-Qualify declarative/WASM extension registration with two types and a third runtime installation before finalizing GUI/MCP consumers. Then demonstrate rendered Markdown → explicit GUI action → selected harness connected to MCP → type-aware read/update → validated atomic persistence → refreshed view. Existing foundation/storage/validation work remains prerequisite; implementation and release checks must cover R26–R28/A14. The extension contract and harness permissions/tool refresh are empirical risks, not capabilities implied by Markdown specifications.
+Qualify declarative definition and tool registration with two types and a third runtime installation before finalizing GUI/MCP consumers. Then demonstrate rendered Markdown → explicit GUI action → selected harness connected to MCP → type-aware read/update → validated atomic persistence → refreshed view. Existing foundation/storage/validation work remains prerequisite; implementation and release checks must cover R26–R28/A14. The extension contract and harness permissions/tool refresh are empirical risks, not capabilities implied by Markdown specifications.

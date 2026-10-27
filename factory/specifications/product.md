@@ -31,7 +31,7 @@ The requirements below are synthesized from [operator statements](../sources/ope
 ## Knowledge model
 
 - **R05 — OKF.** Every Markdown file under `factory/` is a valid OKF concept, including the factory, definitions, profiles, prompts and templates. No index files or generated historical logs.
-- **R06 — Extensibility.** Supply agent-profile, task and decision types; allow new types and disabling supplied types. Definitions describe fields, required values, relationships and views. Runtime packages also supply type-specific tools and lifecycle hooks; see [extensions](extensions.md). Infrastructure types describe the format itself.
+- **R06 — Extensibility.** Supply agent-profile, task and decision types; allow new types and disabling supplied types. Definitions describe fields, required values, relationships and views. Runtime definitions also supply type-specific tools and lifecycle actions; see [extensions](extensions.md). Infrastructure types describe the format itself.
 - **R07 — Navigation.** Every concept supports readable Markdown, a generic list/detail presentation, outgoing links and always-visible backlinks. Resolve links across discovered projects and expose unresolved targets honestly.
 - **R08 — Knowledge quality.** Distinguish desired state, observed state and proposed change; facts, assumptions and questions; authoritative/directly observed evidence and LLM inference. Preserve source attribution at claim level where needed.
 
@@ -68,12 +68,12 @@ These engineering requirements are LLM-derived from the confirmed concurrent edi
 
 ## Runtime document extensions — confirmed scope
 
-- **R26 — Runtime type packages.** Users add or change document types, tools, lifecycle rules and hooks without rebuilding factoryctl. Use declarative definitions plus optional WASM code loaded by an embedded runtime; package assets remain external to the binary. Generic browsing works without executable extensions.
+- **R26 — Runtime type packages.** Users add or change document types, tools, declarative lifecycle rules and prompt-backed actions without rebuilding factoryctl. Custom HTML/CSS/JavaScript runs only in the browser UI. Arbitrary local execution is delegated to the selected AI harness through a prompt; no custom backend code is loaded.
 - **R27 — Shared controlled document access.** Type-specific MCP tools and GUI/CLI actions share validation, revision checks and persistence. Generic writes cannot bypass enabled type rules. Read/context tools return applicable type rules and revision information. Report whether harness-level access restrictions are verified or merely advisory.
-- **R28 — Extension boundary.** Version and namespace extension APIs, validate packages before activation, constrain hook capabilities/resources, define failure semantics and refresh available tools safely. No extension may turn the core into a scheduler or invoke Git/processes behind its back.
+- **R28 — Extension boundary.** Validate and namespace declarative definitions/tools, preserve browser UI isolation, define revision/conflict behavior and refresh available tools safely. No backend plugins, custom code interpreters, executable lifecycle callbacks or generic shell endpoints. Agents retain local execution, Git and scheduling.
 
 ## Release boundary
 
-Release 1 includes every R01–R28 behavior above, with the platform-testing limitation in R21. Excluded: hard-coded domain business rules (extension-defined validation and lifecycle guards are included), automation scheduler, runtime replacement, managed credentials, shared multi-user server accounts, automated Git synchronization, migration of earlier factories, full ontology reasoning, a visual graph canvas, and an asset marketplace. Backlinks and cross-project graph relationships are included even without a graph canvas.
+Release 1 includes every R01–R28 behavior above, with the platform-testing limitation in R21. Excluded: hard-coded domain business rules (declarative field and transition checks are included), backend user-code execution, automation scheduler, runtime replacement, managed credentials, shared multi-user server accounts, automated Git synchronization, migration of earlier factories, full ontology reasoning, a visual graph canvas, and an asset marketplace. Backlinks and cross-project graph relationships are included even without a graph canvas.
 
 See [acceptance criteria](acceptance.md) and the [requirement-to-task map](../designs/implementation-plan.md). No design choice silently expands external-action authority.

@@ -48,3 +48,7 @@ Acceptance coverage: A10 in [release acceptance](../specifications/acceptance.md
 ## Dependencies, risks and rollback
 
 `depends_on` identifies prerequisites; an agent interprets readiness. Factoryctl validates references but does not schedule this work. Preserve unknown metadata and source evidence. Roll back failed implementation through ordinary Git changes by the agent, retaining useful evidence. Do not expand into deployment, purchases or external messaging.
+
+## Runtime-defined board acceptance
+
+Own the browser portion of A14: implement a user-authored HTML/CSS/JavaScript kanban board over an explicitly scoped record selection, drag/drop via `requestEdit`, rejected/stale move feedback and prompt-backed `requestAction`. Preserve iframe/trust/message constraints. Backend custom-code execution is excluded; local computation belongs to the selected harness.

@@ -31,15 +31,14 @@ requirements:
 
 ## Outcome and scope
 
-Implement and qualify the proposed [extension contract](../specifications/extensions.md), including declarative manifests and an embedded pure-Go WASM engine, before transport/UI consumers depend on the API. This is planned implementation, not part of the current documentation update.
+Extend the existing definition/validation services with the [declarative extension contract](../specifications/extensions.md): lifecycle rules, namespaced tools and prompt references. No backend plugin runtime, executable hook or custom-code handler is allowed. This is planned implementation, not part of the documentation update.
 
 ## Sequence and acceptance
 
-After foundation/storage/structural validation, define the exact versioned manifest/ABI, host capabilities, namespaced tool schemas, registry replacement and operation failure envelopes. Exercise two materially different packages and install a third without rebuilding the binary. Prove shared generic/specialized write enforcement and bounded hooks before extending MCP/GUI. Use core-rendered views first; trusted custom HTML/CSS/JS remains task 09.
+After foundation/storage/structural validation, pin the metadata schema and supported core-operation mappings. Exercise two different types and install a third without rebuilding the binary. Prove shared generic/specialized write enforcement and safe definition reload with in-process fixtures.
 
-Acceptance is A14 in [release acceptance](../specifications/acceptance.md), plus regressions for A03/A04/A06. Include traps, timeouts, memory/output limits, invalid/missing packages, stale registry/document revisions, partial post-hook failure, external-editor bypass and tool refresh. No Git subprocess or native plugin helper is permitted. Select/pin an engine only after testing static-build compatibility and interruption behavior.
+Completion covers the core prototype portion of A14 in [acceptance](../specifications/acceptance.md) plus regressions for A03/A04/A06. Test invalid/duplicate definitions, unsupported executable handlers, stale document/definition revisions and allowed/denied transitions. Tasks 06–08 own transport/harness integration, task 09 owns arbitrary browser UI including custom drag/drop, and tasks 10–11 verify the complete A14 journey. Those downstream checks are not prerequisites for this task.
 
 ## Risks and rollback
 
-Keep exact package syntax/ABI marked proposed until the prototype passes. No background hook scheduler, durable event ledger or multi-file transaction is introduced. Failed engine qualification requires a documented design revision; never silently substitute an external interpreter. Rollback is an ordinary agent-owned Git change, preserving user documents and revealing unavailable extension behavior.
-
+Exact declarative syntax is an implementation choice to qualify; do not introduce a general expression language to replace rejected backend plugins. Arbitrary local computation belongs to prompt-backed harness work. No event ledger, scheduler or multi-file transaction is introduced. Roll back through agent-owned Git changes, preserving user documents and surfacing invalid definitions.
