@@ -21,6 +21,10 @@ sources:
 
 The requirements below are synthesized from [operator statements](../sources/operator-brief.md). Their identifiers are stable within this specification. They describe desired behavior, not delivered functionality. Exact implementation details in linked contracts are proposed mechanisms.
 
+## Governing principle
+
+**R29 — Minimal interface.** Factoryctl is a small Markdown viewer/editor, standardized document-tool provider and harness launcher. All factory/domain workflow meaning is interpreted by the AI harness from Markdown. Core validation covers structure and safe storage only: no transition guards, conditional workflow requirements, readiness/approval evaluator or business-rule language. New knowledge-work workflows use different Markdown and optional UI assets without backend domain logic. See [the accepted boundary](../decisions/minimal-interface.md).
+
 ## Repository and persistence
 
 - **R01 — Repository discovery.** Operate from a Git checkout or recursively from a directory containing checkouts; an explicit path overrides CWD. Preserve a multi-project model for one or many projects.
@@ -68,12 +72,12 @@ These engineering requirements are LLM-derived from the confirmed concurrent edi
 
 ## Runtime document extensions — confirmed scope
 
-- **R26 — Runtime type packages.** Users add or change document types, tools, declarative lifecycle rules and prompt-backed actions without rebuilding factoryctl. Custom HTML/CSS/JavaScript runs only in the browser UI. Arbitrary local execution is delegated to the selected AI harness through a prompt; no custom backend code is loaded.
-- **R27 — Shared controlled document access.** Type-specific MCP tools and GUI/CLI actions share validation, revision checks and persistence. Generic writes cannot bypass enabled type rules. Read/context tools return applicable type rules and revision information. Report whether harness-level access restrictions are verified or merely advisory.
+- **R26 — Runtime type packages.** Users add or change document types, tools, structural definitions, lifecycle instructions and prompt-backed actions without rebuilding factoryctl. Custom HTML/CSS/JavaScript runs only in the browser UI. Arbitrary local execution is delegated to the selected AI harness through a prompt; no custom backend code is loaded.
+- **R27 — Shared controlled document access.** Type-specific MCP tools and GUI/CLI actions share validation, revision checks and persistence. Generic writes apply the same structural checks. Read/context tools return type definitions, agent-interpreted instructions and revision information; returning instructions does not enforce their workflow meaning. Report whether harness-level access restrictions are verified or merely advisory.
 - **R28 — Extension boundary.** Validate and namespace declarative definitions/tools, preserve browser UI isolation, define revision/conflict behavior and refresh available tools safely. No backend plugins, custom code interpreters, executable lifecycle callbacks or generic shell endpoints. Agents retain local execution, Git and scheduling.
 
 ## Release boundary
 
-Release 1 includes every R01–R28 behavior above, with the platform-testing limitation in R21. Excluded: hard-coded domain business rules (declarative field and transition checks are included), backend user-code execution, automation scheduler, runtime replacement, managed credentials, shared multi-user server accounts, automated Git synchronization, migration of earlier factories, full ontology reasoning, a visual graph canvas, and an asset marketplace. Backlinks and cross-project graph relationships are included even without a graph canvas.
+Release 1 includes every R01–R29 behavior above, with the platform-testing limitation in R21. Excluded: domain business-rule enforcement (structural field checks are included), transition guards, state-conditioned requirements, policy evaluators, backend user-code execution, automation scheduler, runtime replacement, managed credentials, shared multi-user server accounts, automated Git synchronization, migration of earlier factories, full ontology reasoning, a visual graph canvas, and an asset marketplace. Backlinks and cross-project graph relationships are included even without a graph canvas.
 
 See [acceptance criteria](acceptance.md) and the [requirement-to-task map](../designs/implementation-plan.md). No design choice silently expands external-action authority.

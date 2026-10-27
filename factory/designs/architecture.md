@@ -21,6 +21,10 @@ sources:
 
 **Proposal — LLM design:** implement the backend/CLI as Go with pure-Go dependencies and embedded browser assets. Use a small TypeScript frontend compiled at development time and embedded into the executable. Users need no Node, Python or asset build pipeline at runtime. The [operator](../sources/operator-brief.md) required a portable static binary but did not choose a language. Go's [embed package](https://pkg.go.dev/embed) supports bundling assets; the [Go build documentation](https://go.dev/doc/install/source#environment) describes target OS/architecture controls. These capabilities do not themselves prove our eventual executable is correctly linked.
 
+## Minimalism governs component design
+
+Follow the [accepted minimal-interface boundary](../decisions/minimal-interface.md). Factoryctl exposes documents to people and agents; the harness interprets their domain meaning. Keep required fields/types, links, placement and safe writes in generic services. Do not implement lifecycle transitions, state-conditioned requirements, readiness checks, approvals or workflow execution in those services. Domain-specific tools are thin document-operation bindings, not new backend procedures. Reuse existing modules rather than add a policy engine or extension framework.
+
 ## Components
 
 ```mermaid
@@ -50,7 +54,7 @@ Start with standard-library HTTP/JSON/embed/templates and a maintained YAML/Mark
 
 ## Storage, concurrency and failure boundaries
 
-`factory/` contains current metadata; optional assets and contributor preferences remain outside it; no root configuration file is required or read. [Knowledge-format](../specifications/knowledge-format.md) defines revision tokens, advisory coordination, unknown-key preservation, path identity and the limits of non-cooperating editors. Structural or required extension-rule errors disable affected writes, not the entire viewer. [Validation](../specifications/validation.md) defines rejection rules; no opaque truth/approval engine is introduced.
+`factory/` contains current metadata; optional assets and contributor preferences remain outside it; no root configuration file is required or read. [Knowledge-format](../specifications/knowledge-format.md) defines revision tokens, advisory coordination, unknown-key preservation, path identity and the limits of non-cooperating editors. Structural document/definition errors disable affected writes, not the entire viewer. [Validation](../specifications/validation.md) defines rejection rules; no opaque truth/approval engine is introduced.
 
 Browsing, searching, editing, init and validation work without any agent runtime, personal preferences or network access. Conversation features are separately available only when the runtime qualifies. The application server owns only transient conversation routing and UI event streams. Agent process failure cannot corrupt graph state merely by dropping the transport. Git conflicts are surfaced, never resolved internally.
 
@@ -72,6 +76,6 @@ Scope and contracts are specified for implementation. The [runtime spike](../tas
 
 ## Runtime extension boundary
 
-The [extension contract](../specifications/extensions.md) extends existing definition parsing, validation, templates and shared application services with declarative transitions and namespaced tools. No separate executable plugin runtime, custom backend validator or native helper is included. Browser HTML/CSS/JavaScript provides arbitrary UI behavior, including user-defined drag-and-drop boards. Prompt actions ask the selected harness to perform arbitrary local work. Mere rendering or saving never launches such work.
+The [extension contract](../specifications/extensions.md) extends existing definition parsing, validation, templates and shared application services with structural definitions and namespaced document tools. No separate executable plugin runtime, custom backend validator or native helper is included. Browser HTML/CSS/JavaScript provides arbitrary UI behavior, including user-defined drag-and-drop boards. Prompt actions ask the selected harness to perform arbitrary local work. Mere rendering or saving never launches such work.
 
 The binary never launches Git, including for discovery/status. Inspect filesystem metadata/in-process libraries; harnesses perform Git operations. Codex is the initial adapter; Claude Code and pi-coding-agent are future adapters to qualify against the same runtime-neutral interface. No scheduler, agent task database or replacement harness is introduced.

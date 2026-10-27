@@ -61,3 +61,7 @@ Implement and verify the [commit and release policy](../decisions/release-policy
 ## Runtime definition integration
 
 Verify complete A14 evidence from task 12 core fixtures, tasks 06–08 transport/harness behavior and task 09 custom browser board interactions. No backend user-code execution engine is part of the release. Record observed no-Git-subprocess and static-linkage results separately from agent Git behavior.
+
+## Minimal-interface release gate
+
+Verify R29/A15 across core fixtures and interface/harness/UI evidence. Workflow changes must be possible through Markdown and views without changing backend domain logic. Structural validation must never be reported as policy approval or workflow completion.

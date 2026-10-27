@@ -54,4 +54,4 @@ Acceptance coverage: A07 in [release acceptance](../specifications/acceptance.md
 
 ## Runtime extension integration
 
-Register namespaced tools and shared CLI/HTTP operation dispatch from the [extension contract](../specifications/extensions.md). Preserve effective rules on reads, generic-write enforcement, registry conflict handling and document persistence outcomes distinct from harness action status. Qualify tool refresh/reconnect with task 07; include R26–R28 and A14 integration evidence.
+Register namespaced tools and shared CLI/HTTP operation dispatch from the [extension contract](../specifications/extensions.md). Expose structural definitions and agent-interpreted Markdown instructions on reads; preserve shared structural validation, registry conflict handling and document persistence outcomes distinct from harness action status. Qualify tool refresh/reconnect with task 07; include R26–R28 and A14 integration evidence.
