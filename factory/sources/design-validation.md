@@ -21,7 +21,7 @@ sources:
 
 ## Scope
 
-This record concerns the design package, not factoryctl application behavior. The current package passed the author-run document checks described below and received independent review; the focused repair recheck is pending. No application tests, runtime integration tests or non-Mac execution tests have passed by virtue of these documents existing.
+This record concerns the design package, not factoryctl application behavior. The current package passed the author-run document checks described below and received independent review; the focused repair recheck passed at the design-contract level. Remote delivery remains blocked. No application tests, runtime integration tests or non-Mac execution tests have passed by virtue of these documents existing.
 
 ## Verification plan
 
@@ -41,9 +41,9 @@ The temporary document checker uses a bounded Markdown-link scan with fenced exa
 
 ## Independent design review and current disposition
 
-A fresh read-only reviewer inspected candidate `17d63baac35b3adc2370a1f1dcf310a6cfaa311f`, independently reran the document checker, and reported architectural fit as verified within design scope. The review identified F01 (missing pre-write checks of structurally affected incoming anchors/types) and F02 (unintended indentation in the implementation plan). The current candidate defines proposed-graph/dependent validation with corresponding acceptance tests and removes the plan indentation. A focused independent recheck must establish the disposition of these repairs before design review is called complete. These are document-contract repairs, not claims of implemented validator behavior.
+A fresh read-only reviewer inspected candidate `17d63baac35b3adc2370a1f1dcf310a6cfaa311f`, independently reran the document checker, and reported architectural fit as verified within design scope. The review identified F01 (missing pre-write checks of structurally affected incoming anchors/types) and F02 (unintended indentation in the implementation plan). The current candidate defines proposed-graph/dependent validation with corresponding acceptance tests and removes the plan indentation. Fresh reviewer `/root/design_recheck` independently inspected repair candidate `c91806b089c0051047ab6c4d342347bab5e089d8` after the prior session was interrupted. The reviewer reported F01 and F02 resolved at the design-contract level and no new blocking findings in the repair diff and affected contracts. This bounded recheck supplements the original full-package review; it does not repeat that entire review. These are document-contract repairs, not claims of implemented validator behavior.
 
-The latest author check after repair reports 57 nodes, 11 definitions, 14 tasks, 304 local references, coverage of all 25 requirements and zero errors; 17 external URLs remain unchecked. The review is one independent perspective; requested execution was fresh gpt-6.1-sol/high, while actual model/runtime telemetry is not independently exposed.
+The latest author check after repair reports 57 nodes, 11 definitions, 14 tasks, 305 local references, coverage of all 25 requirements and zero errors; 17 external URLs remain unchecked. The recovery reviewer independently reproduced these counts. The original review and focused recovery recheck are bounded independent perspectives; requested execution was fresh gpt-6.1-sol/high, while actual model/runtime telemetry is not independently exposed.
 
 ## Remote delivery blocker
 
