@@ -1,0 +1,1640 @@
+{
+  "schema_version": 1,
+  "layout_check_only": false,
+  "product_revision": "848b4ec072755aafa8d6ba9a93a878170b1bf315",
+  "matrix_input": "matrix-input.json",
+  "matrix_sha256": "0367c8018c79b12e0088f98160bc0f5b799af3346ef018a8facb1f2da8b2ecd3",
+  "recorder_sha256": "891ebd3f0e4c96154b2ef3a9d4074bf84051feb809a479b1b6b727892b4193e9",
+  "created_at": "2026-10-27T23:42:39.570Z",
+  "qualification": "incomplete",
+  "purpose": "accounting, not functional demonstration",
+  "row_count": 94,
+  "end_to_end_passes": 8,
+  "partial_or_unmet": 86,
+  "main_video": "cli-review.mp4",
+  "video": "matrix-review.mp4",
+  "duration_seconds": 246.32,
+  "timestamp_basis": "Wall clock from recorded page creation; page intervals exclude transition settling. Browser capture startup may differ by a few frames.",
+  "toolchain": {
+    "node": "v24.17.0",
+    "playwright": "1.64.1",
+    "chromium": "153.0.8010.12"
+  },
+  "artifacts": [
+    {
+      "path": "matrix-review.webm",
+      "sha256": "2a31f7e8072eecd7136c440b3aa01764735c0a02de82e35443b01699d20e6860",
+      "bytes": 55465605
+    },
+    {
+      "path": "matrix-review.mp4",
+      "sha256": "0f0845ec752ad2528eedd06d3c5f2704ab511b98165d5ae79f750cd2fa86e104",
+      "bytes": 4518689
+    },
+    {
+      "path": "matrix-poster.png",
+      "sha256": "db3d75e57d65e85613c4165adcbbe3bddeb6bdad441014c470b08a4169535dea",
+      "bytes": 110830
+    }
+  ],
+  "pages": [
+    {
+      "page": 1,
+      "start_seconds": 10.289,
+      "end_seconds": 19.311,
+      "ids": [
+        "U001",
+        "U002",
+        "U003",
+        "U004"
+      ]
+    },
+    {
+      "page": 2,
+      "start_seconds": 19.465,
+      "end_seconds": 28.475,
+      "ids": [
+        "U005",
+        "U006",
+        "U007",
+        "U008"
+      ]
+    },
+    {
+      "page": 3,
+      "start_seconds": 28.628,
+      "end_seconds": 37.639,
+      "ids": [
+        "U009",
+        "U010",
+        "U011",
+        "U012"
+      ]
+    },
+    {
+      "page": 4,
+      "start_seconds": 37.792,
+      "end_seconds": 46.8,
+      "ids": [
+        "U013",
+        "U014",
+        "U015",
+        "U016"
+      ]
+    },
+    {
+      "page": 5,
+      "start_seconds": 46.954,
+      "end_seconds": 55.964,
+      "ids": [
+        "U017",
+        "U018",
+        "U019",
+        "U020"
+      ]
+    },
+    {
+      "page": 6,
+      "start_seconds": 56.116,
+      "end_seconds": 65.126,
+      "ids": [
+        "U021",
+        "U022",
+        "U023",
+        "U024"
+      ]
+    },
+    {
+      "page": 7,
+      "start_seconds": 65.28,
+      "end_seconds": 74.289,
+      "ids": [
+        "U025",
+        "U026",
+        "U027",
+        "U028"
+      ]
+    },
+    {
+      "page": 8,
+      "start_seconds": 74.442,
+      "end_seconds": 83.453,
+      "ids": [
+        "U029",
+        "U030",
+        "U031",
+        "U032"
+      ]
+    },
+    {
+      "page": 9,
+      "start_seconds": 83.606,
+      "end_seconds": 92.614,
+      "ids": [
+        "U033",
+        "U034",
+        "U035",
+        "U036"
+      ]
+    },
+    {
+      "page": 10,
+      "start_seconds": 92.766,
+      "end_seconds": 101.779,
+      "ids": [
+        "U037",
+        "U038",
+        "U039",
+        "U040"
+      ]
+    },
+    {
+      "page": 11,
+      "start_seconds": 101.934,
+      "end_seconds": 110.951,
+      "ids": [
+        "U041",
+        "U042",
+        "U043",
+        "U044"
+      ]
+    },
+    {
+      "page": 12,
+      "start_seconds": 111.105,
+      "end_seconds": 120.118,
+      "ids": [
+        "U045",
+        "U046",
+        "U047",
+        "U048"
+      ]
+    },
+    {
+      "page": 13,
+      "start_seconds": 120.27,
+      "end_seconds": 129.283,
+      "ids": [
+        "U049",
+        "U050",
+        "U051",
+        "U052"
+      ]
+    },
+    {
+      "page": 14,
+      "start_seconds": 129.438,
+      "end_seconds": 138.451,
+      "ids": [
+        "U053",
+        "U054",
+        "U055",
+        "U056"
+      ]
+    },
+    {
+      "page": 15,
+      "start_seconds": 138.604,
+      "end_seconds": 147.615,
+      "ids": [
+        "U057",
+        "U058",
+        "U059",
+        "U060"
+      ]
+    },
+    {
+      "page": 16,
+      "start_seconds": 147.769,
+      "end_seconds": 156.777,
+      "ids": [
+        "U061",
+        "U062",
+        "U063",
+        "U064"
+      ]
+    },
+    {
+      "page": 17,
+      "start_seconds": 156.93,
+      "end_seconds": 165.938,
+      "ids": [
+        "U065",
+        "U066",
+        "U067",
+        "U068"
+      ]
+    },
+    {
+      "page": 18,
+      "start_seconds": 166.091,
+      "end_seconds": 175.103,
+      "ids": [
+        "U069",
+        "U070",
+        "U071",
+        "U072"
+      ]
+    },
+    {
+      "page": 19,
+      "start_seconds": 175.258,
+      "end_seconds": 184.269,
+      "ids": [
+        "U073",
+        "U074",
+        "U075",
+        "U076"
+      ]
+    },
+    {
+      "page": 20,
+      "start_seconds": 184.424,
+      "end_seconds": 193.441,
+      "ids": [
+        "U077",
+        "U078",
+        "U079",
+        "U080"
+      ]
+    },
+    {
+      "page": 21,
+      "start_seconds": 193.595,
+      "end_seconds": 202.605,
+      "ids": [
+        "U081",
+        "U082",
+        "U083",
+        "U084"
+      ]
+    },
+    {
+      "page": 22,
+      "start_seconds": 202.767,
+      "end_seconds": 211.781,
+      "ids": [
+        "U085",
+        "U086",
+        "U087",
+        "U088"
+      ]
+    },
+    {
+      "page": 23,
+      "start_seconds": 211.936,
+      "end_seconds": 220.95,
+      "ids": [
+        "U089",
+        "U090",
+        "U091",
+        "U092"
+      ]
+    },
+    {
+      "page": 24,
+      "start_seconds": 221.104,
+      "end_seconds": 230.112,
+      "ids": [
+        "U093",
+        "U094"
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "id": "U001",
+      "page": 1,
+      "start_seconds": 10.289,
+      "end_seconds": 19.311,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        3,
+        6,
+        7,
+        21
+      ]
+    },
+    {
+      "id": "U002",
+      "page": 1,
+      "start_seconds": 10.289,
+      "end_seconds": 19.311,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        3,
+        6,
+        7,
+        21
+      ]
+    },
+    {
+      "id": "U003",
+      "page": 1,
+      "start_seconds": 10.289,
+      "end_seconds": 19.311,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        2,
+        3,
+        20
+      ]
+    },
+    {
+      "id": "U004",
+      "page": 1,
+      "start_seconds": 10.289,
+      "end_seconds": 19.311,
+      "status": "pass",
+      "coverage": "end-to-end",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        2,
+        3,
+        20
+      ]
+    },
+    {
+      "id": "U005",
+      "page": 2,
+      "start_seconds": 19.465,
+      "end_seconds": 28.475,
+      "status": "pass",
+      "coverage": "end-to-end",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "id": "U006",
+      "page": 2,
+      "start_seconds": 19.465,
+      "end_seconds": 28.475,
+      "status": "pass",
+      "coverage": "end-to-end",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "id": "U007",
+      "page": 2,
+      "start_seconds": 19.465,
+      "end_seconds": 28.475,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        3,
+        14,
+        17
+      ]
+    },
+    {
+      "id": "U008",
+      "page": 2,
+      "start_seconds": 19.465,
+      "end_seconds": 28.475,
+      "status": "pass",
+      "coverage": "end-to-end",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        2,
+        3,
+        20
+      ]
+    },
+    {
+      "id": "U009",
+      "page": 3,
+      "start_seconds": 28.628,
+      "end_seconds": 37.639,
+      "status": "implemented-unverified",
+      "coverage": "backend-only",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        22
+      ]
+    },
+    {
+      "id": "U010",
+      "page": 3,
+      "start_seconds": 28.628,
+      "end_seconds": 37.639,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        2,
+        11,
+        22
+      ]
+    },
+    {
+      "id": "U011",
+      "page": 3,
+      "start_seconds": 28.628,
+      "end_seconds": 37.639,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        2,
+        11,
+        22
+      ]
+    },
+    {
+      "id": "U012",
+      "page": 3,
+      "start_seconds": 28.628,
+      "end_seconds": 37.639,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        2,
+        11,
+        22
+      ]
+    },
+    {
+      "id": "U013",
+      "page": 4,
+      "start_seconds": 37.792,
+      "end_seconds": 46.8,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        2,
+        11,
+        22
+      ]
+    },
+    {
+      "id": "U014",
+      "page": 4,
+      "start_seconds": 37.792,
+      "end_seconds": 46.8,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        2,
+        11,
+        22
+      ]
+    },
+    {
+      "id": "U015",
+      "page": 4,
+      "start_seconds": 37.792,
+      "end_seconds": 46.8,
+      "status": "pass",
+      "coverage": "end-to-end",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        3,
+        6,
+        7,
+        9
+      ]
+    },
+    {
+      "id": "U016",
+      "page": 4,
+      "start_seconds": 37.792,
+      "end_seconds": 46.8,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        6,
+        7,
+        9,
+        22
+      ]
+    },
+    {
+      "id": "U017",
+      "page": 5,
+      "start_seconds": 46.954,
+      "end_seconds": 55.964,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        6,
+        7,
+        9,
+        22
+      ]
+    },
+    {
+      "id": "U018",
+      "page": 5,
+      "start_seconds": 46.954,
+      "end_seconds": 55.964,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        6,
+        7,
+        9,
+        22
+      ]
+    },
+    {
+      "id": "U019",
+      "page": 5,
+      "start_seconds": 46.954,
+      "end_seconds": 55.964,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        6,
+        7,
+        9,
+        22
+      ]
+    },
+    {
+      "id": "U020",
+      "page": 5,
+      "start_seconds": 46.954,
+      "end_seconds": 55.964,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U021",
+      "page": 6,
+      "start_seconds": 56.116,
+      "end_seconds": 65.126,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        2,
+        3,
+        22
+      ]
+    },
+    {
+      "id": "U022",
+      "page": 6,
+      "start_seconds": 56.116,
+      "end_seconds": 65.126,
+      "status": "pass",
+      "coverage": "end-to-end",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        16,
+        19
+      ]
+    },
+    {
+      "id": "U023",
+      "page": 6,
+      "start_seconds": 56.116,
+      "end_seconds": 65.126,
+      "status": "implemented-unverified",
+      "coverage": "backend-only",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        22
+      ]
+    },
+    {
+      "id": "U024",
+      "page": 6,
+      "start_seconds": 56.116,
+      "end_seconds": 65.126,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        14,
+        15,
+        16,
+        22
+      ]
+    },
+    {
+      "id": "U025",
+      "page": 7,
+      "start_seconds": 65.28,
+      "end_seconds": 74.289,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        2,
+        12,
+        22
+      ]
+    },
+    {
+      "id": "U026",
+      "page": 7,
+      "start_seconds": 65.28,
+      "end_seconds": 74.289,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        5,
+        6,
+        7,
+        9,
+        14,
+        17
+      ]
+    },
+    {
+      "id": "U027",
+      "page": 7,
+      "start_seconds": 65.28,
+      "end_seconds": 74.289,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        5,
+        6,
+        7,
+        9,
+        14,
+        17
+      ]
+    },
+    {
+      "id": "U028",
+      "page": 7,
+      "start_seconds": 65.28,
+      "end_seconds": 74.289,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U029",
+      "page": 8,
+      "start_seconds": 74.442,
+      "end_seconds": 83.453,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        5,
+        6,
+        7,
+        9,
+        14,
+        17
+      ]
+    },
+    {
+      "id": "U030",
+      "page": 8,
+      "start_seconds": 74.442,
+      "end_seconds": 83.453,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        5,
+        6,
+        7,
+        9,
+        14,
+        17
+      ]
+    },
+    {
+      "id": "U031",
+      "page": 8,
+      "start_seconds": 74.442,
+      "end_seconds": 83.453,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U032",
+      "page": 8,
+      "start_seconds": 74.442,
+      "end_seconds": 83.453,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U033",
+      "page": 9,
+      "start_seconds": 83.606,
+      "end_seconds": 92.614,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U034",
+      "page": 9,
+      "start_seconds": 83.606,
+      "end_seconds": 92.614,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U035",
+      "page": 9,
+      "start_seconds": 83.606,
+      "end_seconds": 92.614,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U036",
+      "page": 9,
+      "start_seconds": 83.606,
+      "end_seconds": 92.614,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U037",
+      "page": 10,
+      "start_seconds": 92.766,
+      "end_seconds": 101.779,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U038",
+      "page": 10,
+      "start_seconds": 92.766,
+      "end_seconds": 101.779,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U039",
+      "page": 10,
+      "start_seconds": 92.766,
+      "end_seconds": 101.779,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U040",
+      "page": 10,
+      "start_seconds": 92.766,
+      "end_seconds": 101.779,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        1,
+        7,
+        22
+      ]
+    },
+    {
+      "id": "U041",
+      "page": 11,
+      "start_seconds": 101.934,
+      "end_seconds": 110.951,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        1,
+        7,
+        22
+      ]
+    },
+    {
+      "id": "U042",
+      "page": 11,
+      "start_seconds": 101.934,
+      "end_seconds": 110.951,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U043",
+      "page": 11,
+      "start_seconds": 101.934,
+      "end_seconds": 110.951,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U044",
+      "page": 11,
+      "start_seconds": 101.934,
+      "end_seconds": 110.951,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U045",
+      "page": 12,
+      "start_seconds": 111.105,
+      "end_seconds": 120.118,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        1,
+        22
+      ]
+    },
+    {
+      "id": "U046",
+      "page": 12,
+      "start_seconds": 111.105,
+      "end_seconds": 120.118,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        1,
+        22
+      ]
+    },
+    {
+      "id": "U047",
+      "page": 12,
+      "start_seconds": 111.105,
+      "end_seconds": 120.118,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        1,
+        22
+      ]
+    },
+    {
+      "id": "U048",
+      "page": 12,
+      "start_seconds": 111.105,
+      "end_seconds": 120.118,
+      "status": "pass",
+      "coverage": "end-to-end",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        1,
+        22
+      ]
+    },
+    {
+      "id": "U049",
+      "page": 13,
+      "start_seconds": 120.27,
+      "end_seconds": 129.283,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        12,
+        22
+      ]
+    },
+    {
+      "id": "U050",
+      "page": 13,
+      "start_seconds": 120.27,
+      "end_seconds": 129.283,
+      "status": "pass",
+      "coverage": "end-to-end",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        2,
+        3,
+        11
+      ]
+    },
+    {
+      "id": "U051",
+      "page": 13,
+      "start_seconds": 120.27,
+      "end_seconds": 129.283,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        12,
+        22
+      ]
+    },
+    {
+      "id": "U052",
+      "page": 13,
+      "start_seconds": 120.27,
+      "end_seconds": 129.283,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        6,
+        7,
+        22
+      ]
+    },
+    {
+      "id": "U053",
+      "page": 14,
+      "start_seconds": 129.438,
+      "end_seconds": 138.451,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        6,
+        7,
+        22
+      ]
+    },
+    {
+      "id": "U054",
+      "page": 14,
+      "start_seconds": 129.438,
+      "end_seconds": 138.451,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        6,
+        7,
+        22
+      ]
+    },
+    {
+      "id": "U055",
+      "page": 14,
+      "start_seconds": 129.438,
+      "end_seconds": 138.451,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        23
+      ]
+    },
+    {
+      "id": "U056",
+      "page": 14,
+      "start_seconds": 129.438,
+      "end_seconds": 138.451,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        23
+      ]
+    },
+    {
+      "id": "U057",
+      "page": 15,
+      "start_seconds": 138.604,
+      "end_seconds": 147.615,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        23
+      ]
+    },
+    {
+      "id": "U058",
+      "page": 15,
+      "start_seconds": 138.604,
+      "end_seconds": 147.615,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        7,
+        8,
+        10,
+        12,
+        13,
+        16,
+        19,
+        22
+      ]
+    },
+    {
+      "id": "U059",
+      "page": 15,
+      "start_seconds": 138.604,
+      "end_seconds": 147.615,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        7,
+        22
+      ]
+    },
+    {
+      "id": "U060",
+      "page": 15,
+      "start_seconds": 138.604,
+      "end_seconds": 147.615,
+      "status": "implemented-unverified",
+      "coverage": "documentary-only",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        23
+      ]
+    },
+    {
+      "id": "U061",
+      "page": 16,
+      "start_seconds": 147.769,
+      "end_seconds": 156.777,
+      "status": "implemented-unverified",
+      "coverage": "documentary-only",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        23
+      ]
+    },
+    {
+      "id": "U062",
+      "page": 16,
+      "start_seconds": 147.769,
+      "end_seconds": 156.777,
+      "status": "implemented-unverified",
+      "coverage": "documentary-only",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        23
+      ]
+    },
+    {
+      "id": "U063",
+      "page": 16,
+      "start_seconds": 147.769,
+      "end_seconds": 156.777,
+      "status": "implemented-unverified",
+      "coverage": "documentary-only",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        23
+      ]
+    },
+    {
+      "id": "U064",
+      "page": 16,
+      "start_seconds": 147.769,
+      "end_seconds": 156.777,
+      "status": "implemented-unverified",
+      "coverage": "documentary-only",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        23
+      ]
+    },
+    {
+      "id": "U065",
+      "page": 17,
+      "start_seconds": 156.93,
+      "end_seconds": 165.938,
+      "status": "implemented-unverified",
+      "coverage": "backend-only",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        1,
+        22
+      ]
+    },
+    {
+      "id": "U066",
+      "page": 17,
+      "start_seconds": 156.93,
+      "end_seconds": 165.938,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U067",
+      "page": 17,
+      "start_seconds": 156.93,
+      "end_seconds": 165.938,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U068",
+      "page": 17,
+      "start_seconds": 156.93,
+      "end_seconds": 165.938,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        16,
+        19,
+        21
+      ]
+    },
+    {
+      "id": "U069",
+      "page": 18,
+      "start_seconds": 166.091,
+      "end_seconds": 175.103,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U070",
+      "page": 18,
+      "start_seconds": 166.091,
+      "end_seconds": 175.103,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U071",
+      "page": 18,
+      "start_seconds": 166.091,
+      "end_seconds": 175.103,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U072",
+      "page": 18,
+      "start_seconds": 166.091,
+      "end_seconds": 175.103,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U073",
+      "page": 19,
+      "start_seconds": 175.258,
+      "end_seconds": 184.269,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        7,
+        21,
+        22
+      ]
+    },
+    {
+      "id": "U074",
+      "page": 19,
+      "start_seconds": 175.258,
+      "end_seconds": 184.269,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        7,
+        21,
+        22
+      ]
+    },
+    {
+      "id": "U075",
+      "page": 19,
+      "start_seconds": 175.258,
+      "end_seconds": 184.269,
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        7,
+        21,
+        22
+      ]
+    },
+    {
+      "id": "U076",
+      "page": 19,
+      "start_seconds": 175.258,
+      "end_seconds": 184.269,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U077",
+      "page": 20,
+      "start_seconds": 184.424,
+      "end_seconds": 193.441,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U078",
+      "page": 20,
+      "start_seconds": 184.424,
+      "end_seconds": 193.441,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U079",
+      "page": 20,
+      "start_seconds": 184.424,
+      "end_seconds": 193.441,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U080",
+      "page": 20,
+      "start_seconds": 184.424,
+      "end_seconds": 193.441,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U081",
+      "page": 21,
+      "start_seconds": 193.595,
+      "end_seconds": 202.605,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U082",
+      "page": 21,
+      "start_seconds": 193.595,
+      "end_seconds": 202.605,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U083",
+      "page": 21,
+      "start_seconds": 193.595,
+      "end_seconds": 202.605,
+      "status": "planned",
+      "coverage": "unimplemented",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        21
+      ]
+    },
+    {
+      "id": "U084",
+      "page": 21,
+      "start_seconds": 193.595,
+      "end_seconds": 202.605,
+      "status": "implemented-unverified",
+      "coverage": "current-artifact-review",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        1,
+        23
+      ]
+    },
+    {
+      "id": "U085",
+      "page": 22,
+      "start_seconds": 202.767,
+      "end_seconds": 211.781,
+      "status": "implemented-unverified",
+      "coverage": "current-artifact-review",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        1,
+        23
+      ]
+    },
+    {
+      "id": "U086",
+      "page": 22,
+      "start_seconds": 202.767,
+      "end_seconds": 211.781,
+      "status": "implemented-unverified",
+      "coverage": "current-artifact-review",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        1,
+        23
+      ]
+    },
+    {
+      "id": "U087",
+      "page": 22,
+      "start_seconds": 202.767,
+      "end_seconds": 211.781,
+      "status": "implemented-unverified",
+      "coverage": "current-artifact-review",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        1,
+        23
+      ]
+    },
+    {
+      "id": "U088",
+      "page": 22,
+      "start_seconds": 202.767,
+      "end_seconds": 211.781,
+      "status": "implemented-unverified",
+      "coverage": "current-artifact-review",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        1,
+        23
+      ]
+    },
+    {
+      "id": "U089",
+      "page": 23,
+      "start_seconds": 211.936,
+      "end_seconds": 220.95,
+      "status": "implemented-unverified",
+      "coverage": "current-artifact-review",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        1,
+        23
+      ]
+    },
+    {
+      "id": "U090",
+      "page": 23,
+      "start_seconds": 211.936,
+      "end_seconds": 220.95,
+      "status": "implemented-unverified",
+      "coverage": "matrix-accounting-only",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        23
+      ]
+    },
+    {
+      "id": "U091",
+      "page": 23,
+      "start_seconds": 211.936,
+      "end_seconds": 220.95,
+      "status": "implemented-unverified",
+      "coverage": "matrix-accounting-only",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        23
+      ]
+    },
+    {
+      "id": "U092",
+      "page": 23,
+      "start_seconds": 211.936,
+      "end_seconds": 220.95,
+      "status": "implemented-unverified",
+      "coverage": "matrix-accounting-only",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        23
+      ]
+    },
+    {
+      "id": "U093",
+      "page": 24,
+      "start_seconds": 221.104,
+      "end_seconds": 230.112,
+      "status": "implemented-unverified",
+      "coverage": "matrix-accounting-only",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        23
+      ]
+    },
+    {
+      "id": "U094",
+      "page": 24,
+      "start_seconds": 221.104,
+      "end_seconds": 230.112,
+      "status": "implemented-unverified",
+      "coverage": "matrix-accounting-only",
+      "evidence_kind": "matrix-accounting-only",
+      "functional_video": "cli-review.mp4",
+      "scene_ids": [
+        23
+      ]
+    }
+  ]
+}

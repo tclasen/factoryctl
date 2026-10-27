@@ -1,0 +1,130 @@
+{
+  "product_files": [
+    {
+      "path": "cmd/factoryctl/fifo_unix_test.go",
+      "sha256": "3d381a49898dcaaa82819af05aad1950ef1627ef3263e65ac2002ce15248a7a7"
+    },
+    {
+      "path": "cmd/factoryctl/human.go",
+      "sha256": "e71597c7d8e71002d5c3bf748bcfb161f7688e71a7671d16bb2eeaec51ff8f15"
+    },
+    {
+      "path": "cmd/factoryctl/main.go",
+      "sha256": "ce3ae093d9c78fdda754fdf37f5fe8e97719d8d0e1ba965b089151981fd97f67"
+    },
+    {
+      "path": "cmd/factoryctl/main_test.go",
+      "sha256": "88ea452910cbee6c2af78b7ee833f110420be7b7bba1c25153248975e10cd0ff"
+    },
+    {
+      "path": "go.mod",
+      "sha256": "91e0de4b1f70c2ba38966152cb52aefa2d5efa3c14387d66efa3f73107da7b8f"
+    },
+    {
+      "path": "go.sum",
+      "sha256": "284aac26c3ce485b00324764e6619514b1654abd1f388c6b06793c4d8d044dc8"
+    },
+    {
+      "path": "internal/app/collection_test.go",
+      "sha256": "6c12fdc342f0b5f068c5b9d9eddae7a5f99bb0722c078a9e8f8d98eb26b01c0f"
+    },
+    {
+      "path": "internal/app/concurrency_test.go",
+      "sha256": "bb2e388a859a934a2c4d020d94008cb00c75cd33f4faa6d7ec669fa72437f195"
+    },
+    {
+      "path": "internal/app/create.go",
+      "sha256": "de44fa73f248bc77075e33317121426d68c0589f48a9508ebd775c34c1db3f3a"
+    },
+    {
+      "path": "internal/app/links.go",
+      "sha256": "330b4f5463db2077dda4c2bcaad2525c2c489937ab199b90897528963c8191b4"
+    },
+    {
+      "path": "internal/app/lock_unix.go",
+      "sha256": "f4c0be55cb9d2da68e5c93e89d4f0e87432ebac59dc7bf9a4da0aa27c33b21d0"
+    },
+    {
+      "path": "internal/app/lock_windows.go",
+      "sha256": "a2fdab5bde84c9310955a30e6f1f56e729c933b922e8c135392f65d683f1e3f0"
+    },
+    {
+      "path": "internal/app/snapshot.go",
+      "sha256": "f79403a17f94d9ad6adff3bf7ba33f99a0faaf418d9dffd91a1c0d0e0e344f54"
+    },
+    {
+      "path": "internal/app/store.go",
+      "sha256": "9c1b48c8ea70af29ead7a4bcd5dcfd905c25ed1447587c54086d56c3ffbad39f"
+    },
+    {
+      "path": "internal/app/store_test.go",
+      "sha256": "7b7441632612118e9852274bec64995057653434fb6441692e284b0f7c70e375"
+    },
+    {
+      "path": "internal/defaults/defaults.go",
+      "sha256": "02e69006b6c1f8ac7ed4a94e9418b6883f1b25298c62588a536975d70a4e1531"
+    },
+    {
+      "path": "internal/defaults/defaults_test.go",
+      "sha256": "31479eaa500f7aac0c2cdc3ba6890700603648772112d8086689b81ce87c6459"
+    },
+    {
+      "path": "internal/knowledge/document.go",
+      "sha256": "c93fbb9e90ca169d5399d447464cfcee7e6d1cb01ebe67555fce2f1b78ad5d00"
+    },
+    {
+      "path": "internal/knowledge/document_test.go",
+      "sha256": "e52bbf0ece871e8dd7eac4bdf26375318b174415409fbbd6b90a1d4868fa78f6"
+    },
+    {
+      "path": "internal/knowledge/json.go",
+      "sha256": "3cf7b33bc9378ad5d3e857e5bf3f44326c9e204e10c2eb1bcc4bb5426e587eb2"
+    },
+    {
+      "path": "internal/knowledge/markdown.go",
+      "sha256": "30b197a98bdc3059c3b1bd937fea34f324b6a414519184376d2684e812dc393b"
+    },
+    {
+      "path": "internal/knowledge/schema.go",
+      "sha256": "9b1d41317d2463d08ee26e12d0d85210ae78344a738d9d5a8837247680869734"
+    },
+    {
+      "path": "internal/project/project.go",
+      "sha256": "baeea8d8a70aedb948ed0987bb5c4c559bf9af32b4a43d57d558bdcc235e1a4f"
+    },
+    {
+      "path": "internal/project/project_test.go",
+      "sha256": "2061c5bbb9f81610d90eeab833dd1d295e373e219738f12cfa581e804224d868"
+    },
+    {
+      "path": "internal/safeio/flags_unix.go",
+      "sha256": "6ddd0d78f9b2665d4e70d173b48c78eba66987543b69f32312909050f11476c9"
+    },
+    {
+      "path": "internal/safeio/flags_windows.go",
+      "sha256": "fa2a3803e55d161519d88c3d0caa1a922693b49a8a457de135c596b9f377635e"
+    },
+    {
+      "path": "internal/safeio/read.go",
+      "sha256": "6216f57e18f0a41109858e4daf19a6f2640c803e5008dfab0ec6f1da0337bd21"
+    },
+    {
+      "path": "internal/templates/templates.go",
+      "sha256": "c3cf86a48355bfe4aa9793ad0e4bff8aa77c7ea991a89a5a3b813971b262b3d9"
+    },
+    {
+      "path": "internal/templates/templates_test.go",
+      "sha256": "1f1c74069340f361a9fa4f894d90ef40b4b977b3a308d800e8c764e4c9f4b4f5"
+    }
+  ],
+  "product_manifest_sha256": "41bef2264e5b4f549cccfd1e9a1d02c156a14bb4a858a1ba5566b0d414a51cbd",
+  "node": "v26.12.1",
+  "go": "go version go1.27.3 darwin/arm64",
+  "host": "Darwin arm64",
+  "playwright_module": "/Users/Shared/friendslop-factory/reference/browser/node_modules/playwright",
+  "chromium_override": "/Users/agent/Library/Caches/ms-playwright/chromium-1243/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
+  "playwright_version": "1.64.1",
+  "chromium_version": "153.0.8010.12",
+  "ffmpeg_version": "9.0.2",
+  "encoder": "system FFmpeg with VP9 support via task-owned Playwright cache"
+}

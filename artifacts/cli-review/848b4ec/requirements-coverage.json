@@ -1,0 +1,2887 @@
+{
+  "schema_version": 1,
+  "product_revision": "848b4ec072755aafa8d6ba9a93a878170b1bf315",
+  "requirements_source": "factory/specifications/requirements-traceability.md",
+  "main_video": "cli-review.mp4",
+  "results": "results.json",
+  "recording_coverage": "coverage.json",
+  "full_matrix_qualification": "incomplete",
+  "note": "Complete row accounting is not complete requirement satisfaction. Backend tests and unsupported refusals are not substitutes for missing end-to-end capabilities. Matrix addendum timestamps are accounting, not functional evidence.",
+  "rows": [
+    {
+      "id": "U001",
+      "requirement": "Provide a human CLI, local web GUI and MCP interface.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        3,
+        6,
+        7,
+        21
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestCLIRecordLifecycleAndRejectedWrites"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "CLI document interface exists; product web GUI and MCP interfaces remain unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 3,
+          "start_seconds": 32.504,
+          "end_seconds": 48.544,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 6,
+          "start_seconds": 80.63,
+          "end_seconds": 96.669,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U002",
+      "requirement": "Supply structural interaction while agents interpret factory instructions.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        3,
+        6,
+        7,
+        21
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestCLIRecordLifecycleAndRejectedWrites"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "CLI document interface exists; product web GUI and MCP interfaces remain unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 3,
+          "start_seconds": 32.504,
+          "end_seconds": 48.544,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 6,
+          "start_seconds": 80.63,
+          "end_seconds": 96.669,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U003",
+      "requirement": "Require Git-backed projects.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        2,
+        3,
+        20
+      ],
+      "evidence_kind": "executed-cli",
+      "tests": [
+        "TestCLIInitDiscoveryAndValidation",
+        "TestIgnoredSymlinksAndNonGit"
+      ],
+      "observed": "Positive Git project CLI fixtures pass; TestIgnoredSymlinksAndNonGit supplies backend refusal coverage only.",
+      "remaining_gap": "Git working-tree initialization/discovery is demonstrated; non-Git refusal has backend coverage only and no dedicated CLI visual E2E scene.",
+      "video_ranges": [
+        {
+          "scene_id": 2,
+          "start_seconds": 16.463,
+          "end_seconds": 32.504,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 3,
+          "start_seconds": 32.504,
+          "end_seconds": 48.544,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 20,
+          "start_seconds": 315.112,
+          "end_seconds": 359.46,
+          "kind": "executed-cli"
+        }
+      ]
+    },
+    {
+      "id": "U004",
+      "requirement": "Launch inside one Git project.",
+      "status": "pass",
+      "coverage": "end-to-end",
+      "scene_ids": [
+        2,
+        3,
+        20
+      ],
+      "evidence_kind": "executed-cli",
+      "tests": [
+        "TestCLIInitDiscoveryAndValidation",
+        "TestIgnoredSymlinksAndNonGit"
+      ],
+      "observed": "Actual Git working-tree fixtures initialize and resolve as projects; CWD fallback resolves the selected project.",
+      "remaining_gap": "",
+      "video_ranges": [
+        {
+          "scene_id": 2,
+          "start_seconds": 16.463,
+          "end_seconds": 32.504,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 3,
+          "start_seconds": 32.504,
+          "end_seconds": 48.544,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 20,
+          "start_seconds": 315.112,
+          "end_seconds": 359.46,
+          "kind": "executed-cli"
+        }
+      ]
+    },
+    {
+      "id": "U005",
+      "requirement": "Launch inside a monorepo with independent project factories/state.",
+      "status": "pass",
+      "coverage": "end-to-end",
+      "scene_ids": [
+        14,
+        15,
+        16
+      ],
+      "evidence_kind": "executed-cli",
+      "tests": [
+        "TestCollectionScenarios",
+        "TestCollectionDocumentJourneys"
+      ],
+      "observed": "Two projects sharing one Git root resolve separate definitions and same-named records; selected edits preserve the other project.",
+      "remaining_gap": "",
+      "video_ranges": [
+        {
+          "scene_id": 14,
+          "start_seconds": 218.51,
+          "end_seconds": 234.56,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 15,
+          "start_seconds": 234.56,
+          "end_seconds": 250.759,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 16,
+          "start_seconds": 250.759,
+          "end_seconds": 266.808,
+          "kind": "executed-cli"
+        }
+      ]
+    },
+    {
+      "id": "U006",
+      "requirement": "Launch from a folder containing separate Git project repositories.",
+      "status": "pass",
+      "coverage": "end-to-end",
+      "scene_ids": [
+        17,
+        18,
+        19
+      ],
+      "evidence_kind": "executed-cli",
+      "tests": [
+        "TestCollectionScenarios",
+        "TestCollectionDocumentJourneys"
+      ],
+      "observed": "Sibling Git repositories form one collection with separate project state and selected writes.",
+      "remaining_gap": "",
+      "video_ranges": [
+        {
+          "scene_id": 17,
+          "start_seconds": 266.808,
+          "end_seconds": 282.858,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 18,
+          "start_seconds": 282.858,
+          "end_seconds": 299.06,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 19,
+          "start_seconds": 299.06,
+          "end_seconds": 315.112,
+          "kind": "executed-cli"
+        }
+      ]
+    },
+    {
+      "id": "U007",
+      "requirement": "Show the same collection UI for all layouts, including a one-project collection.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        3,
+        14,
+        17
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestCollectionScenarios"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "The CLI collection service is exercised; the common product collection UI is not implemented.",
+      "video_ranges": [
+        {
+          "scene_id": 3,
+          "start_seconds": 32.504,
+          "end_seconds": 48.544,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 14,
+          "start_seconds": 218.51,
+          "end_seconds": 234.56,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 17,
+          "start_seconds": 266.808,
+          "end_seconds": 282.858,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U008",
+      "requirement": "Support explicit path selection.",
+      "status": "pass",
+      "coverage": "end-to-end",
+      "scene_ids": [
+        2,
+        3,
+        20
+      ],
+      "evidence_kind": "executed-cli",
+      "tests": [
+        "TestDepthAndFallback"
+      ],
+      "observed": "Explicit --path selects a scope; explicit deep source path does not silently fall back to an ancestor.",
+      "remaining_gap": "",
+      "video_ranges": [
+        {
+          "scene_id": 2,
+          "start_seconds": 16.463,
+          "end_seconds": 32.504,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 3,
+          "start_seconds": 32.504,
+          "end_seconds": 48.544,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 20,
+          "start_seconds": 315.112,
+          "end_seconds": 359.46,
+          "kind": "executed-cli"
+        }
+      ]
+    },
+    {
+      "id": "U009",
+      "requirement": "Default discovery to immediate subfolders only (depth 1).",
+      "status": "implemented-unverified",
+      "coverage": "backend-only",
+      "scene_ids": [
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestDepthAndFallback"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Depth-one service regressions pass; this recording has no dedicated CLI depth-boundary visual journey.",
+      "video_ranges": [
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U010",
+      "requirement": "Do not require, generate or read factory.yaml or another project configuration file.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        2,
+        11,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestDefaultsAreParseableAndIsolated",
+        "TestAssetAndPayloadSafety"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Default CLI initialization and storage boundaries are exercised; exhaustive no-config reads, optional-asset ownership and full UI behavior are not demonstrated end to end.",
+      "video_ranges": [
+        {
+          "scene_id": 2,
+          "start_seconds": 16.463,
+          "end_seconds": 32.504,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 11,
+          "start_seconds": 165.728,
+          "end_seconds": 181.768,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U011",
+      "requirement": "Keep optional versioned assets under each project’s .factory/.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        2,
+        11,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestDefaultsAreParseableAndIsolated",
+        "TestAssetAndPayloadSafety"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Default CLI initialization and storage boundaries are exercised; exhaustive no-config reads, optional-asset ownership and full UI behavior are not demonstrated end to end.",
+      "video_ranges": [
+        {
+          "scene_id": 2,
+          "start_seconds": 16.463,
+          "end_seconds": 32.504,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 11,
+          "start_seconds": 165.728,
+          "end_seconds": 181.768,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U012",
+      "requirement": "Keep knowledge metadata exclusively in each project’s factory/ bundle.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        2,
+        11,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestDefaultsAreParseableAndIsolated",
+        "TestAssetAndPayloadSafety"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Default CLI initialization and storage boundaries are exercised; exhaustive no-config reads, optional-asset ownership and full UI behavior are not demonstrated end to end.",
+      "video_ranges": [
+        {
+          "scene_id": 2,
+          "start_seconds": 16.463,
+          "end_seconds": 32.504,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 11,
+          "start_seconds": 165.728,
+          "end_seconds": 181.768,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U013",
+      "requirement": "Keep source, deliverables and asset files outside the knowledge graph.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        2,
+        11,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestDefaultsAreParseableAndIsolated",
+        "TestAssetAndPayloadSafety"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Default CLI initialization and storage boundaries are exercised; exhaustive no-config reads, optional-asset ownership and full UI behavior are not demonstrated end to end.",
+      "video_ranges": [
+        {
+          "scene_id": 2,
+          "start_seconds": 16.463,
+          "end_seconds": 32.504,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 11,
+          "start_seconds": 165.728,
+          "end_seconds": 181.768,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U014",
+      "requirement": "Operate without .factory/.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        2,
+        11,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestDefaultsAreParseableAndIsolated",
+        "TestAssetAndPayloadSafety"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Default CLI initialization and storage boundaries are exercised; exhaustive no-config reads, optional-asset ownership and full UI behavior are not demonstrated end to end.",
+      "video_ranges": [
+        {
+          "scene_id": 2,
+          "start_seconds": 16.463,
+          "end_seconds": 32.504,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 11,
+          "start_seconds": 165.728,
+          "end_seconds": 181.768,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U015",
+      "requirement": "Persist durable factory knowledge as human-readable Markdown files.",
+      "status": "pass",
+      "coverage": "end-to-end",
+      "scene_ids": [
+        3,
+        6,
+        7,
+        9
+      ],
+      "evidence_kind": "executed-cli",
+      "tests": [
+        "TestCLIRecordLifecycleAndRejectedWrites"
+      ],
+      "observed": "Created/updated/replaced documents are actual human-readable Markdown; records show matches exact disk source.",
+      "remaining_gap": "",
+      "video_ranges": [
+        {
+          "scene_id": 3,
+          "start_seconds": 32.504,
+          "end_seconds": 48.544,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 6,
+          "start_seconds": 80.63,
+          "end_seconds": 96.669,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 9,
+          "start_seconds": 128.751,
+          "end_seconds": 144.787,
+          "kind": "executed-cli"
+        }
+      ]
+    },
+    {
+      "id": "U016",
+      "requirement": "Keep project status/tracking versioned in Git by default.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        6,
+        7,
+        9,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestLosslessScalarEdit",
+        "TestCLIRecordLifecycleAndRejectedWrites"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Markdown persistence and scalar-only changes are verified; Git history workflows, exhaustive absence of persistent stores and runtime transcript ownership are not demonstrated end to end.",
+      "video_ranges": [
+        {
+          "scene_id": 6,
+          "start_seconds": 80.63,
+          "end_seconds": 96.669,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 9,
+          "start_seconds": 128.751,
+          "end_seconds": 144.787,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U017",
+      "requirement": "Introduce no factoryctl database, persistent index or project configuration store.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        6,
+        7,
+        9,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestLosslessScalarEdit",
+        "TestCLIRecordLifecycleAndRejectedWrites"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Markdown persistence and scalar-only changes are verified; Git history workflows, exhaustive absence of persistent stores and runtime transcript ownership are not demonstrated end to end.",
+      "video_ranges": [
+        {
+          "scene_id": 6,
+          "start_seconds": 80.63,
+          "end_seconds": 96.669,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 9,
+          "start_seconds": 128.751,
+          "end_seconds": 144.787,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U018",
+      "requirement": "Do not duplicate runtime sessions/transcripts in factoryctl.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        6,
+        7,
+        9,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestLosslessScalarEdit",
+        "TestCLIRecordLifecycleAndRejectedWrites"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Markdown persistence and scalar-only changes are verified; Git history workflows, exhaustive absence of persistent stores and runtime transcript ownership are not demonstrated end to end.",
+      "video_ranges": [
+        {
+          "scene_id": 6,
+          "start_seconds": 80.63,
+          "end_seconds": 96.669,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 9,
+          "start_seconds": 128.751,
+          "end_seconds": 144.787,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U019",
+      "requirement": "Use Git for history and update current fields without generated transition logs.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        6,
+        7,
+        9,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestLosslessScalarEdit",
+        "TestCLIRecordLifecycleAndRejectedWrites"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Markdown persistence and scalar-only changes are verified; Git history workflows, exhaustive absence of persistent stores and runtime transcript ownership are not demonstrated end to end.",
+      "video_ranges": [
+        {
+          "scene_id": 6,
+          "start_seconds": 80.63,
+          "end_seconds": 96.669,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 9,
+          "start_seconds": 128.751,
+          "end_seconds": 144.787,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U020",
+      "requirement": "Keep runtime-owned normal persistence with the external runtime.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "External runtime integration/persistence is unimplemented; unsupported refusal is not a persistence test.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U021",
+      "requirement": "Supply initial agent-profile, task and decision types.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        2,
+        3,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestDefaultsAreParseableAndIsolated",
+        "TestDefaultTemplateRenders"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Default types parse and Task creation is demonstrated; each supplied profile/decision type lacks its own complete visual lifecycle.",
+      "video_ranges": [
+        {
+          "scene_id": 2,
+          "start_seconds": 16.463,
+          "end_seconds": 32.504,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 3,
+          "start_seconds": 32.504,
+          "end_seconds": 48.544,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U022",
+      "requirement": "Allow users to define entirely new types.",
+      "status": "pass",
+      "coverage": "end-to-end",
+      "scene_ids": [
+        16,
+        19
+      ],
+      "evidence_kind": "executed-cli",
+      "tests": [
+        "TestCollectionDocumentJourneys"
+      ],
+      "observed": "New Widget definition/template files drive actual CLI creation without rebuilding the binary.",
+      "remaining_gap": "",
+      "video_ranges": [
+        {
+          "scene_id": 16,
+          "start_seconds": 250.759,
+          "end_seconds": 266.808,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 19,
+          "start_seconds": 299.06,
+          "end_seconds": 315.112,
+          "kind": "executed-cli"
+        }
+      ]
+    },
+    {
+      "id": "U023",
+      "requirement": "Allow disabling supplied types.",
+      "status": "implemented-unverified",
+      "coverage": "backend-only",
+      "scene_ids": [
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "Source supports disabling local definitions, but no disabled-type assertion exists in the current tests or recorded journeys.",
+      "remaining_gap": "The disabled-type generic read/creation-refusal journey remains unverified by current tests and video.",
+      "video_ranges": [
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U024",
+      "requirement": "Definitions describe fields, validation, relationships and views.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        14,
+        15,
+        16,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestFields",
+        "TestDefinitionChangesValidateIncomingInstances"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Structural fields/enums/references are exercised; product view rendering is not implemented.",
+      "video_ranges": [
+        {
+          "scene_id": 14,
+          "start_seconds": 218.51,
+          "end_seconds": 234.56,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 15,
+          "start_seconds": 234.56,
+          "end_seconds": 250.759,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 16,
+          "start_seconds": 250.759,
+          "end_seconds": 266.808,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U025",
+      "requirement": "Make every bundle document a valid OKF concept without index files.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        2,
+        12,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestDefaultsAreParseableAndIsolated",
+        "TestParseHazardsAndLimits"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Default corpus validation passes; exhaustive optional OKF semantics and every legal imported concept form remain bounded gaps.",
+      "video_ranges": [
+        {
+          "scene_id": 2,
+          "start_seconds": 16.463,
+          "end_seconds": 32.504,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 12,
+          "start_seconds": 181.768,
+          "end_seconds": 202.465,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U026",
+      "requirement": "Give every concept list and detail views.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        5,
+        6,
+        7,
+        9,
+        14,
+        17
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestCLIRecordLifecycleAndRejectedWrites",
+        "TestCollectionDocumentJourneys"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 5,
+          "start_seconds": 64.585,
+          "end_seconds": 80.63,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 6,
+          "start_seconds": 80.63,
+          "end_seconds": 96.669,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 9,
+          "start_seconds": 128.751,
+          "end_seconds": 144.787,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 14,
+          "start_seconds": 218.51,
+          "end_seconds": 234.56,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 17,
+          "start_seconds": 266.808,
+          "end_seconds": 282.858,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U027",
+      "requirement": "Provide project overview and all-project views.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        5,
+        6,
+        7,
+        9,
+        14,
+        17
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestCLIRecordLifecycleAndRejectedWrites",
+        "TestCollectionDocumentJourneys"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 5,
+          "start_seconds": 64.585,
+          "end_seconds": 80.63,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 6,
+          "start_seconds": 80.63,
+          "end_seconds": 96.669,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 9,
+          "start_seconds": 128.751,
+          "end_seconds": 144.787,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 14,
+          "start_seconds": 218.51,
+          "end_seconds": 234.56,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 17,
+          "start_seconds": 266.808,
+          "end_seconds": 282.858,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U028",
+      "requirement": "Provide task kanban boards.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Requested GUI/runtime/conversation integration is unimplemented. Explicit unsupported responses do not satisfy this capability.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U029",
+      "requirement": "Show backlinks, including cross-project links in monorepo and sibling-repository layouts.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        5,
+        6,
+        7,
+        9,
+        14,
+        17
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestCLIRecordLifecycleAndRejectedWrites",
+        "TestCollectionDocumentJourneys"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 5,
+          "start_seconds": 64.585,
+          "end_seconds": 80.63,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 6,
+          "start_seconds": 80.63,
+          "end_seconds": 96.669,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 9,
+          "start_seconds": 128.751,
+          "end_seconds": 144.787,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 14,
+          "start_seconds": 218.51,
+          "end_seconds": 234.56,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 17,
+          "start_seconds": 266.808,
+          "end_seconds": 282.858,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U030",
+      "requirement": "Allow direct field and Markdown editing.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        5,
+        6,
+        7,
+        9,
+        14,
+        17
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestCLIRecordLifecycleAndRejectedWrites",
+        "TestCollectionDocumentJourneys"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 5,
+          "start_seconds": 64.585,
+          "end_seconds": 80.63,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 6,
+          "start_seconds": 80.63,
+          "end_seconds": 96.669,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 9,
+          "start_seconds": 128.751,
+          "end_seconds": 144.787,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 14,
+          "start_seconds": 218.51,
+          "end_seconds": 234.56,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 17,
+          "start_seconds": 266.808,
+          "end_seconds": 282.858,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U031",
+      "requirement": "Provide bidirectional agent conversations.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Requested GUI/runtime/conversation integration is unimplemented. Explicit unsupported responses do not satisfy this capability.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U032",
+      "requirement": "Let prompt templates define GUI actions and compose templates.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Requested GUI/runtime/conversation integration is unimplemented. Explicit unsupported responses do not satisfy this capability.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U033",
+      "requirement": "Start a fresh session per action, then continue conversation in that session.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Requested GUI/runtime/conversation integration is unimplemented. Explicit unsupported responses do not satisfy this capability.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U034",
+      "requirement": "Allow multiple concurrent conversations.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Requested GUI/runtime/conversation integration is unimplemented. Explicit unsupported responses do not satisfy this capability.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U035",
+      "requirement": "Qualify current Codex CLI as the first required harness adapter.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Requested GUI/runtime/conversation integration is unimplemented. Explicit unsupported responses do not satisfy this capability.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U036",
+      "requirement": "Keep runtime selection contributor-specific and outside project Git.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Requested GUI/runtime/conversation integration is unimplemented. Explicit unsupported responses do not satisfy this capability.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U037",
+      "requirement": "Keep profiles runtime-neutral OKF knowledge nodes.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "Only an unsupported-operation boundary or gap is shown here; the row-specific implemented portion is not exercised by this scene.",
+      "remaining_gap": "Requested GUI/runtime/conversation integration is unimplemented. Explicit unsupported responses do not satisfy this capability.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U038",
+      "requirement": "Do not generate Codex-specific files.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "Only an unsupported-operation boundary or gap is shown here; the row-specific implemented portion is not exercised by this scene.",
+      "remaining_gap": "Requested GUI/runtime/conversation integration is unimplemented. Explicit unsupported responses do not satisfy this capability.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U039",
+      "requirement": "Let the external runtime own conversation persistence.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Requested GUI/runtime/conversation integration is unimplemented. Explicit unsupported responses do not satisfy this capability.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U040",
+      "requirement": "Agents/users perform all Git operations.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        1,
+        7,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestMinimalWorkflowBoundary"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "CLI exposes inert documents and no scheduler; actual agent-owned Git/dispatch workflows await runtime integration.",
+      "video_ranges": [
+        {
+          "scene_id": 1,
+          "start_seconds": 0,
+          "end_seconds": 16.463,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U041",
+      "requirement": "Agents own scheduling, task dispatch and factory loops.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        1,
+        7,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestMinimalWorkflowBoundary"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "CLI exposes inert documents and no scheduler; actual agent-owned Git/dispatch workflows await runtime integration.",
+      "video_ranges": [
+        {
+          "scene_id": 1,
+          "start_seconds": 0,
+          "end_seconds": 16.463,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U042",
+      "requirement": "Support custom arbitrary browser HTML, CSS and JavaScript.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Browser custom presentation/server/multi-contributor runtime behavior is unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U043",
+      "requirement": "Serve one trusted local user or operate behind external protection.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Browser custom presentation/server/multi-contributor runtime behavior is unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U044",
+      "requirement": "Use separate user checkouts exchanging Git changes rather than a shared-user database.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "Only an unsupported-operation boundary or gap is shown here; the row-specific implemented portion is not exercised by this scene.",
+      "remaining_gap": "Browser custom presentation/server/multi-contributor runtime behavior is unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U045",
+      "requirement": "Deliver a single portable static compiled binary with embedded defaults/UI.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        1,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestCLIArgumentsAndUnsupportedCapabilities"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Current-host CLI build/tests pass; embedded product UI, server operation and full multi-platform execution qualification are absent. Cross-compilation is not execution.",
+      "video_ranges": [
+        {
+          "scene_id": 1,
+          "start_seconds": 0,
+          "end_seconds": 16.463,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U046",
+      "requirement": "Support desktop, server/Kubernetes and CI usage.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        1,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestCLIArgumentsAndUnsupportedCapabilities"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Current-host CLI build/tests pass; embedded product UI, server operation and full multi-platform execution qualification are absent. Cross-compilation is not execution.",
+      "video_ranges": [
+        {
+          "scene_id": 1,
+          "start_seconds": 0,
+          "end_seconds": 16.463,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U047",
+      "requirement": "Target macOS, Linux and Windows on ARM64 and x86-64.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        1,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestCLIArgumentsAndUnsupportedCapabilities"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Current-host CLI build/tests pass; embedded product UI, server operation and full multi-platform execution qualification are absent. Cross-compilation is not execution.",
+      "video_ranges": [
+        {
+          "scene_id": 1,
+          "start_seconds": 0,
+          "end_seconds": 16.463,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U048",
+      "requirement": "Execute initial platform tests only on the current Mac and distinguish built from execution-tested platforms.",
+      "status": "pass",
+      "coverage": "end-to-end",
+      "scene_ids": [
+        1,
+        22
+      ],
+      "evidence_kind": "executed-cli",
+      "tests": [],
+      "observed": "Current regression execution is explicitly Darwin ARM64; no non-host execution is claimed.",
+      "remaining_gap": "",
+      "video_ranges": [
+        {
+          "scene_id": 1,
+          "start_seconds": 0,
+          "end_seconds": 16.463,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "executed-cli"
+        }
+      ]
+    },
+    {
+      "id": "U049",
+      "requirement": "Manage factoryctl development using its own record format.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        12,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestCLIInitDiscoveryAndValidation"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "The repository uses living factory records and the CLI validates synthetic bundles; complete dogfooding development workflow is not demonstrated.",
+      "video_ranges": [
+        {
+          "scene_id": 12,
+          "start_seconds": 181.768,
+          "end_seconds": 202.465,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U050",
+      "requirement": "Provide an optional software-development starter set.",
+      "status": "pass",
+      "coverage": "end-to-end",
+      "scene_ids": [
+        2,
+        3,
+        11
+      ],
+      "evidence_kind": "executed-cli",
+      "tests": [
+        "TestDefaultsAreParseableAndIsolated",
+        "TestDefaultTemplateRenders"
+      ],
+      "observed": "The optional software starter creates real defaults and supports Task template creation.",
+      "remaining_gap": "",
+      "video_ranges": [
+        {
+          "scene_id": 2,
+          "start_seconds": 16.463,
+          "end_seconds": 32.504,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 3,
+          "start_seconds": 32.504,
+          "end_seconds": 48.544,
+          "kind": "executed-cli"
+        },
+        {
+          "scene_id": 11,
+          "start_seconds": 165.728,
+          "end_seconds": 181.768,
+          "kind": "executed-cli"
+        }
+      ]
+    },
+    {
+      "id": "U051",
+      "requirement": "Maintain living specifications and Git/task tracking.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        12,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestCLIInitDiscoveryAndValidation"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "The repository uses living factory records and the CLI validates synthetic bundles; complete dogfooding development workflow is not demonstrated.",
+      "video_ranges": [
+        {
+          "scene_id": 12,
+          "start_seconds": 181.768,
+          "end_seconds": 202.465,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U052",
+      "requirement": "Distinguish desired, observed and proposed state.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        6,
+        7,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestLosslessScalarEdit",
+        "TestNonfiniteJSONAndOutputFailures"
+      ],
+      "observed": "The referenced tests demonstrate metadata/source preservation only; they do not verify epistemic label interpretation or attribution semantics.",
+      "remaining_gap": "Metadata/source preservation and display are verified; complete epistemic/provenance semantics and product GUI presentation remain unfulfilled.",
+      "video_ranges": [
+        {
+          "scene_id": 6,
+          "start_seconds": 80.63,
+          "end_seconds": 96.669,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U053",
+      "requirement": "Distinguish facts, assumptions, questions and LLM inferences.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        6,
+        7,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestLosslessScalarEdit",
+        "TestNonfiniteJSONAndOutputFailures"
+      ],
+      "observed": "The referenced tests demonstrate metadata/source preservation only; they do not verify epistemic label interpretation or attribution semantics.",
+      "remaining_gap": "Metadata/source preservation and display are verified; complete epistemic/provenance semantics and product GUI presentation remain unfulfilled.",
+      "video_ranges": [
+        {
+          "scene_id": 6,
+          "start_seconds": 80.63,
+          "end_seconds": 96.669,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U054",
+      "requirement": "Keep source attribution readable in Markdown without the application.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        6,
+        7,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestLosslessScalarEdit",
+        "TestNonfiniteJSONAndOutputFailures"
+      ],
+      "observed": "The referenced tests demonstrate metadata/source preservation only; they do not verify epistemic label interpretation or attribution semantics.",
+      "remaining_gap": "Metadata/source preservation and display are verified; complete epistemic/provenance semantics and product GUI presentation remain unfulfilled.",
+      "video_ranges": [
+        {
+          "scene_id": 6,
+          "start_seconds": 80.63,
+          "end_seconds": 96.669,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U055",
+      "requirement": "Demonstrate research and knowledge-graph curation.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        23
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Synthetic research/procurement workflows and the 100-repository/10,000-node benchmark have not been implemented and demonstrated.",
+      "video_ranges": [
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U056",
+      "requirement": "Demonstrate government-contract discovery, pursuit, submission and award tracking with synthetic examples.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        23
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Synthetic research/procurement workflows and the 100-repository/10,000-node benchmark have not been implemented and demonstrated.",
+      "video_ranges": [
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U057",
+      "requirement": "Design and benchmark for 100 repositories and 10,000 nodes.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        23
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Synthetic research/procurement workflows and the 100-repository/10,000-node benchmark have not been implemented and demonstrated.",
+      "video_ranges": [
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U058",
+      "requirement": "Validate document syntax, required fields, types, links and placement as records are written.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        7,
+        8,
+        10,
+        12,
+        13,
+        16,
+        19,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestFields",
+        "TestProposedGraphAndUnrelatedRepairs",
+        "TestDefinitionChangesValidateIncomingInstances",
+        "TestParseHazardsAndLimits"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "CLI save validation is exercised; complete optional provenance/footnote checks, all diagnostic locations and live watcher/editor behavior remain gaps.",
+      "video_ranges": [
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 8,
+          "start_seconds": 112.704,
+          "end_seconds": 128.751,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 10,
+          "start_seconds": 144.787,
+          "end_seconds": 165.728,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 12,
+          "start_seconds": 181.768,
+          "end_seconds": 202.465,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 13,
+          "start_seconds": 202.465,
+          "end_seconds": 218.51,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 16,
+          "start_seconds": 250.759,
+          "end_seconds": 266.808,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 19,
+          "start_seconds": 299.06,
+          "end_seconds": 315.112,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U059",
+      "requirement": "Distinguish structural validation from agent-owned workflow policy.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        7,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestMinimalWorkflowBoundary"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "A valid CLI state edit and dedicated backend workflow-boundary test pass; full agent-interpreted workflow journey remains unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U060",
+      "requirement": "Use Conventional Commits and derive semantic versions.",
+      "status": "implemented-unverified",
+      "coverage": "documentary-only",
+      "scene_ids": [
+        23
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Policies/deferred-backend decisions are documented; operational release/version enforcement and lifecycle evidence have not been executed.",
+      "video_ranges": [
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U061",
+      "requirement": "Start at v0.1.0.",
+      "status": "implemented-unverified",
+      "coverage": "documentary-only",
+      "scene_ids": [
+        23
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Policies/deferred-backend decisions are documented; operational release/version enforcement and lifecycle evidence have not been executed.",
+      "video_ranges": [
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U062",
+      "requirement": "Do not require backward compatibility before 1.0.0.",
+      "status": "implemented-unverified",
+      "coverage": "documentary-only",
+      "scene_ids": [
+        23
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Policies/deferred-backend decisions are documented; operational release/version enforcement and lifecycle evidence have not been executed.",
+      "video_ranges": [
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U063",
+      "requirement": "Require explicit authorization to advance to and release v1.0.0.",
+      "status": "implemented-unverified",
+      "coverage": "documentary-only",
+      "scene_ids": [
+        23
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Policies/deferred-backend decisions are documented; operational release/version enforcement and lifecycle evidence have not been executed.",
+      "video_ranges": [
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U064",
+      "requirement": "Treat GitHub Issues/Projects, Linear, Trello and Jira tracking as deferred possibilities, not currently implemented backends.",
+      "status": "implemented-unverified",
+      "coverage": "documentary-only",
+      "scene_ids": [
+        23
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Policies/deferred-backend decisions are documented; operational release/version enforcement and lifecycle evidence have not been executed.",
+      "video_ranges": [
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U065",
+      "requirement": "Factoryctl never shells out to Git, including read-only inspection.",
+      "status": "implemented-unverified",
+      "coverage": "backend-only",
+      "scene_ids": [
+        1,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestCLIInitDiscoveryAndValidation"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Doctor and source boundary indicate no product Git subprocesses; no dedicated process-level end-to-end instrumentation is included in this video.",
+      "video_ranges": [
+        {
+          "scene_id": 1,
+          "start_seconds": 0,
+          "end_seconds": 16.463,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U066",
+      "requirement": "Allow launching selected AI harnesses, which may themselves invoke Git/local tools.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Harness launch and MCP document tools are unimplemented; refusal demonstrates only the current boundary.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U067",
+      "requirement": "Expose controlled document read/write tools through MCP.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Harness launch and MCP document tools are unimplemented; refusal demonstrates only the current boundary.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U068",
+      "requirement": "Support runtime-extensible document types and namespaced document tools without rebuilding the binary.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        16,
+        19,
+        21
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestCollectionDocumentJourneys"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Custom document types work without rebuilding; namespaced runtime document-tool registration is unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 16,
+          "start_seconds": 250.759,
+          "end_seconds": 266.808,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 19,
+          "start_seconds": 299.06,
+          "end_seconds": 315.112,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U069",
+      "requirement": "Support type-specific lifecycle instructions through agent-interpreted Markdown/prompts.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "Only an unsupported-operation boundary or gap is shown here; the row-specific implemented portion is not exercised by this scene.",
+      "remaining_gap": "Document instructions remain data; requested harness/browser integrations and adapter qualification are unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U070",
+      "requirement": "Run arbitrary custom code only in browser views or the external harness, never backend plugins or WASM.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "Only an unsupported-operation boundary or gap is shown here; the row-specific implemented portion is not exercised by this scene.",
+      "remaining_gap": "Document instructions remain data; requested harness/browser integrations and adapter qualification are unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U071",
+      "requirement": "Allow custom browser drag-and-drop interactions through validated writes.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Document instructions remain data; requested harness/browser integrations and adapter qualification are unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U072",
+      "requirement": "Keep Claude Code/pi as future adapter candidates without claiming integration.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "Document instructions remain data; requested harness/browser integrations and adapter qualification are unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U073",
+      "requirement": "Keep factoryctl a minimal Markdown interface and harness launcher.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        7,
+        21,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestMinimalWorkflowBoundary"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Minimal structural CLI boundary is demonstrated/tested; harness interpretation/launch end-to-end journeys remain unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U074",
+      "requirement": "Keep roles, readiness, review, approvals and workflow meaning in agent interpretation.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        7,
+        21,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestMinimalWorkflowBoundary"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Minimal structural CLI boundary is demonstrated/tested; harness interpretation/launch end-to-end journeys remain unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U075",
+      "requirement": "Do not implement workflow transitions, conditional policy validation or a business-rule engine.",
+      "status": "implemented-unverified",
+      "coverage": "partial",
+      "scene_ids": [
+        7,
+        21,
+        22
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [
+        "TestMinimalWorkflowBoundary"
+      ],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "Minimal structural CLI boundary is demonstrated/tested; harness interpretation/launch end-to-end journeys remain unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 7,
+          "start_seconds": 96.669,
+          "end_seconds": 112.704,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 22,
+          "start_seconds": 384.884,
+          "end_seconds": 401.224,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U076",
+      "requirement": "Expose an agent-callable tool to ask the human user questions.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "User-question dialogue, MCP Apps/generated browser UI and the qualified interface-retirement decision are unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U077",
+      "requirement": "Support free-text answers.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "User-question dialogue, MCP Apps/generated browser UI and the qualified interface-retirement decision are unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U078",
+      "requirement": "Support multiple-choice answers.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "User-question dialogue, MCP Apps/generated browser UI and the qualified interface-retirement decision are unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U079",
+      "requirement": "Support back-and-forth follow-up conversation.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "User-question dialogue, MCP Apps/generated browser UI and the qualified interface-retirement decision are unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U080",
+      "requirement": "Deliver questions and answers in both currently supported CLI and web interfaces.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "User-question dialogue, MCP Apps/generated browser UI and the qualified interface-retirement decision are unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U081",
+      "requirement": "Evaluate MCP Apps so the agent can present interactive UI elements.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "User-question dialogue, MCP Apps/generated browser UI and the qualified interface-retirement decision are unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U082",
+      "requirement": "Demonstrate runtime-generated rich UI rather than only predetermined widgets.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "User-question dialogue, MCP Apps/generated browser UI and the qualified interface-retirement decision are unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U083",
+      "requirement": "Evaluate retiring the interactive CLI in favor of web only if qualification supports it; do not assume this decision has been made.",
+      "status": "planned",
+      "coverage": "unimplemented",
+      "scene_ids": [
+        21
+      ],
+      "evidence_kind": "boundary-or-gap-accounting-only",
+      "tests": [],
+      "observed": "The requested behavior is not implemented or exercised. The referenced scene shows an explicit boundary or gap, not a passing capability.",
+      "remaining_gap": "User-question dialogue, MCP Apps/generated browser UI and the qualified interface-retirement decision are unimplemented.",
+      "video_ranges": [
+        {
+          "scene_id": 21,
+          "start_seconds": 359.46,
+          "end_seconds": 384.884,
+          "kind": "boundary-or-gap-accounting-only"
+        }
+      ]
+    },
+    {
+      "id": "U084",
+      "requirement": "Provide a Playwright demonstration video for every milestone delivery and release.",
+      "status": "implemented-unverified",
+      "coverage": "current-artifact-review",
+      "scene_ids": [
+        1,
+        23
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "The current Playwright walkthrough supplies review-video evidence; complete-matrix end-to-end satisfaction and continuing milestone compliance remain unfulfilled.",
+      "video_ranges": [
+        {
+          "scene_id": 1,
+          "start_seconds": 0,
+          "end_seconds": 16.463,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U085",
+      "requirement": "Demonstrate all implemented features, including old ones, not only new changes.",
+      "status": "implemented-unverified",
+      "coverage": "current-artifact-review",
+      "scene_ids": [
+        1,
+        23
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "The current Playwright walkthrough supplies review-video evidence; complete-matrix end-to-end satisfaction and continuing milestone compliance remain unfulfilled.",
+      "video_ranges": [
+        {
+          "scene_id": 1,
+          "start_seconds": 0,
+          "end_seconds": 16.463,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U086",
+      "requirement": "Exclude a feature from video coverage only once deprecated and removed.",
+      "status": "implemented-unverified",
+      "coverage": "current-artifact-review",
+      "scene_ids": [
+        1,
+        23
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "The current Playwright walkthrough supplies review-video evidence; complete-matrix end-to-end satisfaction and continuing milestone compliance remain unfulfilled.",
+      "video_ranges": [
+        {
+          "scene_id": 1,
+          "start_seconds": 0,
+          "end_seconds": 16.463,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U087",
+      "requirement": "Use human-like pacing, smooth scrolling and orientation pauses.",
+      "status": "implemented-unverified",
+      "coverage": "current-artifact-review",
+      "scene_ids": [
+        1,
+        23
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "The current Playwright walkthrough supplies review-video evidence; complete-matrix end-to-end satisfaction and continuing milestone compliance remain unfulfilled.",
+      "video_ranges": [
+        {
+          "scene_id": 1,
+          "start_seconds": 0,
+          "end_seconds": 16.463,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U088",
+      "requirement": "Overlay what is being demonstrated/evaluated.",
+      "status": "implemented-unverified",
+      "coverage": "current-artifact-review",
+      "scene_ids": [
+        1,
+        23
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "The current Playwright walkthrough supplies review-video evidence; complete-matrix end-to-end satisfaction and continuing milestone compliance remain unfulfilled.",
+      "video_ranges": [
+        {
+          "scene_id": 1,
+          "start_seconds": 0,
+          "end_seconds": 16.463,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U089",
+      "requirement": "Highlight the interacted element or area requiring attention.",
+      "status": "implemented-unverified",
+      "coverage": "current-artifact-review",
+      "scene_ids": [
+        1,
+        23
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "The current Playwright walkthrough supplies review-video evidence; complete-matrix end-to-end satisfaction and continuing milestone compliance remain unfulfilled.",
+      "video_ranges": [
+        {
+          "scene_id": 1,
+          "start_seconds": 0,
+          "end_seconds": 16.463,
+          "kind": "bounded-cli-and-or-backend"
+        },
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U090",
+      "requirement": "Trace each operator-declared requirement to specification and implementation.",
+      "status": "implemented-unverified",
+      "coverage": "matrix-accounting-only",
+      "scene_ids": [
+        23
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "All current rows are accounted for in this package, but full-matrix end-to-end qualification is incomplete; missing capabilities require actual implementation and future fresh demonstration.",
+      "video_ranges": [
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U091",
+      "requirement": "Provide evidence of initial implementation.",
+      "status": "implemented-unverified",
+      "coverage": "matrix-accounting-only",
+      "scene_ids": [
+        23
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "All current rows are accounted for in this package, but full-matrix end-to-end qualification is incomplete; missing capabilities require actual implementation and future fresh demonstration.",
+      "video_ranges": [
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U092",
+      "requirement": "Refresh regression evidence on every release to prove continued functionality.",
+      "status": "implemented-unverified",
+      "coverage": "matrix-accounting-only",
+      "scene_ids": [
+        23
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "All current rows are accounted for in this package, but full-matrix end-to-end qualification is incomplete; missing capabilities require actual implementation and future fresh demonstration.",
+      "video_ranges": [
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U093",
+      "requirement": "Preserve history and explicitly show failures, gaps and approved removals.",
+      "status": "implemented-unverified",
+      "coverage": "matrix-accounting-only",
+      "scene_ids": [
+        23
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "All current rows are accounted for in this package, but full-matrix end-to-end qualification is incomplete; missing capabilities require actual implementation and future fresh demonstration.",
+      "video_ranges": [
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    },
+    {
+      "id": "U094",
+      "requirement": "Exercise the complete requirements traceability matrix end to end at every milestone delivery; expose unmet rows without claiming full satisfaction.",
+      "status": "implemented-unverified",
+      "coverage": "matrix-accounting-only",
+      "scene_ids": [
+        23
+      ],
+      "evidence_kind": "bounded-cli-and-or-backend",
+      "tests": [],
+      "observed": "The linked CLI scenes and named current regression cases exercise the implemented portion only.",
+      "remaining_gap": "All current rows are accounted for in this package, but full-matrix end-to-end qualification is incomplete; missing capabilities require actual implementation and future fresh demonstration.",
+      "video_ranges": [
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "bounded-cli-and-or-backend"
+        }
+      ]
+    }
+  ]
+}
