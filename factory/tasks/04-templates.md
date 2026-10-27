@@ -15,9 +15,9 @@ sources:
     resource: "../sources/operator-brief.md"
     title: "Operator requirements and scope"
     author: "human:operator"
-task_state: "planned"
+task_state: "in_progress"
 priority: "normal"
-owner: "unassigned"
+owner: "developer"
 depends_on:
   - "03-definition-validation.md"
 specifications:
@@ -39,7 +39,7 @@ Implement restricted templating, typed input collection, include resolution, ful
 
 ## Scope and handoff
 
-Implement the relevant modules in the [architecture](../designs/architecture.md), following the linked specifications in frontmatter. Read [operator authority](../sources/operator-brief.md) before any external effects. This task is planned, not started; source paths named in the architecture do not yet exist. The [implementation plan](../designs/implementation-plan.md) establishes build order and shared contracts.
+Implement the relevant modules in the [architecture](../designs/architecture.md), following the linked specifications in frontmatter. Read [operator authority](../sources/operator-brief.md) before any external effects. The document portion of this task is in progress under the [first CLI milestone](first-cli-milestone.md). Source and test evidence is recorded in [CLI evidence](../sources/cli-milestone-evidence.md); uncovered criteria remain pending. The [implementation plan](../designs/implementation-plan.md) establishes build order and shared contracts.
 
 ## Verification and done criteria
 

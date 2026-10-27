@@ -1,0 +1,7 @@
+//go:build darwin || linux
+
+package safeio
+
+import "syscall"
+
+const readFlags = syscall.O_NONBLOCK | syscall.O_NOFOLLOW

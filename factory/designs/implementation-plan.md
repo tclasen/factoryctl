@@ -19,7 +19,7 @@ sources:
 
 # Implementation sequence and requirements coverage
 
-This is a proposed build plan for the [confirmed product scope](../specifications/product.md). All implementation tasks are currently planned. The design task prepares the package; it does not implement these tasks. Agent execution follows repository instructions and user authority. No scheduler or approval engine is encoded in this plan.
+This is a proposed build plan for the [confirmed product scope](../specifications/product.md). The [first CLI milestone](../tasks/first-cli-milestone.md) is implementing the document slice of tasks 01–05; downstream runtime and UI tasks remain planned. The design task prepares the package; it does not implement these tasks. Agent execution follows repository instructions and user authority. No scheduler or approval engine is encoded in this plan.
 
 ## Buildable slices
 

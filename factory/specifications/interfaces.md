@@ -19,7 +19,7 @@ sources:
 
 # CLI, MCP and local HTTP interfaces
 
-These are proposed version-1 contracts. The [product requirements](product.md) establish the interfaces; no commands below are implemented yet. All adapters call one application service layer and [validator](validation.md).
+These are version-1 target contracts. The [product requirements](product.md) establish the interfaces. The first document CLI implements the subset described by the repository README and [CLI evidence](../sources/cli-milestone-evidence.md); runtime, GUI, MCP and other explicitly pending commands are not yet implemented. Implemented document commands use one application service layer and [validator](validation.md).
 
 ## CLI grammar
 
