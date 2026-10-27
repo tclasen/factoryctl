@@ -34,7 +34,7 @@ This is an LLM-authored extraction of the operator's statements in the factoryct
 ## Confirmed requirements, synthesized from the interview
 
 1. A knowledge-work factory interface replacing earlier experiments, with CLI, a launchable GUI, and MCP tools for an external AI runtime. Factoryctl supplies structure and interaction; agents interpret instructions and automate work.
-2. Git repositories are mandatory. Discover one repository from CWD or an explicit path, or recursively discover multiple repositories below a directory. All interfaces use a multi-project model even with one project.
+2. Git repositories are mandatory. Discover one repository from CWD or an explicit path, or discover multiple repositories in a directory’s immediate subfolders by default (recursion limit 1). All interfaces use a multi-project model even with one project.
 3. No project configuration file is required or read. Optional, versioned `.factory/` holds templates and UI assets. Only `factory/` is the OKF bundle: project metadata, definitions, profiles, prompts, specifications, tasks, decisions and documentation. Source code, deliverables and asset files are outside this graph.
 4. Human-readable files hold durable factory state. No factoryctl database, project configuration store, session store or persistent index. Contributor-specific runtime preferences may live outside Git in the user home directory; they are not project knowledge. Git owns historical revisions: change a current field in place instead of adding transition logs. External runtimes retain their own normal storage.
 5. Three initial domain types: agent profiles, tasks and decisions. Users can define entirely new types or disable supplied ones. Definitions specify fields, validation, relationships and views. Everything in the bundle is a valid OKF concept; no index files.
@@ -89,3 +89,9 @@ The operator emphasized that factoryctl must be simple and minimal: all complexi
 This supersedes the earlier proposal for factoryctl-enforced lifecycle transitions and state-conditioned requirements. Standardization means document syntax, required fields, field types/enums, placement, links and safe file updates. Workflow meaning, readiness, review sufficiency, approvals and permission to advance are interpreted by the agent from Markdown. A schema enum may list state labels; factoryctl does not decide which transition is appropriate. Prompts and instructions are content, not a rule language executed by the backend.
 
 The [minimal-interface decision](../decisions/minimal-interface.md) is the governing scope test for future implementation. Browser code for custom UI and harness execution through prompts remain supported. No workflow engine, policy evaluator, business-rule DSL or backend custom-code execution is authorized by this directive.
+
+## Discovery depth directive — direct operator source
+
+> For the project discovery, keep the recursion limit to 1 by default. Meaning only look in the folders in the folder you are currently in, not further levels of recusion.
+
+The default scan inspects immediate subfolders only. The selected directory is depth 0; its immediate subfolders are depth 1. Existing selection of the current Git working tree or an explicit path remains available.
