@@ -53,3 +53,7 @@ Acceptance coverage: A12, A13 in [release acceptance](../specifications/acceptan
 ## Dependencies, risks and rollback
 
 `depends_on` identifies prerequisites; an agent interprets readiness. Factoryctl validates references but does not schedule this work. Preserve unknown metadata and source evidence. Roll back failed implementation through ordinary Git changes by the agent, retaining useful evidence. Do not expand into deployment, purchases or external messaging.
+
+## Commit and version qualification
+
+Implement and verify the [commit and release policy](../decisions/release-policy.md): validate new commit and PR titles, calculate versions from Conventional Commits, start at 0.1.0, and prevent an unauthorized transition to or release of 1.0.0. Exercise the policy examples and negative authorization case. The 0.x line carries no compatibility promise. Release checks are planned, not currently installed.

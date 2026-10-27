@@ -53,3 +53,9 @@ This is an LLM-authored extraction of the operator's statements in the factoryct
 These statements establish product requirements. Technology choices, exact field names, commands, error codes, performance thresholds and the implementation sequence elsewhere are LLM design proposals unless identified as operator-confirmed. A requirement is not a claim that software implements it. Publication of this design does not establish implementation success or human verification of every proposed detail.
 
 Read the [product specification](../specifications/product.md) for traceable requirements, the [architecture](../designs/architecture.md) for proposed mechanisms, and the [design task](../tasks/design-package.md) for current scope and verification.
+
+## Versioning directive — direct operator source
+
+> From now on please ensure this project uses conventional commits and from that semantic versioning. We are starting at v0.1.0, and until I authorize the bump up to and release of v1.0.0 we don't care about the concept of backwards compatibility.
+
+The [release policy](../decisions/release-policy.md) separates these explicit requirements from agent-selected operational conventions.
