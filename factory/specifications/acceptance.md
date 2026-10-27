@@ -33,7 +33,7 @@ Load the live bundle and a generic minimal OKF corpus; preserve unknown types/ke
 
 ## A03 Structural validation
 
-Reject missing fields, wrong kinds/enums, bad placement, invalid YAML, missing local targets and anchors, source-ID errors, include cycles, case collisions and stale saves. Keep original bytes on failed mutations. Watcher exposes identical violations from external edits; unchecked external/cross-project links are never reported as verified.
+Reject missing fields, wrong kinds/enums, bad placement, invalid YAML, missing local targets and anchors, source-ID errors, include cycles, case collisions and stale saves. Reject removal of a referenced heading, incompatible target-type changes and broken self-anchors before mutation; accept a valid self-link on creation against the proposed graph. Keep original bytes on failed mutations and allow unrelated-error repairs. Watcher exposes identical violations from external edits; unchecked external/cross-project links are never reported as verified.
 
 ## A04 Definitions and extensibility
 

@@ -15,7 +15,7 @@ sources:
     resource: "../sources/operator-brief.md"
     title: "Operator requirements and scope"
     author: "human:operator"
-task_state: "in_progress"
+task_state: "blocked"
 priority: "high"
 owner: "design-author"
 depends_on: []
@@ -51,3 +51,7 @@ The [verification record](../sources/design-validation.md) records current check
 ## Rollback and constraints
 
 Revert the design change through Git if needed; do not delete unrelated files or rewrite history. No runtime budget or spending is authorized by this task. No application code or cloud resources are required for design validation.
+
+## Current blocker
+
+Remote publication requires explicit operator approval after automatic approval review rejected the push. The local design package and review work are preserved. See [delivery evidence](../sources/design-validation.md) for the rejected action and exact next step.
