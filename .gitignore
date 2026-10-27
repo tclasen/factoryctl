@@ -1,3 +1,9 @@
 /bin/
 *.test
 /coverage.out
+# Reproducible raw capture intermediates; compact MP4/evidence are versioned.
+/artifacts/cli-review/*/*.webm
+/artifacts/cli-review/*/raw/
+/artifacts/cli-review/*/encoder-smoke/
+/artifacts/cli-review/*/scene-*.png
+/artifacts/cli-review/*/review-*.png
