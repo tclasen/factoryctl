@@ -28,7 +28,7 @@ Global flags: `--path DIR` (default CWD), `--project ID` (required for ambiguous
 | Command | Behavior |
 | --- | --- |
 | `projects list` | Discover and report projects, initialization and diagnostics |
-| `init --project-id ID [--starter software]` | Create absent defaults in one Git working tree |
+| `init --project-id ID [--starter software]` | Create absent defaults in one explicitly selected project root inside a Git working tree |
 | `records list [--type TYPE] [--query TEXT] [--limit N] [--cursor C]` | Search/filter a snapshot across selected projects |
 | `records show PATH` | Record, revision, metadata, outgoing links and backlinks |
 | `records create --type TYPE --slug SLUG [--input KEY=VALUE]` | Collect/validate template inputs, preview or create exclusively |
@@ -51,7 +51,7 @@ Exit codes: `0` requested operation succeeded (read commands may include diagnos
 
 ## Shared DTOs and mutation semantics
 
-`NodeRef = {project_id, checkout?, path}` where path includes `.md` relative to the bundle. `checkout` is required when project ID resolves to multiple open copies, and is a process-local opaque selection token. `Node = {ref, revision, type, title, frontmatter, body, diagnostics}`. Revision is SHA-256 of exact bytes. Response data never presents a cached revision as the result of a new write before disk persistence succeeds.
+`NodeRef = {project_id, checkout?, path}` where path includes `.md` relative to the bundle. `checkout` is required when project ID resolves to multiple open copies, and is a process-local opaque project-instance selection token, distinguishing monorepo project roots as well as separate checkouts. Project summaries expose project root and enclosing repository root separately; writes require an unambiguous project instance. `Node = {ref, revision, type, title, frontmatter, body, diagnostics}`. Revision is SHA-256 of exact bytes. Response data never presents a cached revision as the result of a new write before disk persistence succeeds.
 
 List inputs: `project_id?`, `type?`, `query?` (literal case-insensitive text), `filters?` (exact scalar field matches), `limit` (1–200, default 50), `cursor?`. Sort by project name, type, title, path, with identity as tie breaker. Cursors bind to the in-memory snapshot; a changed snapshot returns `cursor_expired` and a restart instruction. No durable cursor store. Backlink pagination uses the same rules.
 
@@ -75,6 +75,9 @@ Use standard MCP initialization/capability negotiation and stdio transport. Qual
 | `factory_node_delete` | `ref`, `expected_revision` | removed ref |
 | `factory_validate` | project/ref selection, level | structural diagnostics; network checks excluded from default tool |
 | `factory_prompt_render` | prompt ref, record ref, inputs | prompt/context preview without runtime launch |
+| `factory_user_ask` | prompt, response kind, optional choices/previous request | pending request ID and text fallback |
+| `factory_user_wait` | owned request ID | bounded wait; explicit disposition and actual user answer if submitted |
+| `factory_ui_present` | title, text fallback, data, generated browser content, optional owned request | qualified rich view or explicit text fallback |
 
 Tool schemas use JSON Schema object shapes with required fields, explicit optional fields and `additionalProperties: false` for tool envelopes. Frontmatter/input maps remain extensible according to their record definitions. Domain failures return MCP tool errors with readable messages and structured diagnostics. Annotate read-only/destructive/idempotent tool characteristics accurately, but do not treat annotations as access control. Tools operate only in their launch scope; MCP cannot request arbitrary new filesystem roots. Starting more agent sessions is the harness's responsibility, not an MCP recursion endpoint in v1.
 
@@ -93,3 +96,7 @@ Node and asset routes enforce canonical containment and MIME types; do not serve
 In addition to the core tools above, [runtime packages](extensions.md) register namespaced type-specific tools with validated input/output schemas. CLI and HTTP expose equivalent extension operation discovery/invocation through the shared application service; exact command/route spelling is finalized in the extension prototype. GUI buttons distinguish prompt-backed harness launches from deterministic type operations.
 
 Core reads include effective structural definition, Markdown instructions, available tools and definition identity. Every generic writer, including replace/delete, applies the same structural checks as specialized tools; instruction prose does not become executable policy. Invalid structural definitions block affected typed writes; generic APIs are not an escape hatch for structural checks. Type-specific tools bind only generic document operations and cannot add transition, readiness or approval enforcement. Tool-list change notification or explicit reconnect is part of adapter qualification. Responses carry current revision/definition identity; agent-action status is separate from document persistence. No custom backend handler or executable callback may be registered. MCP tool annotations and agent instructions do not establish filesystem access control; expose verified/advisory/unavailable enforcement capability explicitly.
+
+## User interaction transport
+
+The [question and rich-view contract](user-interaction.md) defines R30/R31. Add host-owned `/api/v1/conversations/{id}/questions` (GET current requests) and `/questions/{requestId}/response` (POST actual user response), plus `user.question`, `user.answer` and `ui.present` events on the existing SSE stream. Bind routes to the owning conversation/project and session nonce; reject stale or cross-conversation submissions. These response endpoints are not generic agent MCP tools. Use `interaction_unavailable` for absent user surfaces; headless execution never hangs waiting on protocol stdin. Native runtime approvals remain on their existing route. Apps resource/bridge support is capability-gated and must be qualified rather than inferred from successful MCP connection.

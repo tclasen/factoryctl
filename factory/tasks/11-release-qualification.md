@@ -23,6 +23,10 @@ depends_on:
 specifications:
   - "../specifications/acceptance.md"
 requirements:
+  - "R30"
+  - "R32"
+  - "R33"
+  - "R31"
   - "R01"
   - "R03"
   - "R04"
@@ -65,3 +69,7 @@ Verify complete A14 evidence from task 12 core fixtures, tasks 06–08 transport
 ## Minimal-interface release gate
 
 Verify R29/A15 across core fixtures and interface/harness/UI evidence. Workflow changes must be possible through Markdown and views without changing backend domain logic. Structural validation must never be reported as policy approval or workflow completion.
+
+## Collection, interaction and continuing evidence
+
+Run A01–A20 for each release candidate, including all S1–S3 journeys. Deliver the [full-feature Playwright video](../specifications/release-evidence.md), with readable pacing, smooth scrolling, explanatory overlays and interaction highlights. Reconcile the [atomic requirements matrix](../specifications/requirements-traceability.md) against implementation, prior releases and current test/video evidence. Old supported features remain in scope; deprecated features are omitted only after removal. Missing video, traceability or current required results blocks release. Record Apps disposition and any explicitly approved CLI retirement separately from actual supported features.

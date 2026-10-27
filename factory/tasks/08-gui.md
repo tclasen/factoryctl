@@ -23,6 +23,7 @@ depends_on:
 specifications:
   - "../specifications/gui.md"
 requirements:
+  - "R30"
   - "R07"
   - "R08"
   - "R10"
@@ -52,3 +53,7 @@ Acceptance coverage: A09 in [release acceptance](../specifications/acceptance.md
 ## Dependencies, risks and rollback
 
 `depends_on` identifies prerequisites; an agent interprets readiness. Factoryctl validates references but does not schedule this work. Preserve unknown metadata and source evidence. Roll back failed implementation through ordinary Git changes by the agent, retaining useful evidence. Do not expand into deployment, purchases or external messaging.
+
+## Collection, interaction and continuing evidence
+
+Exercise the identical collection shell and complete common journeys in S1–S3, including the one-project collection. Integrate question cards, actual replies, follow-up and the qualified rich-view bridge/fallback. Record A16/A17 and applicable A18 evidence, with video-ready deterministic fixtures.

@@ -24,6 +24,7 @@ specifications:
   - "../specifications/templates.md"
   - "../specifications/gui.md"
 requirements:
+  - "R31"
   - "R02"
   - "R15"
   - "R23"
@@ -52,3 +53,7 @@ Acceptance coverage: A10 in [release acceptance](../specifications/acceptance.md
 ## Runtime-defined board acceptance
 
 Own the browser portion of A14: implement a user-authored HTML/CSS/JavaScript kanban board over an explicitly scoped record selection, drag/drop via `requestEdit`, rejected/stale move feedback and prompt-backed `requestAction`. Preserve iframe/trust/message constraints. Backend custom-code execution is excluded; local computation belongs to the selected harness.
+
+## Collection, interaction and continuing evidence
+
+Integrate the qualified MCP Apps/generative-view prototype from task 13, subject to observed support. Exercise at least two materially different runtime-generated views, no predefined widget catalog requirement, browser isolation/trust, real answer routing and plain fallback across S1–S3. Record A16/A18; unsupported combinations remain explicit.

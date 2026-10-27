@@ -23,7 +23,7 @@ This proposed interaction design implements [R07–R15](product.md). All screens
 
 ## Shell and navigation
 
-A persistent project selector offers **All projects** and named checkouts, with a location disambiguator for duplicates. The overview shows per-project counts by type/state and structural-health diagnostics, plus active native conversations in this process. No Git hosting login or shared task database. Not-initialized repositories have an Init action. Invalid project metadata remains visible with its errors. Personal runtime preference errors affect conversation launch only, not knowledge browsing or editing.
+A persistent project selector offers **All projects** and named projects (which may share a checkout), with a location disambiguator for duplicates. The overview shows per-project counts by type/state and structural-health diagnostics, plus active native conversations in this process. No Git hosting login or shared task database. Not-initialized repositories have an Init action. Invalid project metadata remains visible with its errors. Personal runtime preference errors affect conversation launch only, not knowledge browsing or editing.
 
 Left navigation derives enabled types and views from definitions; it is not an INDEX.md file. A search/filter bar works across the selected scope. Lists expose type, title, epistemic labels and configurable columns. Keyboard navigation, labeled controls, visible focus, screen-reader status announcements and adequate contrast are part of acceptance. Virtualize/paginate large lists; do not render 10,000 DOM rows at once.
 
@@ -56,3 +56,9 @@ See [GUI implementation](../tasks/08-gui.md), [extension implementation](../task
 ## Runtime type packages
 
 Render installed type definitions and namespaced actions through the [extension registry](extensions.md). Show the definition, structural constraints, Markdown instructions and validation diagnostics. Distinguish a button launching an agent conversation from a deterministic document operation. Board and raw-editor writes use identical structural validation; the backend does not decide whether a lifecycle move is appropriate. Custom browser JavaScript may implement board drag/drop through the scoped edit bridge. Show agent conversation outcomes separately from persisted document changes; no backend user-code handler runs. Reload changes navigation/actions; stale conversations may need tool refresh or reconnect. Show whether MCP-only document access is verified or merely requested of the harness.
+
+## Collection parity and agent questions
+
+Use the same shell, All projects selector, overview, lists, detail/backlink panels and conversation controls in all [three layouts](project-scenarios.md). Keep that shell for a single-project collection. Repository topology is location metadata, not a separate navigation mode. Monorepo project selection must not collapse to a repository selection.
+
+Render [agent questions](user-interaction.md) in their originating conversation with project identity, free-text input or labeled choices and an optional custom answer. Subsequent user messages and agent follow-ups remain in that thread. Rich web views may be generated during conversation; the MCP Apps prototype qualifies rendering and reply routing before claiming support. The plain question form remains usable when rich rendering fails or is unavailable. Interactive CLI retirement requires the recorded evidence and explicit decision specified there.
