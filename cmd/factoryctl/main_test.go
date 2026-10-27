@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -284,3 +285,51 @@ func TestCLIIncomingReferencesBlockDestructiveEdits(t *testing.T) {
 		t.Fatal("rejected referenced-target mutation changed bytes")
 	}
 }
+
+func TestNonfiniteJSONAndOutputFailures(t *testing.T) {
+	root := t.TempDir()
+	for _, dir := range []string{".git/objects", ".git/refs", "factory"} {
+		if e := os.MkdirAll(filepath.Join(root, dir), 0755); e != nil {
+			t.Fatal(e)
+		}
+	}
+	if e := os.WriteFile(filepath.Join(root, ".git/HEAD"), []byte("ref: refs/heads/main\n"), 0644); e != nil {
+		t.Fatal(e)
+	}
+	source := []byte("---\ntype: Custom\nunknown: .nan\nnested: {positive: .inf, negative: -.inf}\n---\nBody\n")
+	if e := os.WriteFile(filepath.Join(root, "factory/example.md"), source, 0644); e != nil {
+		t.Fatal(e)
+	}
+	for _, command := range [][]string{{"records", "show", "example.md"}, {"records", "list"}, {"validate"}} {
+		var out, stderr bytes.Buffer
+		args := append([]string{"--path", root, "--json"}, command...)
+		code := run(args, strings.NewReader(""), &out, &stderr)
+		if code != 0 {
+			t.Fatalf("%v exit%d: %s %s", command, code, out.String(), stderr.String())
+		}
+		var value any
+		if e := json.Unmarshal(out.Bytes(), &value); e != nil {
+			t.Fatalf("%v invalid JSON: %s: %v", command, out.String(), e)
+		}
+		if command[0] == "records" && !strings.Contains(out.String(), ".nan") {
+			t.Fatal("nonfinite metadata disappeared")
+		}
+	}
+	current, _ := os.ReadFile(filepath.Join(root, "factory/example.md"))
+	if !bytes.Equal(current, source) {
+		t.Fatal("read modified source")
+	}
+	for _, args := range [][]string{{"--json", "doctor"}, {"doctor"}, {"--help"}} {
+		var stderr bytes.Buffer
+		if code := run(args, strings.NewReader(""), alwaysFailWriter{}, &stderr); code != 4 {
+			t.Fatalf("output failure returned %d", code)
+		}
+		if !strings.Contains(stderr.String(), "io_error") {
+			t.Fatal("output failure missing diagnostic")
+		}
+	}
+}
+
+type alwaysFailWriter struct{}
+
+func (alwaysFailWriter) Write(p []byte) (int, error) { return 0, io.ErrClosedPipe }

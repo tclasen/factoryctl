@@ -10,6 +10,7 @@ import (
 	"github.com/tclasen/factoryctl/internal/defaults"
 	"github.com/tclasen/factoryctl/internal/knowledge"
 	"github.com/tclasen/factoryctl/internal/project"
+	"github.com/tclasen/factoryctl/internal/safeio"
 	"github.com/tclasen/factoryctl/internal/templates"
 )
 
@@ -126,7 +127,7 @@ func Init(root, id, starter string) (InitResult, error) {
 		if e := SafePath(bundlePath, name, true); e != nil {
 			return result, e
 		}
-		current, e := os.ReadFile(filepath.Join(bundlePath, filepath.FromSlash(name)))
+		current, e := safeio.ReadFile(filepath.Join(bundlePath, filepath.FromSlash(name)), knowledge.MaxDocument)
 		if e == nil {
 			if !bytes.Equal(current, data) {
 				return result, Fail("already_exists", "init would change existing file: "+name)
@@ -168,7 +169,7 @@ func Init(root, id, starter string) (InitResult, error) {
 		}
 		f, e := bundle.OpenFile(name, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0644)
 		if os.IsExist(e) {
-			current, e := bundle.ReadFile(name)
+			current, e := safeio.ReadRoot(bundle, name, knowledge.MaxDocument)
 			if e != nil || !bytes.Equal(current, data) {
 				return result, Fail("already_exists", "concurrent init conflict at "+name)
 			}

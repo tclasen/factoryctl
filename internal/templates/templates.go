@@ -17,6 +17,7 @@ import (
 	"time"
 
 	"github.com/tclasen/factoryctl/internal/knowledge"
+	"github.com/tclasen/factoryctl/internal/safeio"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/text"
@@ -224,7 +225,7 @@ func readAsset(root, name string) ([]byte, error) {
 		return nil, e
 	}
 	defer base.Close()
-	f, e := base.Open(name)
+	f, e := safeio.OpenRegularRoot(base, name, os.O_RDONLY)
 	if e != nil {
 		return nil, e
 	}

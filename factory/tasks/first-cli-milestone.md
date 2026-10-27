@@ -3,7 +3,7 @@ type: Task
 title: Build the first usable CLI milestone
 description: Implement and independently verify the initial document CLI.
 status: draft
-task_state: in_progress
+task_state: done
 priority: high
 owner: coordinator
 depends_on: []
@@ -48,3 +48,11 @@ Source checkout initially contains no implementation. Go 1.27.3 is available on 
 Fresh read-only Reviewer assessed baseline commit 1d6d0d40a80dadb1b17a5320efa7ee0a4fc061e3 and this admission (initial SHA-256 d8dbafbf53ecc550cf14bbfe1d2edbf63a18ee3d39d573f79b649a9df568579e). Architectural fit, comprehension and execution readiness passed for the bounded CLI. Finding F01 requires keeping uncovered portions of tasks 01–05 pending, especially watchers and runtime question integration. This is one independent perspective, not implementation acceptance. Required source reading was reviewer-reported; full host trace/model telemetry remains unavailable.
 
 Implementation now proceeds under that readiness assessment. The developer delegated a disjoint discovery claim covering internal/project/ and its tests; all other source remains with the developer lead. Coordinator retains factory/ documentation and Git operations. Connected GitHub access confirms the owning remote, no pre-existing open PR, and a main ruleset requiring PR delivery and thread resolution without bypass. Network-enabled read-only Git access also succeeds. Next: integration tests and pinned independent implementation review.
+
+### Implementation and review checkpoint
+
+The initial CLI implementation was committed as `51e95bb493915ab639175f89109c4cfe2a42e378` and published in [PR 8](https://github.com/tclasen/factoryctl/pull/8). Normal/race tests, vet, host builds and independent command journeys passed; clean-corpus validation found no Markdown errors. Fresh implementation review nevertheless reproduced IR01 (FIFO read hang) and IR02 (silent JSON output failure), retained in [CLI evidence](../sources/cli-milestone-evidence.md). Developer repair ownership covers source/tests only; Coordinator owns evidence and delivery. Exact repaired-candidate review remains the next acceptance gate. No release acceptance or downstream task completion is claimed.
+
+### Proposed bounded milestone closure
+
+The done state is proposed for PR 8 and becomes effective only after independent approval of the repaired exact candidate, normal merge and verified owning-remote main delivery. Before those gates, this task remains in review operationally. The documented first usable document CLI is the completed scope; tasks 01–05 retain uncovered criteria and all downstream runtime/UI/release work remains pending. Developer and child implementation claims are released; Coordinator retains delivery ownership until the gate passes. Acceptance evidence and exact final identities are recorded in PR 8. The retained project checkout needs no temporary task-worktree cleanup.

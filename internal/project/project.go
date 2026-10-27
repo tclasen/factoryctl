@@ -12,6 +12,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
+	"github.com/tclasen/factoryctl/internal/safeio"
 	"gopkg.in/yaml.v3"
 )
 
@@ -332,7 +333,7 @@ func safeYAML(n *yaml.Node, depth int) error {
 	return nil
 }
 func readBounded(p string, max int64) ([]byte, error) {
-	f, e := os.Open(p)
+	f, e := safeio.OpenRegular(p, os.O_RDONLY)
 	if e != nil {
 		return nil, e
 	}

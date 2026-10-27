@@ -13,6 +13,7 @@ import (
 
 	"github.com/tclasen/factoryctl/internal/knowledge"
 	"github.com/tclasen/factoryctl/internal/project"
+	"github.com/tclasen/factoryctl/internal/safeio"
 )
 
 var slugPattern = regexp.MustCompile(`^[a-z0-9]+(?:-[a-z0-9]+)*$`)
@@ -71,7 +72,7 @@ func Mutate(projects []project.Project, selected project.Project, m Mutation) (*
 		return nil, e
 	}
 	defer root.Close()
-	lock, e := root.OpenFile("control/write-coordination.md", os.O_RDWR, 0)
+	lock, e := safeio.OpenRegularRoot(root, "control/write-coordination.md", os.O_RDWR)
 	if e != nil {
 		return nil, e
 	}
@@ -188,7 +189,7 @@ func Mutate(projects []project.Project, selected project.Project, m Mutation) (*
 		}
 	}
 	if old != nil {
-		raw, e := root.ReadFile(m.Path)
+		raw, e := safeio.ReadRoot(root, m.Path, knowledge.MaxDocument)
 		if e != nil || !bytes.Equal(raw, old.Raw) {
 			return nil, Fail("stale_revision", "target changed during validation")
 		}
@@ -257,7 +258,7 @@ func Mutate(projects []project.Project, selected project.Project, m Mutation) (*
 	if e != nil {
 		return nil, e
 	}
-	if dir, e := root.Open(path.Dir(m.Path)); e == nil {
+	if dir, e := safeio.OpenDirectoryRoot(root, path.Dir(m.Path)); e == nil {
 		_ = dir.Sync()
 		_ = dir.Close()
 	}

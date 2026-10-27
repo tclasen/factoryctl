@@ -119,7 +119,16 @@ func values(items []string) (map[string]any, error) {
 	return m, nil
 }
 func main() { os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr)) }
-func run(args []string, in io.Reader, out, errOut io.Writer) int {
+func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
+	var outputError error
+	defer func() {
+		if outputError != nil {
+			fmt.Fprintln(errOut, "io_error: cannot write command output:", outputError)
+			exitCode = 4
+		}
+	}()
+
+	out = &checkedWriter{writer: out, err: &outputError}
 	o, e := parse(args)
 	jsonMode := o.get("json") != ""
 	for _, arg := range args {
@@ -129,9 +138,14 @@ func run(args []string, in io.Reader, out, errOut io.Writer) int {
 	}
 	emit := func(v any) {
 		if jsonMode {
-			enc := json.NewEncoder(out)
-			enc.SetIndent("", "  ")
-			_ = enc.Encode(v)
+			data, err := json.MarshalIndent(v, "", "  ")
+			if err != nil {
+				outputError = err
+				data, _ = json.Marshal(map[string]any{"error": &app.Error{Code: "io_error", Message: "cannot encode command result"}})
+			}
+			if _, err = out.Write(append(data, '\n')); err != nil {
+				outputError = err
+			}
 		} else {
 			human(out, errOut, v)
 		}
@@ -546,4 +560,20 @@ func run(args []string, in io.Reader, out, errOut io.Writer) int {
 	}
 	emit(result)
 	return 0
+}
+
+type checkedWriter struct {
+	writer io.Writer
+	err    *error
+}
+
+func (w *checkedWriter) Write(p []byte) (int, error) {
+	n, e := w.writer.Write(p)
+	if e == nil && n != len(p) {
+		e = io.ErrShortWrite
+	}
+	if e != nil {
+		*w.err = e
+	}
+	return n, e
 }

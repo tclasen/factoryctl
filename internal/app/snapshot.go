@@ -3,8 +3,6 @@
 package app
 
 import (
-	"fmt"
-	"io"
 	"io/fs"
 	"net/url"
 	"os"
@@ -16,6 +14,7 @@ import (
 	"github.com/tclasen/factoryctl/internal/defaults"
 	"github.com/tclasen/factoryctl/internal/knowledge"
 	"github.com/tclasen/factoryctl/internal/project"
+	"github.com/tclasen/factoryctl/internal/safeio"
 	"github.com/tclasen/factoryctl/internal/templates"
 )
 
@@ -104,21 +103,8 @@ func Load(projects []project.Project) (*Snapshot, error) {
 	s.Validate("factory")
 	return s, nil
 }
-func ReadBounded(file string) ([]byte, error) {
-	f, e := os.Open(file)
-	if e != nil {
-		return nil, e
-	}
-	defer f.Close()
-	info, e := f.Stat()
-	if e != nil {
-		return nil, e
-	}
-	if !info.Mode().IsRegular() {
-		return nil, fmt.Errorf("not a regular file")
-	}
-	return io.ReadAll(io.LimitReader(f, knowledge.MaxDocument+1))
-}
+func ReadBounded(file string) ([]byte, error) { return safeio.ReadFile(file, knowledge.MaxDocument) }
+
 func diag(id, p, code, msg string) knowledge.Diagnostic {
 	return knowledge.Diagnostic{Code: code, Severity: "error", ProjectID: id, Path: p, Line: 1, Column: 1, Message: msg}
 }

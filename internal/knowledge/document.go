@@ -120,6 +120,9 @@ func Parse(p string, b []byte) *Document {
 		fail(err.Error())
 		return d
 	}
+	if _, nonfinite := jsonValue(d.Frontmatter); nonfinite {
+		d.Diagnostics = append(d.Diagnostics, Diagnostic{Code: "nonfinite_metadata", Severity: "warning", Path: p, Line: 1, Column: 1, Message: "nonfinite YAML numbers are represented as .nan/.inf/-.inf strings in JSON; source bytes remain unchanged"})
+	}
 	d.Type, _ = d.Frontmatter["type"].(string)
 	d.Title, _ = d.Frontmatter["title"].(string)
 	if strings.TrimSpace(d.Type) == "" {
