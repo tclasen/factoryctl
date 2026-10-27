@@ -27,7 +27,7 @@ The requirements below are synthesized from [operator statements](../sources/ope
 
 ## Repository and persistence
 
-- **R01 — Repository discovery.** Operate from a Git checkout or recursively from a directory containing checkouts; an explicit path overrides CWD. Preserve a multi-project model for one or many projects.
+- **R01 — Repository discovery.** Operate from a Git checkout or from a directory containing checkouts, scanning only immediate subfolders by default (recursion limit 1); an explicit path overrides CWD. Preserve a multi-project model for one or many projects.
 - **R02 — Storage boundary.** No root configuration file is required or read. Optional `.factory/` contains assets; `factory/` alone contains knowledge metadata. A project works without either a root config file or `.factory/`.
 - **R03 — File persistence.** All durable factory knowledge is human-readable OKF Markdown. No database, project config file, durable index, conversation store or event ledger is introduced by factoryctl. Optional personal runtime preferences are human-readable Markdown outside the repo, as scoped by [personal runtime preferences](personal-runtime.md). Git-versioned records are the only initial tracking backend; external backends are deferred.
 - **R04 — Git responsibility.** Git is mandatory and supplies history. Factoryctl does not commit, stage, fetch, push, merge, create branches/worktrees or resolve Git conflicts. The external agent/user performs those operations. Read-only repository inspection uses filesystem metadata or in-process libraries only. Factoryctl never spawns Git, directly or through a helper; agent harnesses may do so.

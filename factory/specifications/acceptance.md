@@ -25,7 +25,7 @@ Each result must name expected behavior, observed behavior, tested revision, com
 
 ## A01 Repository discovery
 
-One repo from CWD/explicit path, multiple recursively discovered repos, worktree pointer files, explicit duplicates, invalid/uninitialized projects and partial failure diagnostics. Assert no factoryctl Git subprocesses or mutations and no required/generated/read factory.yaml. Identity/title come from the Factory node; generic bundles remain usable by explicit checkout selection. Check duplicate canonical URLs and metadata-only cross-project link mapping.
+One repo from CWD/explicit path, multiple repos in immediate subfolders with default recursion limit 1, exclusion of repositories in grandchildren and deeper folders, discovery of those repositories when their parent is explicitly selected, worktree pointer files, explicit duplicates, invalid/uninitialized projects and partial failure diagnostics. Assert no factoryctl Git subprocesses or mutations and no required/generated/read factory.yaml. Identity/title come from the Factory node; generic bundles remain usable by explicit checkout selection. Check duplicate canonical URLs and metadata-only cross-project link mapping.
 
 ## A02 OKF and readable knowledge
 
