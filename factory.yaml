@@ -1,0 +1,17 @@
+version: 1
+project:
+  id: "factoryctl"
+  name: "Factoryctl"
+  bundle_uri: "https://github.com/tclasen/factoryctl/blob/main/factory/"
+types:
+  disabled: []
+runtime:
+  adapter: "codex"
+  executable: "codex"
+  profile: "agents/builder.md"
+gui:
+  listen: "127.0.0.1:0"
+  open_browser: true
+limits:
+  max_record_bytes: 1048576
+  max_frontmatter_bytes: 262144

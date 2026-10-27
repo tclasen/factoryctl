@@ -1,0 +1,55 @@
+---
+type: "Reference"
+title: "Operator requirements and design authority"
+description: "Operator requirements and design authority."
+status: "draft"
+factory:
+  format: 1
+  assertion:
+    frame: "observed"
+    certainty: "supported"
+    basis: "authoritative-statement"
+sources:
+  -
+    id: "interview"
+    resource: "Operator statements in the factoryctl design interview in this session"
+    author: "human:operator"
+    title: "Factoryctl design interview"
+---
+
+# Operator requirements and design authority
+
+This is an LLM-authored extraction of the operator's statements in the factoryctl design interview. The quoted sentences below are direct statements; the grouped requirements are a faithful synthesis, not independent external verification. The conversation is the primary source and is not publicly addressable from this repository. The operator has authorized research and a complete design-document package; application implementation is the subsequent stage.
+
+## Direct authoritative statements
+
+> AI agent always handles git operations.
+
+> I want the factory.yaml to be a repo top-level file.
+
+> I want it to be possible to run a project even without a .factory/ folder at all if you wanted.
+
+> Also note, I want everything in the factory/ knowledge graph OKF bundle to be human readable and navigatable, it should double as documentation for the desired state of the project as well as the current state of the project.
+
+## Confirmed requirements, synthesized from the interview
+
+1. A knowledge-work factory interface replacing earlier experiments, with CLI, a launchable GUI, and MCP tools for an external AI runtime. Factoryctl supplies structure and interaction; agents interpret instructions and automate work.
+2. Git repositories are mandatory. Discover one repository from CWD or an explicit path, or recursively discover multiple repositories below a directory. All interfaces use a multi-project model even with one project.
+3. The top-level `factory.yaml` is configuration. Optional, versioned `.factory/` holds templates and UI assets. Only `factory/` is the OKF bundle: project metadata, definitions, profiles, prompts, specifications, tasks, decisions and documentation. Source code, deliverables and asset files are outside this graph.
+4. Human-readable files hold durable factory state. No factoryctl database, external configuration store, session store or persistent index. Git owns historical revisions: change a current field in place instead of adding transition logs. External runtimes retain their own normal storage.
+5. Three initial domain types: agent profiles, tasks and decisions. Users can define entirely new types or disable supplied ones. Definitions specify fields, validation, relationships and views. Everything in the bundle is a valid OKF concept; no index files.
+6. Every type has list and detail views. Provide a project overview, cross-project views, task kanban, backlinks, direct editing and interactive bidirectional conversations. Prompt templates define GUI actions, may compose templates, and start fresh sessions followed by continuing conversation. Multiple conversations may run concurrently.
+7. Latest Codex CLI is the first and only required runtime. Profiles remain OKF nodes; do not generate Codex-specific files. Runtime owns conversation persistence. Agents handle Git operations, scheduling and factory loops.
+8. Custom presentation supports arbitrary HTML, CSS and JavaScript. GUI serves one trusted local user, or sits behind external infrastructure. Distributed collaboration is separate checkouts exchanging Git changes, not a shared-user database.
+9. Single portable compiled binary; desktop, server/Kubernetes and CI usage. Target macOS, Linux and Windows on ARM64 and x86-64; execution testing is initially on the operator's current Mac only. No unsupported-platform execution claim.
+10. Use factoryctl's own record format to plan and manage building it. Supply an optional software-development starter set. Maintain living specifications; Git and task records track changes.
+11. Clearly distinguish desired state from observations, fact from assumption, and authoritative statements from LLM-derived conclusions. Attribution must survive reading the Markdown without the application.
+12. Acceptance examples include research and maintaining a knowledge graph, and discovering, pursuing, submitting and tracking government contract bids through award. Initial design target: 100 repositories, 10,000 total nodes.
+
+13. Factoryctl validates documents as they are written: valid links, mandatory fields, correct field types and correct file placement. Structural validation is distinct from agent-owned workflow policy.
+
+## Authority and proposal boundary
+
+These statements establish product requirements. Technology choices, exact field names, commands, error codes, performance thresholds and the implementation sequence elsewhere are LLM design proposals unless identified as operator-confirmed. A requirement is not a claim that software implements it. Publication of this design does not establish implementation success or human verification of every proposed detail.
+
+Read the [product specification](../specifications/product.md) for traceable requirements, the [architecture](../designs/architecture.md) for proposed mechanisms, and the [design task](../tasks/design-package.md) for current scope and verification.
