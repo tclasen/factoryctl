@@ -23,7 +23,7 @@ This proposed interaction design implements [R07–R15](product.md). All screens
 
 ## Shell and navigation
 
-A persistent project selector offers **All projects** and named checkouts, with a location disambiguator for duplicates. The overview shows per-project counts by type/state and structural-health diagnostics, plus active native conversations in this process. No Git hosting login or shared task database. Not-initialized repositories have an Init action. Invalid configs remain visible with their errors.
+A persistent project selector offers **All projects** and named checkouts, with a location disambiguator for duplicates. The overview shows per-project counts by type/state and structural-health diagnostics, plus active native conversations in this process. No Git hosting login or shared task database. Not-initialized repositories have an Init action. Invalid project metadata remains visible with its errors. Personal runtime preference errors affect conversation launch only, not knowledge browsing or editing.
 
 Left navigation derives enabled types and views from definitions; it is not an INDEX.md file. A search/filter bar works across the selected scope. Lists expose type, title, epistemic labels and configurable columns. Keyboard navigation, labeled controls, visible focus, screen-reader status announcements and adequate contrast are part of acceptance. Virtualize/paginate large lists; do not render 10,000 DOM rows at once.
 
@@ -41,7 +41,7 @@ The board is a projection of an enum field, usually task_state. Dragging a card 
 
 ## Conversations
 
-From a ticket, **Request status update** starts a fresh Codex thread with that ticket's context, selected profile and rendered prompt. Stream agent text and tool progress; show runtime questions/approvals as actionable cards. User messages continue the same thread. The record refreshes when disk changes, and the UI distinguishes an agent's textual claim from an observed file edit. Several conversation tabs can run independently; clearly label the project and selected record in each.
+From a ticket, **Request status update** starts a fresh thread in the contributor-selected runtime (initially the Codex adapter) with that ticket's context, selected profile and rendered prompt. Stream agent text and tool progress; show runtime questions/approvals as actionable cards. User messages continue the same thread. The record refreshes when disk changes, and the UI distinguishes an agent's textual claim from an observed file edit. Several conversation tabs can run independently; clearly label the project and selected record in each.
 
 Other records use **Discuss** by default; custom prompts add actions. The user can inspect/select the profile and prompt before starting. Cancelling invokes native interruption and reports whether it was acknowledged; it does not revert file changes. Runtime failure preserves the knowledge views and direct editing. Reopening history delegates to available Codex thread APIs.
 

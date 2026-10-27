@@ -25,7 +25,7 @@ This is an LLM-authored extraction of the operator's statements in the factoryct
 
 > AI agent always handles git operations.
 
-> I want the factory.yaml to be a repo top-level file.
+> Can we remove it as a requirement from the project, and remove it from this repo, and only add it back in once we can prove there is a valid use for it?
 
 > I want it to be possible to run a project even without a .factory/ folder at all if you wanted.
 
@@ -35,11 +35,11 @@ This is an LLM-authored extraction of the operator's statements in the factoryct
 
 1. A knowledge-work factory interface replacing earlier experiments, with CLI, a launchable GUI, and MCP tools for an external AI runtime. Factoryctl supplies structure and interaction; agents interpret instructions and automate work.
 2. Git repositories are mandatory. Discover one repository from CWD or an explicit path, or recursively discover multiple repositories below a directory. All interfaces use a multi-project model even with one project.
-3. The top-level `factory.yaml` is configuration. Optional, versioned `.factory/` holds templates and UI assets. Only `factory/` is the OKF bundle: project metadata, definitions, profiles, prompts, specifications, tasks, decisions and documentation. Source code, deliverables and asset files are outside this graph.
-4. Human-readable files hold durable factory state. No factoryctl database, external configuration store, session store or persistent index. Git owns historical revisions: change a current field in place instead of adding transition logs. External runtimes retain their own normal storage.
+3. No project configuration file is required or read. Optional, versioned `.factory/` holds templates and UI assets. Only `factory/` is the OKF bundle: project metadata, definitions, profiles, prompts, specifications, tasks, decisions and documentation. Source code, deliverables and asset files are outside this graph.
+4. Human-readable files hold durable factory state. No factoryctl database, project configuration store, session store or persistent index. Contributor-specific runtime preferences may live outside Git in the user home directory; they are not project knowledge. Git owns historical revisions: change a current field in place instead of adding transition logs. External runtimes retain their own normal storage.
 5. Three initial domain types: agent profiles, tasks and decisions. Users can define entirely new types or disable supplied ones. Definitions specify fields, validation, relationships and views. Everything in the bundle is a valid OKF concept; no index files.
 6. Every type has list and detail views. Provide a project overview, cross-project views, task kanban, backlinks, direct editing and interactive bidirectional conversations. Prompt templates define GUI actions, may compose templates, and start fresh sessions followed by continuing conversation. Multiple conversations may run concurrently.
-7. Latest Codex CLI is the first and only required runtime. Profiles remain OKF nodes; do not generate Codex-specific files. Runtime owns conversation persistence. Agents handle Git operations, scheduling and factory loops.
+7. Latest Codex CLI is the first required adapter implementation; runtime selection belongs to each contributor and is not committed to the project. Profiles remain OKF nodes; do not generate Codex-specific files. Runtime owns conversation persistence. Agents handle Git operations, scheduling and factory loops.
 8. Custom presentation supports arbitrary HTML, CSS and JavaScript. GUI serves one trusted local user, or sits behind external infrastructure. Distributed collaboration is separate checkouts exchanging Git changes, not a shared-user database.
 9. Single portable compiled binary; desktop, server/Kubernetes and CI usage. Target macOS, Linux and Windows on ARM64 and x86-64; execution testing is initially on the operator's current Mac only. No unsupported-platform execution claim.
 10. Use factoryctl's own record format to plan and manage building it. Supply an optional software-development starter set. Maintain living specifications; Git and task records track changes.
@@ -59,3 +59,13 @@ Read the [product specification](../specifications/product.md) for traceable req
 > From now on please ensure this project uses conventional commits and from that semantic versioning. We are starting at v0.1.0, and until I authorize the bump up to and release of v1.0.0 we don't care about the concept of backwards compatibility.
 
 The [release policy](../decisions/release-policy.md) separates these explicit requirements from agent-selected operational conventions.
+
+## Tracking and personal runtime directives — direct operator sources
+
+> By default I want factoryctl to store all project status and tracking documents in git as versioned files
+
+The operator suggested GitHub Issues/Projects, Linear, Trello and Jira as possible alternative tracking backends, and project configuration as a possible way to select them. This is a future possibility, not an instruction to implement or configure those backends now.
+
+> Codex being the runtime that is used is individual contributor specific implementation details and shouldn't be tracked in the repo.
+
+The operator suggested that personal runtime selection could live in the running user's home directory. The exact optional preference path and precedence in [personal runtime preferences](../specifications/personal-runtime.md) are agent-designed mechanisms, not operator-selected syntax.

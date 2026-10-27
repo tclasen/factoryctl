@@ -34,8 +34,8 @@ flowchart LR
   APP --> VALID[Structural validator]
   APP --> GRAPH[In-memory graph and search]
   APP --> TMPL[Template rendering]
-  APP --> CODEX[Codex app-server adapter]
-  CODEX --> HARNESS[Installed Codex runtime]
+  APP --> RUNTIME[Contributor-selected runtime adapter]
+  RUNTIME --> HARNESS[Installed runtime; Codex first]
   HARNESS --> MCP
   STORE --> FILES[Versioned files]
 ```
@@ -44,7 +44,7 @@ All frontend/tool transports share application services and diagnostics. No adap
 
 ## Proposed source layout
 
-`cmd/factoryctl/` is the executable entrypoint. `internal/project/` owns configuration/discovery; `internal/knowledge/` parses documents and definitions; `internal/validation/` owns structural checks; `internal/store/` owns safe I/O; `internal/graph/` handles relationships/search; `internal/templates/` handles record/prompt rendering; `internal/app/` owns use cases; `internal/transport/{cli,mcp,http}/` adapts interfaces; `internal/runtime/codex/` owns subprocess/protocol integration. `web/` contains browser source; embedded default knowledge/templates live under `internal/defaults/`. Test fixtures belong in `testdata/`, outside the live knowledge graph. The source repository uses ordinary Go/frontend manifests; those are build inputs, not factoryctl runtime persistence.
+`cmd/factoryctl/` is the executable entrypoint. `internal/project/` owns metadata/discovery; `internal/runtime/` resolves contributor preferences outside Git and dispatches supported adapters; `internal/knowledge/` parses documents and definitions; `internal/validation/` owns structural checks; `internal/store/` owns safe I/O; `internal/graph/` handles relationships/search; `internal/templates/` handles record/prompt rendering; `internal/app/` owns use cases; `internal/transport/{cli,mcp,http}/` adapts interfaces; `internal/runtime/codex/` owns subprocess/protocol integration. `web/` contains browser source; embedded default knowledge/templates live under `internal/defaults/`. Test fixtures belong in `testdata/`, outside the live knowledge graph. The source repository uses ordinary Go/frontend manifests; those are build inputs, not factoryctl runtime persistence.
 
 Start with standard-library HTTP/JSON/embed/templates and a maintained YAML/Markdown AST parser plus the official MCP Go SDK if compatible. Pin exact dependencies when implementation begins; no dependency version is claimed selected here. Reject libraries that force a user-side native runtime or C toolchain. Keep GUI component boundaries small; framework choice is delegated to the GUI task within this interface contract, not an unresolved product requirement.
 
@@ -52,11 +52,11 @@ Start with standard-library HTTP/JSON/embed/templates and a maintained YAML/Mark
 
 `factory/` contains current metadata; root config and optional assets remain outside it. [Knowledge-format](../specifications/knowledge-format.md) defines revision tokens, advisory coordination, unknown-key preservation, path identity and the limits of non-cooperating editors. Structural errors disable affected writes, not the entire viewer. [Validation](../specifications/validation.md) defines rejection rules; no opaque truth/approval engine is introduced.
 
-Browsing, searching, editing, init and validation work without Codex or network access. Conversation features are separately available only when the runtime qualifies. The application server owns only transient conversation routing and UI event streams. Agent process failure cannot corrupt graph state merely by dropping the transport. Git conflicts are surfaced, never resolved internally.
+Browsing, searching, editing, init and validation work without any agent runtime, personal preferences or network access. Conversation features are separately available only when the runtime qualifies. The application server owns only transient conversation routing and UI event streams. Agent process failure cannot corrupt graph state merely by dropping the transport. Git conflicts are surfaced, never resolved internally.
 
 ## Deployment and portability
 
-Desktop: run `factoryctl gui`, serve loopback, open the OS browser; closing the process stops its owned children. Server/Kubernetes: mount an existing Git checkout and optional Codex installation/credentials, bind an explicitly selected interface behind external infrastructure, handle SIGTERM gracefully. Factoryctl does not clone/synchronize repositories or provision credentials. CI: use noninteractive CLI commands against an existing checkout; stdout JSON is transient output.
+Desktop: run `factoryctl gui`, serve loopback, open the OS browser; closing the process stops its owned children. Server/Kubernetes: mount an existing Git checkout and optional user-selected runtime installation/credentials, bind an explicitly selected interface behind external infrastructure, handle SIGTERM gracefully. Factoryctl does not clone/synchronize repositories or provision credentials. CI: use noninteractive CLI commands against an existing checkout; stdout JSON is transient output.
 
 Build with `CGO_ENABLED=0` for each supported `GOOS/GOARCH` and inspect dependencies/linkage. Interpret “static” as a single self-contained factoryctl binary with embedded UI and no separately installed application libraries; macOS/Windows still have normal platform-loader/system-library interfaces, and Git/Codex/browser remain explicit external programs. Do not promise fully static Darwin linkage. [Portability decision](../decisions/portable-binary.md) records this interpretation for operator review. Only macOS ARM64 execution testing is currently authorized; cross-compilation is useful but not execution evidence.
 

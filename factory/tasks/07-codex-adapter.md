@@ -22,6 +22,7 @@ depends_on:
   - "00-runtime-spike.md"
   - "06-transports.md"
 specifications:
+  - "../specifications/personal-runtime.md"
   - "../specifications/agent-runtime.md"
 requirements:
   - "R11"
@@ -51,3 +52,5 @@ Acceptance coverage: A08 in [release acceptance](../specifications/acceptance.md
 ## Dependencies, risks and rollback
 
 `depends_on` identifies prerequisites; an agent interprets readiness. Factoryctl validates references but does not schedule this work. Preserve unknown metadata and source evidence. Roll back failed implementation through ordinary Git changes by the agent, retaining useful evidence. Do not expand into deployment, purchases or external messaging.
+
+Implement invocation/user-home preference resolution and adapter dispatch per [personal runtime preferences](../specifications/personal-runtime.md). Verify different contributors can use the same repository bytes, unsupported adapters fail explicitly, and profiles cannot override personal runtime/model/effort choices. Do not implement extra adapters as part of this first Codex slice.

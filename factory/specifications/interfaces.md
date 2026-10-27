@@ -38,14 +38,16 @@ Global flags: `--path DIR` (default CWD), `--project ID` (required for ambiguous
 | `validate [--level okf\|factory] [--check-external] [--require-complete-links]` | Structural validation with precise scope/completeness |
 | `templates diff` / `templates export --kind view` | Inspect defaults/materialize requested optional assets |
 | `actions list --record PATH` | Discover applicable prompts without running them |
-| `actions run PROMPT --record PATH [--input KEY=VALUE]` | Start runtime conversation; terminal streams events, stdin supplies follow-ups |
+| `actions run PROMPT --record PATH [--input KEY=VALUE] [--runtime ADAPTER]` | Start runtime conversation; terminal streams events, stdin supplies follow-ups |
 | `gui [--listen HOST:PORT] [--no-open] [--trust-assets]` | Serve embedded UI; default loopback and OS-assigned port |
 | `mcp` | Serve MCP over stdio; stdout contains only protocol messages |
-| `doctor` | Report versions/capabilities, config and paths without mutating Git/runtime state |
+| `doctor` | Report versions/capabilities, effective personal runtime preferences and paths (without secrets) without mutating Git/runtime state |
+
+Runtime actions and `gui` additionally accept `--runtime`, `--runtime-executable`, `--model`, `--reasoning-effort` and `--preferences` as defined by [personal runtime preferences](personal-runtime.md). These are contributor choices, never saved to project records.
 
 `KEY=VALUE` accepts JSON values, falling back to a literal string; no shell evaluation. Inputs come from flags or stdin; noninteractive mode fails on missing required input. Slugs are explicit to avoid surprise collisions; default interactive suggestions can include a random suffix, never a shared numeric counter. IDs remain paths. No mutation retries without rereading state.
 
-Exit codes: `0` requested operation succeeded (read commands may include diagnostics), `1` validation failed, `2` invalid arguments/config/project selection, `3` conflict/stale revision, `4` I/O or runtime unavailable/failure, `5` incomplete validation when completeness was required. Signal interruption exits conventionally. `validate --json` always includes `scope`, `level`, `complete`, `errors`, `warnings`, `unchecked_links` and diagnostics; zero errors is not a claim of complete network validation.
+Exit codes: `0` requested operation succeeded (read commands may include diagnostics), `1` validation failed, `2` invalid arguments/personal preferences/project selection, `3` conflict/stale revision, `4` I/O or runtime unavailable/failure, `5` incomplete validation when completeness was required. Signal interruption exits conventionally. `validate --json` always includes `scope`, `level`, `complete`, `errors`, `warnings`, `unchecked_links` and diagnostics; zero errors is not a claim of complete network validation.
 
 ## Shared DTOs and mutation semantics
 

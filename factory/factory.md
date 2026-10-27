@@ -16,6 +16,7 @@ sources:
     title: "Operator requirements and scope"
     author: "human:operator"
 project_id: "factoryctl"
+bundle_uri: "https://github.com/tclasen/factoryctl/blob/main/factory/"
 ---
 
 # Factoryctl
@@ -24,7 +25,7 @@ Factoryctl is a proposed portable CLI, local GUI and MCP interface to knowledge 
 
 ## Desired state — operator requirements
 
-The [product specification](specifications/product.md) defines the accepted scope from the [operator interview](sources/operator-brief.md). The [knowledge format](specifications/knowledge-format.md) describes the OKF bundle and its extension. The [configuration](specifications/configuration.md) and [template contract](specifications/templates.md) explain customization without an external configuration store.
+The [product specification](specifications/product.md) defines the accepted scope from the [operator interview](sources/operator-brief.md). The [knowledge format](specifications/knowledge-format.md) describes the OKF bundle and its extension. [Project discovery](specifications/project-discovery.md) works without a root config file; [personal runtime preferences](specifications/personal-runtime.md) stay outside project Git. The [template contract](specifications/templates.md) explains shared customization.
 
 ## Current state — observed
 

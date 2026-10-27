@@ -20,7 +20,7 @@ priority: "high"
 owner: "unassigned"
 depends_on: []
 specifications:
-  - "../specifications/configuration.md"
+  - "../specifications/project-discovery.md"
 requirements:
   - "R01"
   - "R02"
@@ -33,7 +33,7 @@ requirements:
 
 ## Outcome
 
-Create the Go executable skeleton, embedded-default mechanism, root config parser and read-only Git discovery. Implement explicit project selection and zero/one/many-repository results.
+Create the Go executable skeleton, embedded-default mechanism, Factory-node metadata reader and read-only Git discovery. Implement explicit project selection and zero/one/many-repository results.
 
 ## Scope and handoff
 
@@ -41,7 +41,7 @@ Implement the relevant modules in the [architecture](../designs/architecture.md)
 
 ## Verification and done criteria
 
-Test CWD inside a repo, a parent directory, worktree .git files, inaccessible paths, symlink loops, duplicate project IDs, malformed config and no .factory/ folder. Prove discovery performs no Git mutations.
+Test CWD inside a repo, a parent directory, worktree .git files, inaccessible paths, symlink loops, duplicate project IDs, malformed Factory metadata, no factory.yaml and no .factory/ folder. Prove discovery performs no Git mutations.
 
 Acceptance coverage: A01, A12 in [release acceptance](../specifications/acceptance.md). Include exact tested revision, commands, expected/observed results and remaining limitations in current task evidence when implemented. Do not equate a checked task field with proof of behavior. Run relevant negative tests as well as success journeys.
 

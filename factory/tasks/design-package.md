@@ -15,7 +15,7 @@ sources:
     resource: "../sources/operator-brief.md"
     title: "Operator requirements and scope"
     author: "human:operator"
-task_state: "blocked"
+task_state: "in_review"
 priority: "high"
 owner: "design-author"
 depends_on: []
@@ -31,10 +31,10 @@ Produce an internally consistent, human-navigable OKF design package covering th
 
 ## Current ownership and plan
 
-The authoring agent owns `factory.yaml` and `factory/**` in this repository for this task. No organization files, other projects, deployed services or legacy repository migrations are in scope. Fresh independent reviewers receive read-only access to the pinned candidate. No overlapping mutation owner was present when the empty checkout was inspected.
+The authoring agent owns `factory/**` in this repository for this task. No organization files, other projects, deployed services or legacy repository migrations are in scope. Fresh independent reviewers receive read-only access to the pinned candidate. No overlapping mutation owner was present when the empty checkout was inspected.
 
 1. Capture the authoritative interview and current environment observations.
-2. Define the OKF extension, configuration, template, GUI, CLI, MCP and runtime contracts.
+2. Define the OKF extension, discovery, personal preference, template, GUI, CLI, MCP and runtime contracts.
 3. Materialize definitions, profiles, templates, prompts and linked implementation tasks using that contract.
 4. Check YAML/OKF structure, local links, definitions, templates, required fields, task dependencies and requirement coverage.
 5. Obtain an independent design review; resolve blockers and recheck affected content.
@@ -52,6 +52,6 @@ The [verification record](../sources/design-validation.md) records current check
 
 Revert the design change through Git if needed; do not delete unrelated files or rewrite history. No runtime budget or spending is authorized by this task. No application code or cloud resources are required for design validation.
 
-## Current blocker
+## Current review scope
 
-Remote publication requires explicit operator approval after automatic approval review rejected the push. The local design package and review work are preserved. See [delivery evidence](../sources/design-validation.md) for the rejected action and exact next step.
+The initial design and release policy were delivered through PRs 1 and 2. The author is revising the design to remove project configuration and separate personal runtime preferences, including the operator's deferred external-tracking-backend idea. Independent review and normal PR delivery are required for this revision. No application implementation is in scope.

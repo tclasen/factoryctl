@@ -25,7 +25,7 @@ Each result must name expected behavior, observed behavior, tested revision, com
 
 ## A01 Repository discovery
 
-One repo from CWD/explicit path, multiple recursively discovered repos, worktree pointer files, explicit duplicates, invalid/uninitialized projects and partial failure diagnostics. Assert no Git mutations.
+One repo from CWD/explicit path, multiple recursively discovered repos, worktree pointer files, explicit duplicates, invalid/uninitialized projects and partial failure diagnostics. Assert no Git mutations and no required/generated/read factory.yaml. Identity/title come from the Factory node; generic bundles remain usable by explicit checkout selection. Check duplicate canonical URLs and metadata-only cross-project link mapping.
 
 ## A02 OKF and readable knowledge
 
@@ -37,7 +37,7 @@ Reject missing fields, wrong kinds/enums, bad placement, invalid YAML, missing l
 
 ## A04 Definitions and extensibility
 
-Create a new type by files alone; list/detail work, board follows an enum, relationships appear as backlinks, disabling a type retains generic access. Duplicate definitions and invalid schema edits report affected records.
+Create a new type by files alone; list/detail work, board follows an enum, relationships appear as backlinks, setting `enabled: false` on a local definition suppresses embedded fallback while retaining generic access and structural diagnostics. Duplicate definitions and invalid schema edits report affected records.
 
 ## A05 Template rendering
 
@@ -53,7 +53,7 @@ Protocol negotiation and schemas work; stdin/stdout stay clean; pagination/error
 
 ## A08 Native Codex conversation
 
-On the recorded current Mac/runtime, start two fresh actions, stream output, continue one thread, answer native input/approval, interrupt, and complete a revision-checked MCP edit. Verify missing runtime/capabilities and ambiguous disconnects do not produce fabricated success or automatic duplicate turns.
+On the recorded current Mac/runtime, start two fresh actions, stream output, continue one thread, answer native input/approval, interrupt, and complete a revision-checked MCP edit. Resolve adapter/model/effort from invocation or optional personal preferences without writing Git; two contributor preference files selecting different adapters must not alter identical repository bytes. An unimplemented adapter returns unsupported capability rather than falling back to Codex. Reject malformed personal preferences only for runtime actions. Verify missing runtime/capabilities and ambiguous disconnects do not produce fabricated success or automatic duplicate turns.
 
 ## A09 Default GUI
 
@@ -69,7 +69,7 @@ Use custom research and opportunity definitions in synthetic scratch repositorie
 
 ## A12 Portable operation and persistence
 
-Run desktop and CI modes on the current Mac; exercise local server shutdown/restart and an externally managed configuration example without deployment. Cross-compile supported targets, inspect linkage/embedded assets, label non-host execution untested, and verify no app Git mutations, runtime-specific config files, database, transcript copy or persistent index.
+Run desktop and CI modes on the current Mac; exercise local server shutdown/restart and an invocation-configured server example with optional personal preferences mounted outside the checkout without deployment. Cross-compile supported targets, inspect linkage/embedded assets, label non-host execution untested, and verify no app Git mutations, runtime-specific config files, database, transcript copy or persistent index.
 
 ## A13 Scale and release completeness
 

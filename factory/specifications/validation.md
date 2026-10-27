@@ -47,7 +47,7 @@ This rule applies equally to CLI, GUI and MCP. An external editor can bypass fac
 | References | Local target exists, safe resolution, exact path case, referenced type when declared, anchor exists, source footnote IDs resolve |
 | Templates | Exactly one payload source, valid template syntax, declared inputs, resolvable partials, no include cycle, well-formed rendered output |
 | Definitions | Unique active `defines`, allowed kinds, valid default values, board field is enum, valid template/profile/action references |
-| Configuration | Known config version/keys, fixed storage boundaries, unique project selection, runtime/profile references when used |
+| Project and runtime selection | Valid Factory identity/optional canonical URL, boolean definition enablement, fixed storage boundaries, unambiguous checkout selection, personal preferences and profile references when used |
 
 A required string must be nonempty after trimming; required lists may be empty unless the field defines `min_items` (supported nonnegative integer, default 0). Required mappings may be empty. Null fails a required field and is treated as absent for an optional field. Numbers are finite; integers exclude booleans. References may include a heading fragment. Generate heading anchors with a documented GitHub-style algorithm (lowercase, strip punctuation except hyphen/underscore, spaces to hyphens, suffix duplicates `-1`, `-2`); recognize explicit HTML anchor IDs without executing HTML. Test Unicode and duplicate headings.
 

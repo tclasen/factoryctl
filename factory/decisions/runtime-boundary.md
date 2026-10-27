@@ -26,7 +26,7 @@ decision_state: "proposed"
 
 ## Decision
 
-Use bidirectional app-server JSON-RPC for GUI interaction; expose factoryctl record tools as a separate MCP server to Codex.
+Use a contributor-selected adapter boundary with shared runtime-neutral profiles. Implement Codex first using bidirectional app-server JSON-RPC for GUI interaction and a separate factoryctl MCP server. Selection, executable, model and reasoning preferences remain outside project Git; see [personal runtime preferences](../specifications/personal-runtime.md).
 
 ## Alternatives considered — LLM analysis
 

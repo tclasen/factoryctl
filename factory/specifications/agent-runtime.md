@@ -19,15 +19,15 @@ sources:
 
 # Codex conversation and MCP integration
 
-**Desired behavior:** bidirectional GUI conversation with current Codex CLI, fresh sessions per action, concurrent conversations, runtime-owned persistence and factoryctl MCP tools. These requirements come from the [operator](../sources/operator-brief.md). The adapter design below is proposed. [Observed protocol evidence](../sources/environment.md) is narrower than a working integration.
+**Desired behavior:** bidirectional GUI conversation with current Codex CLI, fresh sessions per action, concurrent conversations, runtime-owned persistence and factoryctl MCP tools. Codex is the first adapter implementation; contributor selection and optional home preferences follow [personal runtime preferences](personal-runtime.md), not repository configuration. These requirements come from the [operator](../sources/operator-brief.md). The adapter design below is proposed. [Observed protocol evidence](../sources/environment.md) is narrower than a working integration.
 
 ## Process and protocol boundary
 
-Launch the configured installed `codex app-server` as a child process with stdio JSON-RPC. One child per canonical checkout/configuration snapshot isolates repo settings; multiple Codex threads may run in it. Spawn with an argument array, never `sh -c`, using the selected repository as CWD. Keep protocol stdout separate from diagnostic stderr. Discover and validate supported protocol features at startup; record the detected runtime version in diagnostic output, not a durable session database.
+When the contributor selects Codex, launch their selected installed `codex app-server` as a child process with stdio JSON-RPC. One child per canonical checkout/personal runtime selection snapshot isolates conversations; multiple Codex threads may run in it. Spawn with an argument array, never `sh -c`, using the selected repository as CWD. Keep protocol stdout separate from diagnostic stderr. Discover and validate supported protocol features at startup; record the detected runtime version in diagnostic output, not a durable session database.
 
 Initialize the protocol, create a thread with `thread/start`, then submit the rendered action through `turn/start`. Stream item/turn notifications into the GUI. Send follow-ups on the same thread; `turn/interrupt` cancels active work. Handle server-initiated input and approval requests with their request IDs, displaying the runtime's reason and exact available choices. Send only the user's choice; do not fabricate approvals or translate errors into permission grants. Unsupported request variants display an actionable diagnostic and leave the action unapproved.
 
-Read native schemas/capabilities rather than assuming all model effort values or experimental fields exist. Profile `model` and `reasoning_effort` are optional: validate against runtime capabilities, map to supported thread/turn fields, and otherwise explain the unsupported setting. Omitted values defer to native runtime defaults. Do not change the user's global configuration or create `.codex/`, `AGENTS.md` or equivalent harness files as part of initialization.
+Read native schemas/capabilities rather than assuming all model effort values or experimental fields exist. Contributor-selected `model` and `reasoning_effort` are optional and never read from shared profile metadata: validate against runtime capabilities, map to supported thread/turn fields, and otherwise explain the unsupported setting. Omitted values defer to native runtime defaults. Do not change the user's global configuration or create `.codex/`, `AGENTS.md` or equivalent harness files as part of initialization.
 
 ## Supplying factory tools
 
