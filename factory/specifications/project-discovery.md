@@ -27,7 +27,7 @@ The existing `factory/factory.md` Factory node holds its required `project_id` a
 
 Keep settings on the entities they describe: `enabled: false` on a Record Definition disables its specialized behavior; omission means enabled. Do not introduce a generic settings mapping in the Factory node. Profiles and prompts describe shared work intent, never choose a contributor's runtime, executable, model or reasoning level. [Personal runtime preferences](personal-runtime.md) remain outside the repository.
 
-The bundle and asset roots are fixed to `factory/` and `.factory/`. GUI defaults to `127.0.0.1:0` and opens the browser; `--listen` and `--no-open` override this for the invocation only. Parser limits are documented built-in constants in the [knowledge format](knowledge-format.md). No project config version, disabled-type registry, stored machine path or runtime default is needed. Discovery does not read home preferences; only an explicit runtime action resolves them.
+The bundle and asset roots are fixed to `factory/` and `.factory/`. GUI defaults to `127.0.0.1:0` and opens the browser; `--listen` and `--no-open` override this for the invocation only. Parser limits are documented built-in constants in the [knowledge format](knowledge-format.md). No project config version, disabled-type registry, stored machine path or runtime default is needed. Discovery does not read home preferences; only an explicit runtime action or `doctor` diagnostic resolves them.
 
 ## Discovery
 

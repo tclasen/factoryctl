@@ -50,7 +50,7 @@ Start with standard-library HTTP/JSON/embed/templates and a maintained YAML/Mark
 
 ## Storage, concurrency and failure boundaries
 
-`factory/` contains current metadata; root config and optional assets remain outside it. [Knowledge-format](../specifications/knowledge-format.md) defines revision tokens, advisory coordination, unknown-key preservation, path identity and the limits of non-cooperating editors. Structural errors disable affected writes, not the entire viewer. [Validation](../specifications/validation.md) defines rejection rules; no opaque truth/approval engine is introduced.
+`factory/` contains current metadata; optional assets and contributor preferences remain outside it; no root configuration file is required or read. [Knowledge-format](../specifications/knowledge-format.md) defines revision tokens, advisory coordination, unknown-key preservation, path identity and the limits of non-cooperating editors. Structural errors disable affected writes, not the entire viewer. [Validation](../specifications/validation.md) defines rejection rules; no opaque truth/approval engine is introduced.
 
 Browsing, searching, editing, init and validation work without any agent runtime, personal preferences or network access. Conversation features are separately available only when the runtime qualifies. The application server owns only transient conversation routing and UI event streams. Agent process failure cannot corrupt graph state merely by dropping the transport. Git conflicts are surfaced, never resolved internally.
 

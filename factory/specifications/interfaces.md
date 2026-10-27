@@ -43,7 +43,7 @@ Global flags: `--path DIR` (default CWD), `--project ID` (required for ambiguous
 | `mcp` | Serve MCP over stdio; stdout contains only protocol messages |
 | `doctor` | Report versions/capabilities, effective personal runtime preferences and paths (without secrets) without mutating Git/runtime state |
 
-Runtime actions and `gui` additionally accept `--runtime`, `--runtime-executable`, `--model`, `--reasoning-effort` and `--preferences` as defined by [personal runtime preferences](personal-runtime.md). These are contributor choices, never saved to project records.
+Runtime actions, `gui` and `doctor` additionally accept `--runtime`, `--runtime-executable`, `--model`, `--reasoning-effort` and `--preferences` as defined by [personal runtime preferences](personal-runtime.md). These are contributor choices, never saved to project records.
 
 `KEY=VALUE` accepts JSON values, falling back to a literal string; no shell evaluation. Inputs come from flags or stdin; noninteractive mode fails on missing required input. Slugs are explicit to avoid surprise collisions; default interactive suggestions can include a random suffix, never a shared numeric counter. IDs remain paths. No mutation retries without rereading state.
 
