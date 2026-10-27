@@ -25,7 +25,7 @@ Each result must name expected behavior, observed behavior, tested revision, com
 
 ## A01 Repository discovery
 
-One repo from CWD/explicit path, multiple recursively discovered repos, worktree pointer files, explicit duplicates, invalid/uninitialized projects and partial failure diagnostics. Assert no Git mutations and no required/generated/read factory.yaml. Identity/title come from the Factory node; generic bundles remain usable by explicit checkout selection. Check duplicate canonical URLs and metadata-only cross-project link mapping.
+One repo from CWD/explicit path, multiple recursively discovered repos, worktree pointer files, explicit duplicates, invalid/uninitialized projects and partial failure diagnostics. Assert no factoryctl Git subprocesses or mutations and no required/generated/read factory.yaml. Identity/title come from the Factory node; generic bundles remain usable by explicit checkout selection. Check duplicate canonical URLs and metadata-only cross-project link mapping.
 
 ## A02 OKF and readable knowledge
 
@@ -69,7 +69,7 @@ Use custom research and opportunity definitions in synthetic scratch repositorie
 
 ## A12 Portable operation and persistence
 
-Run desktop and CI modes on the current Mac; exercise local server shutdown/restart and an invocation-configured server example with optional personal preferences mounted outside the checkout without deployment. Cross-compile supported targets, inspect linkage/embedded assets, label non-host execution untested, and verify no app Git mutations, runtime-specific config files, database, transcript copy or persistent index.
+Run desktop and CI modes on the current Mac; exercise local server shutdown/restart and an invocation-configured server example with optional personal preferences mounted outside the checkout without deployment. Cross-compile supported targets, inspect linkage/embedded assets, label non-host execution untested, and verify no app Git subprocesses or mutations, runtime-specific config files, database, transcript copy or persistent index.
 
 ## A13 Scale and release completeness
 
@@ -80,3 +80,13 @@ Benchmark 100 repositories/10,000 nodes with a declared 100 MiB corpus; measure 
 Run unit, integration and GUI tests appropriate to each completed slice. Use fixtures with deliberately invalid documents and synthetic opportunities. Do not run real procurement actions. macOS ARM64 is the observed authoring host; all other OS/architecture combinations remain unexecuted until separately tested. A build artifact may be labeled built but untested. No CI configuration should silently introduce Linux/Windows execution contrary to the initial testing scope.
 
 Record document validation independently from product acceptance. The current [design-validation record](../sources/design-validation.md) covers this planning package only. Requirements and tasks are linked by the [implementation plan](../designs/implementation-plan.md).
+
+## A14 Runtime document extensions
+
+Task 12 qualifies core behavior using in-process fixtures: load two materially different declarative types, add a third while the binary runs, verify namespaced tool mappings, state transitions, required fields, definition reload, disablement, stale revisions and invalid/duplicate definitions. Reject executable backend handlers and unsupported code/expression declarations; no plugin engine is included. Shared generic/specialized write tests prove original bytes survive rejection and raw replace cannot bypass rules. Definition-only projects work without `.factory/`.
+
+Downstream tasks 06–08 qualify CLI/HTTP/MCP parity, observed tool refresh or explicit reconnect with the supported harness, and prompt-backed lifecycle actions. Agent cancellation/failure is reported separately from persisted edits; no save automatically launches a harness. Verify direct writes can bypass advisory mode and are detected through revalidation; enforced mode requires observed permission denial or remains unavailable.
+
+Task 09 qualifies arbitrary browser HTML/CSS/JavaScript with a user-defined kanban board: scoped record snapshots, drag/drop requestEdit, stale/invalid move rejection, action buttons requesting harness prompts, iframe/message checks and trust invalidation. No browser script gains direct filesystem, shell or backend code-execution access. Tasks 10–11 integrate and verify the full journey and evidence; task 12 does not depend on downstream GUI/harness completion.
+
+Prove factoryctl launches no Git/helper shell for Git, while the harness may invoke Git or other local code. Inspect static linkage separately from single-file packaging and report platform exceptions without claiming compliance. No runtime capability or linkage result is asserted by this design document.

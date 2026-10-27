@@ -52,3 +52,7 @@ Custom executable assets initially show a trust affordance and generic fallback.
 Required empty/error states: no repositories, no initialized factories, zero records, missing definition, malformed file, missing link/project, unsupported runtime setting, missing Codex, cancelled approval, stale edit and lost connection. State transitions should be understandable without reading server logs.
 
 See [GUI implementation](../tasks/08-gui.md), [extension implementation](../tasks/09-custom-views.md), and [acceptance](acceptance.md).
+
+## Runtime type packages
+
+Render installed type definitions and namespaced actions through the [extension registry](extensions.md). Show the package, available rules and activation/validation diagnostics. Distinguish a button launching an agent conversation from a deterministic document operation. Board and raw-editor writes obey identical lifecycle rules. Custom browser JavaScript may implement board drag/drop through the scoped edit bridge. Show agent conversation outcomes separately from persisted document changes; no backend user-code handler runs. Reload changes navigation/actions; stale conversations may need tool refresh or reconnect. Show whether MCP-only document access is verified or merely requested of the harness.

@@ -46,3 +46,7 @@ Read the [architecture](designs/architecture.md), [interaction specification](sp
 ## Development and releases
 
 Follow the [commit and release policy](decisions/release-policy.md). The initial release target is 0.1.0; there is no released executable yet.
+
+## Runtime-extensible document behavior
+
+The [extension contract](specifications/extensions.md) describes user-defined types, declarative lifecycle rules and namespaced tools loaded at runtime. Custom code runs in the browser UI; arbitrary local work is requested through prompts to the selected harness. Factoryctl remains a thin document interface and harness launcher, with no Git subprocesses or built-in agent scheduler. The [extension prototype](tasks/12-extension-contract.md) must qualify this boundary before implementation claims. These capabilities are design requirements; the repository still contains no application implementation.

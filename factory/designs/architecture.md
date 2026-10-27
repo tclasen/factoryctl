@@ -50,7 +50,7 @@ Start with standard-library HTTP/JSON/embed/templates and a maintained YAML/Mark
 
 ## Storage, concurrency and failure boundaries
 
-`factory/` contains current metadata; optional assets and contributor preferences remain outside it; no root configuration file is required or read. [Knowledge-format](../specifications/knowledge-format.md) defines revision tokens, advisory coordination, unknown-key preservation, path identity and the limits of non-cooperating editors. Structural errors disable affected writes, not the entire viewer. [Validation](../specifications/validation.md) defines rejection rules; no opaque truth/approval engine is introduced.
+`factory/` contains current metadata; optional assets and contributor preferences remain outside it; no root configuration file is required or read. [Knowledge-format](../specifications/knowledge-format.md) defines revision tokens, advisory coordination, unknown-key preservation, path identity and the limits of non-cooperating editors. Structural or required extension-rule errors disable affected writes, not the entire viewer. [Validation](../specifications/validation.md) defines rejection rules; no opaque truth/approval engine is introduced.
 
 Browsing, searching, editing, init and validation work without any agent runtime, personal preferences or network access. Conversation features are separately available only when the runtime qualifies. The application server owns only transient conversation routing and UI event streams. Agent process failure cannot corrupt graph state merely by dropping the transport. Git conflicts are surfaced, never resolved internally.
 
@@ -58,7 +58,7 @@ Browsing, searching, editing, init and validation work without any agent runtime
 
 Desktop: run `factoryctl gui`, serve loopback, open the OS browser; closing the process stops its owned children. Server/Kubernetes: mount an existing Git checkout and optional user-selected runtime installation/credentials, bind an explicitly selected interface behind external infrastructure, handle SIGTERM gracefully. Factoryctl does not clone/synchronize repositories or provision credentials. CI: use noninteractive CLI commands against an existing checkout; stdout JSON is transient output.
 
-Build with `CGO_ENABLED=0` for each supported `GOOS/GOARCH` and inspect dependencies/linkage. Interpret “static” as a single self-contained factoryctl binary with embedded UI and no separately installed application libraries; macOS/Windows still have normal platform-loader/system-library interfaces, and Git/Codex/browser remain explicit external programs. Do not promise fully static Darwin linkage. [Portability decision](../decisions/portable-binary.md) records this interpretation for operator review. Only macOS ARM64 execution testing is currently authorized; cross-compilation is useful but not execution evidence.
+Build with `CGO_ENABLED=0` for each supported `GOOS/GOARCH` and inspect dependencies/linkage. Interpret “static” as a single self-contained factoryctl binary with embedded UI and no separately installed application libraries; macOS/Windows still have normal platform-loader/system-library interfaces, and the selected harness/browser remain explicit external integrations. Git is used by agents/users, never launched by factoryctl. Do not promise fully static Darwin linkage. [Portability decision](../decisions/portable-binary.md) records this interpretation for operator review. Only macOS ARM64 execution testing is currently authorized; cross-compilation is useful but not execution evidence.
 
 ## Scale budget and observability
 
@@ -69,3 +69,9 @@ Log diagnostics to stderr with project/ref context and omit secrets/prompt bodie
 ## Design readiness
 
 Scope and contracts are specified for implementation. The [runtime spike](../tasks/07-codex-adapter.md), [platform qualification](../tasks/11-release-qualification.md), and [custom-view tests](../tasks/09-custom-views.md) own the major technical risks. Their empirical outcomes are unknown. No application implementation is implied by document review. The [roadmap](implementation-plan.md) identifies dependencies, handoffs and acceptance.
+
+## Runtime extension boundary
+
+The [extension contract](../specifications/extensions.md) extends existing definition parsing, validation, templates and shared application services with declarative transitions and namespaced tools. No separate executable plugin runtime, custom backend validator or native helper is included. Browser HTML/CSS/JavaScript provides arbitrary UI behavior, including user-defined drag-and-drop boards. Prompt actions ask the selected harness to perform arbitrary local work. Mere rendering or saving never launches such work.
+
+The binary never launches Git, including for discovery/status. Inspect filesystem metadata/in-process libraries; harnesses perform Git operations. Codex is the initial adapter; Claude Code and pi-coding-agent are future adapters to qualify against the same runtime-neutral interface. No scheduler, agent task database or replacement harness is introduced.

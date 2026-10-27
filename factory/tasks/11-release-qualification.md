@@ -57,3 +57,7 @@ Acceptance coverage: A12, A13 in [release acceptance](../specifications/acceptan
 ## Commit and version qualification
 
 Implement and verify the [commit and release policy](../decisions/release-policy.md): validate new commit and PR titles, calculate versions from Conventional Commits, start at 0.1.0, and prevent an unauthorized transition to or release of 1.0.0. Exercise the policy examples and negative authorization case. The 0.x line carries no compatibility promise. Release checks are planned, not currently installed.
+
+## Runtime definition integration
+
+Verify complete A14 evidence from task 12 core fixtures, tasks 06–08 transport/harness behavior and task 09 custom browser board interactions. No backend user-code execution engine is part of the release. Record observed no-Git-subprocess and static-linkage results separately from agent Git behavior.
