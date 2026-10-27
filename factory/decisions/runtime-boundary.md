@@ -37,3 +37,7 @@ Terminal-output scraping lacks structured approval/input semantics. Rebuilding a
 A runtime spike must qualify actual installed protocol/settings. Sessions and credentials remain in Codex; factoryctl keeps transient routing only.
 
 See [architecture](../designs/architecture.md) and [release acceptance](../specifications/acceptance.md).
+
+## Domain interpretation boundary
+
+The [minimal-interface decision](minimal-interface.md) governs every adapter: the harness interprets Markdown roles, workflow, approvals and lifecycle instructions. Factoryctl supplies readable context and standardized structural document tools, not a policy engine. Native harness permission/approval requests remain transport features and must not be confused with factoryctl evaluating project approval policy.

@@ -21,7 +21,9 @@ bundle_uri: "https://github.com/tclasen/factoryctl/blob/main/factory/"
 
 # Factoryctl
 
-Factoryctl is a proposed portable CLI, local GUI and MCP interface to knowledge work recorded in Git. People and agents share readable files. Agents interpret operating instructions and perform the work; factoryctl creates, validates, discovers, renders and edits records and connects people to their agent runtime.
+Factoryctl is a minimal CLI, local GUI and MCP interface to Markdown. The AI harness interprets that Markdown to understand and run a software factory or any other kind of knowledge-work factory. Factoryctl makes the files navigable and supplies standardized document tools; it does not implement the factory's workflow or policy.
+
+The [minimal-interface decision](decisions/minimal-interface.md) governs implementation: keep structural validation and safe file access in factoryctl, and keep roles, readiness, approvals, lifecycle decisions and execution in the agent's interpretation of Markdown.
 
 ## Desired state — operator requirements
 
@@ -49,4 +51,4 @@ Follow the [commit and release policy](decisions/release-policy.md). The initial
 
 ## Runtime-extensible document behavior
 
-The [extension contract](specifications/extensions.md) describes user-defined types, declarative lifecycle rules and namespaced tools loaded at runtime. Custom code runs in the browser UI; arbitrary local work is requested through prompts to the selected harness. Factoryctl remains a thin document interface and harness launcher, with no Git subprocesses or built-in agent scheduler. The [extension prototype](tasks/12-extension-contract.md) must qualify this boundary before implementation claims. These capabilities are design requirements; the repository still contains no application implementation.
+The [extension contract](specifications/extensions.md) describes user-defined types, structural definitions and agent-interpreted lifecycle instructions and namespaced tools loaded at runtime. Custom code runs in the browser UI; arbitrary local work is requested through prompts to the selected harness. Factoryctl remains a thin document interface and harness launcher, with no Git subprocesses or built-in agent scheduler. The [extension prototype](tasks/12-extension-contract.md) must qualify this boundary before implementation claims. These capabilities are design requirements; the repository still contains no application implementation.
