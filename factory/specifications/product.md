@@ -26,12 +26,12 @@ The requirements below are synthesized from [operator statements](../sources/ope
 - **R01 — Repository discovery.** Operate from a Git checkout or recursively from a directory containing checkouts; an explicit path overrides CWD. Preserve a multi-project model for one or many projects.
 - **R02 — Storage boundary.** No root configuration file is required or read. Optional `.factory/` contains assets; `factory/` alone contains knowledge metadata. A project works without either a root config file or `.factory/`.
 - **R03 — File persistence.** All durable factory knowledge is human-readable OKF Markdown. No database, project config file, durable index, conversation store or event ledger is introduced by factoryctl. Optional personal runtime preferences are human-readable Markdown outside the repo, as scoped by [personal runtime preferences](personal-runtime.md). Git-versioned records are the only initial tracking backend; external backends are deferred.
-- **R04 — Git responsibility.** Git is mandatory and supplies history. Factoryctl does not commit, stage, fetch, push, merge, create branches/worktrees or resolve Git conflicts. The external agent/user performs those operations. Read-only repository inspection is permitted.
+- **R04 — Git responsibility.** Git is mandatory and supplies history. Factoryctl does not commit, stage, fetch, push, merge, create branches/worktrees or resolve Git conflicts. The external agent/user performs those operations. Read-only repository inspection uses filesystem metadata or in-process libraries only. Factoryctl never spawns Git, directly or through a helper; agent harnesses may do so.
 
 ## Knowledge model
 
 - **R05 — OKF.** Every Markdown file under `factory/` is a valid OKF concept, including the factory, definitions, profiles, prompts and templates. No index files or generated historical logs.
-- **R06 — Extensibility.** Supply agent-profile, task and decision types; allow new types and disabling supplied types. Definitions describe fields, required values, relationships and views. Infrastructure types describe the format itself.
+- **R06 — Extensibility.** Supply agent-profile, task and decision types; allow new types and disabling supplied types. Definitions describe fields, required values, relationships and views. Runtime packages also supply type-specific tools and lifecycle hooks; see [extensions](extensions.md). Infrastructure types describe the format itself.
 - **R07 — Navigation.** Every concept supports readable Markdown, a generic list/detail presentation, outgoing links and always-visible backlinks. Resolve links across discovered projects and expose unresolved targets honestly.
 - **R08 — Knowledge quality.** Distinguish desired state, observed state and proposed change; facts, assumptions and questions; authoritative/directly observed evidence and LLM inference. Preserve source attribution at claim level where needed.
 
@@ -47,7 +47,7 @@ The requirements below are synthesized from [operator statements](../sources/ope
 
 ## Operation and collaboration
 
-- **R16 — Portable executable.** Deliver a single compiled executable with embedded UI/defaults for macOS, Linux and Windows, ARM64/x86-64, suitable for desktop, server and CI.
+- **R16 — Portable executable.** Deliver a single static executable with embedded UI/defaults for macOS, Linux and Windows, ARM64/x86-64, suitable for desktop, server and CI.
 - **R17 — Distributed collaboration.** Different users run against their own checkouts and exchange Git changes. One trusted user per served instance; authentication and shared-user infrastructure are external.
 - **R18 — Automation boundary.** Agents own scheduling, workflow policy, task dispatch and recursive factory loops. Factoryctl may start a conversation that asks an agent to run such a loop; it is not a workflow engine.
 - **R19 — Dogfooding.** Build and manage factoryctl using its own record format. Ship optional software-development definitions/templates; maintain living specs and one authoritative current task state.
@@ -66,8 +66,14 @@ These engineering requirements are LLM-derived from the confirmed concurrent edi
 
 - **R25 — Continuous structural validation.** Validate documents as they are written: syntax, mandatory fields, field value types, link targets/anchors and record placement. Apply the same checks in CLI, GUI and MCP; surface errors introduced by external editors. This requirement was explicitly added by the operator. See the [validation contract](validation.md).
 
+## Runtime document extensions — confirmed scope
+
+- **R26 — Runtime type packages.** Users add or change document types, tools, lifecycle rules and hooks without rebuilding factoryctl. Use declarative definitions plus optional WASM code loaded by an embedded runtime; package assets remain external to the binary. Generic browsing works without executable extensions.
+- **R27 — Shared controlled document access.** Type-specific MCP tools and GUI/CLI actions share validation, revision checks and persistence. Generic writes cannot bypass enabled type rules. Read/context tools return applicable type rules and revision information. Report whether harness-level access restrictions are verified or merely advisory.
+- **R28 — Extension boundary.** Version and namespace extension APIs, validate packages before activation, constrain hook capabilities/resources, define failure semantics and refresh available tools safely. No extension may turn the core into a scheduler or invoke Git/processes behind its back.
+
 ## Release boundary
 
-Release 1 includes every R01–R25 behavior above, with the platform-testing limitation in R21. Excluded: built-in business-rule enforcement, automation scheduler, runtime replacement, managed credentials, shared multi-user server accounts, automated Git synchronization, migration of earlier factories, full ontology reasoning, a visual graph canvas, and an asset marketplace. Backlinks and cross-project graph relationships are included even without a graph canvas.
+Release 1 includes every R01–R28 behavior above, with the platform-testing limitation in R21. Excluded: hard-coded domain business rules (extension-defined validation and lifecycle guards are included), automation scheduler, runtime replacement, managed credentials, shared multi-user server accounts, automated Git synchronization, migration of earlier factories, full ontology reasoning, a visual graph canvas, and an asset marketplace. Backlinks and cross-project graph relationships are included even without a graph canvas.
 
 See [acceptance criteria](acceptance.md) and the [requirement-to-task map](../designs/implementation-plan.md). No design choice silently expands external-action authority.

@@ -19,6 +19,7 @@ task_state: "planned"
 priority: "normal"
 owner: "unassigned"
 depends_on:
+  - "12-extension-contract.md"
   - "05-cli.md"
 specifications:
   - "../specifications/interfaces.md"
@@ -50,3 +51,7 @@ Acceptance coverage: A07 in [release acceptance](../specifications/acceptance.md
 ## Dependencies, risks and rollback
 
 `depends_on` identifies prerequisites; an agent interprets readiness. Factoryctl validates references but does not schedule this work. Preserve unknown metadata and source evidence. Roll back failed implementation through ordinary Git changes by the agent, retaining useful evidence. Do not expand into deployment, purchases or external messaging.
+
+## Runtime extension integration
+
+Register namespaced tools and shared CLI/HTTP operation dispatch from the [extension contract](../specifications/extensions.md). Preserve effective rules on reads, generic-write enforcement, registry conflict handling and committed/post-hook-failure outcomes. Qualify tool refresh/reconnect with task 07; include R26–R28 and A14 integration evidence.

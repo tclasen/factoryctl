@@ -26,7 +26,7 @@ decision_state: "proposed"
 
 ## Decision
 
-Use pure-Go backend dependencies, build-time browser compilation and embedded defaults/UI. Git, a browser and Codex remain explicit external programs.
+Use pure-Go backend dependencies, build-time browser compilation and embedded defaults/UI. An external browser and selected agent harness remain integrations. Factoryctl never spawns Git; agents/users own all Git operations. Embed the pure-Go WASM engine so runtime extension packages do not require a separate interpreter or native plugin loader.
 
 ## Alternatives considered — LLM analysis
 
@@ -37,3 +37,7 @@ Rust is also plausible but adds no demonstrated requirement advantage here. A No
 Qualify dependency linkage per target. Fully static Darwin linkage is not promised; the single-binary interpretation must remain explicit. All non-Mac runtime behavior is untested initially.
 
 See [architecture](../designs/architecture.md) and [release acceptance](../specifications/acceptance.md).
+
+## Clarification and unresolved platform qualification
+
+The operator explicitly requires a single static binary; a compiled executable alone is insufficient. Linux releases must demonstrate absence of dynamic-library dependencies. macOS/Windows normally retain platform system interfaces; the earlier self-contained interpretation is a documented platform limitation, not permission to silently weaken the static requirement. Release qualification must report actual linkage and resolve any unsupported target/requirement conflict with the operator before labeling it compliant. This documentation change makes no platform compliance claim. External type packages are user data/code loaded at runtime, not companion application libraries required for base operation.

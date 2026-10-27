@@ -31,6 +31,9 @@ fields:
   fields:
     kind: "mapping"
     required: true
+  extension:
+    kind: "mapping"
+    required: false
   views:
     kind: "mapping"
     required: false
@@ -48,3 +51,5 @@ This definition declares the factoryctl editor/validator contract for **Record D
 New records belong in `definitions/` within the bundle. This is a proposed version-1 definition used by the design package itself. Required/type/placement checks follow [continuous validation](../specifications/validation.md); they do not enforce workflow policy or establish factual truth.
 
 [The factory](../factory.md) explains the desired product and current implementation state. [Epistemic conventions](../specifications/epistemics.md) apply to every instance. The software-only Specification and Design definitions are an optional starter set. Reference is used here because authoritative and observational sources need their own readable provenance nodes; infrastructure definitions describe the format rather than adding business workflow types.
+
+The optional `extension` mapping declares runtime package identity, tools and lifecycle hooks under the [extension contract](../specifications/extensions.md). Its exact schema/ABI is qualified before implementation; basic field validation alone does not establish module safety.

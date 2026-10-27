@@ -54,3 +54,9 @@ Session persistence belongs to Codex. A restarted factoryctl may list/resume nat
 ## Qualification
 
 The first implementation slice must demonstrate a fresh thread, streaming, follow-up, interruption, one native approval/input round trip, a factoryctl MCP read/write with stale-revision rejection, and two concurrent conversations. Pin the tested Codex version in the qualification evidence. Treat future unknown schemas as compatibility diagnostics, not proof of support merely because the executable is newer. See [runtime task](../tasks/07-codex-adapter.md) and [OpenAI App Server architecture](https://openai.com/index/unlocking-the-codex-harness/).
+
+## Harness-neutral document extension contract
+
+Codex is the first implementation, not part of the document-type ABI. Claude Code and pi-coding-agent are adapter candidates, each requiring observed launch, MCP connection, output/cancellation and tool-refresh qualification before support is claimed. Connect the selected harness to factoryctl MCP within invocation scope; pass process arguments without shell interpolation. Never invoke Git on behalf of an adapter.
+
+[Extension tools](extensions.md) supply effective type rules and controlled read/write operations. Qualify whether the harness can refresh dynamic tools and enforce protected-document access through MCP. If direct shell/file access can bypass that path, report advisory mode; do not claim prompts force access. Changes to harness/global configuration are not implicit. Git/file changes made by agents are subsequently revalidated, not assumed to have run hooks.

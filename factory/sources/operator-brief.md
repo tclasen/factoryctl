@@ -69,3 +69,15 @@ The operator suggested GitHub Issues/Projects, Linear, Trello and Jira as possib
 > Codex being the runtime that is used is individual contributor specific implementation details and shouldn't be tracked in the repo.
 
 The operator suggested that personal runtime selection could live in the running user's home directory. The exact optional preference path and precedence in [personal runtime preferences](../specifications/personal-runtime.md) are agent-designed mechanisms, not operator-selected syntax.
+
+## Runtime-extension clarification — operator authority
+
+In a subsequent design discussion, the operator clarified:
+
+> Factoryctl itself needs to be a single static binary. It shouldn't be shelling out to git, but it can shell out to AI agents, which may then shell out to git.
+
+The operator described factoryctl as a thin CLI/Web-GUI wrapper over an existing harness such as Codex, Claude Code or pi-coding-agent. Humans navigate clean rendered Markdown; GUI action buttons invoke the selected harness to execute instructions. Factoryctl exposes MCP tools to govern document reads and writes. Different document types need their own lifecycle hooks and tools, decoupled from the binary and extensible by users at runtime.
+
+The operator agreed to documenting the proposed declarative-package plus optional WebAssembly architecture and requested that the documentation be merged. This authorizes the design update and normal Git delivery, not a claim of implemented features. Go remains the selected design direction; exact package syntax, ABI, dependency versions and invocation flags require implementation qualification. Codex remains the first required adapter; naming Claude Code and pi establishes the adapter boundary, not a claim that either is integrated.
+
+This clarification strengthens R04 to prohibit even read-only Git subprocesses and adds R26–R28. Core scheduling and autonomous agent dispatch remain excluded. Type-specific lifecycle validation is permitted through extensions; it does not make factoryctl an agent workflow engine. MCP tools enforce their own operations; restricting bypass requires qualified harness permissions or OS isolation. A prompt alone cannot force an agent to use MCP.
