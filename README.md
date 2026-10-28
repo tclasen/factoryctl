@@ -62,3 +62,9 @@ CGO_ENABLED=0 go build -o /tmp/factoryctl ./cmd/factoryctl
 ```
 
 Tests cover S1–S3 collections, independent definitions, mapped cross-project links, safe target selection, parser hazards, source preservation, template bounds, proposed-graph rejection, external edits, cooperating processes and lock release after process termination. Only execution on the current macOS ARM64 host is qualified in this milestone; other target builds are compilation evidence.
+
+## Milestone review gate
+
+Every milestone delivery requires a current Playwright walkthrough reconciled against the complete [requirements matrix](factory/specifications/requirements-traceability.md). Follow [the project instructions](AGENTS.md) and [demonstration contract](factory/specifications/release-evidence.md). `make review-check` checks row accounting and evidence freshness; `make review-gate` additionally requires every row to pass end to end. The current CLI-only product has unmet GUI/MCP/runtime and other requirements, so full-matrix qualification remains incomplete even when its review artifacts are valid.
+
+Review the [milestone demo](https://raw.githubusercontent.com/tclasen/factoryctl/main/artifacts/demo/latest.mp4): one continuous CLI walkthrough with requirement IDs and outcome explanations on the actual scenes. This same link is updated at every milestone. The [row-by-row index](artifacts/cli-review/848b4ec/MATRIX.md) documents remaining gaps; full-matrix qualification is incomplete.

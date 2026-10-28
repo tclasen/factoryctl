@@ -1,0 +1,15 @@
+# factoryctl work instructions
+
+Read `factory/factory.md` for the current product state and `factory/sources/operator-brief.md` plus the specifications relevant to the assigned task. Preserve the minimal-interface boundary: document structure and safe access belong in factoryctl; factory workflow interpretation belongs in the external harness.
+
+## Mandatory milestone demo gate
+
+Every milestone delivery, including an unreleased development milestone, must include a Playwright demo exercising the complete requirements traceability matrix end to end. Apply `factory/specifications/release-evidence.md` before claiming completion. Include old and new implemented behavior, current executable assertions, one readable demo video with requirement IDs and outcome explanations on the actual scenes, highlights, and a row-by-row evidence/timestamp mapping for every current atomic requirement.
+
+Run `make review-check REVIEW_EVIDENCE=<current requirements-coverage.json>` to verify accounting, then `make review-gate REVIEW_EVIDENCE=<current requirements-coverage.json>` for full qualification. The checker validates evidence structure, source freshness and observed named-test results; it does not replace independent semantic or visual review. Do not alter statuses or weaken criteria just to pass it.
+
+Complete row accounting is not complete satisfaction. Missing, partially exercised, blocked and unimplemented requirements remain explicit gaps; unsupported-operation errors do not pass the missing capability. A browser evaluation panel is not a product GUI. A partial review package may be shared with full-matrix qualification prominently marked incomplete, but cannot be presented as a fully qualified milestone. Only an explicit operator decision can accept a scoped exception. Do not defer the video because work is not a tagged release.
+
+Keep video, command results and other non-Markdown artifacts outside `factory/`; keep the evidence Reference and complete requirements matrix inside it. Use immutable versioned artifact locations and content hashes. Review the exported recording, retain failed attempts and limitations, and deliver the recorder and evidence through the normal reviewed PR/main workflow. Follow `factory/decisions/release-policy.md` for commits and versions; no release publication is implied by milestone work.
+
+The final milestone handoff must use this single stable demo link: `https://raw.githubusercontent.com/tclasen/factoryctl/main/artifacts/demo/latest.mp4`. Keep an identical versioned archive and verify the canonical file hash after delivery. Do not deliver a separate requirements-only film; retain the complete row/gap matrix as supporting documentation.

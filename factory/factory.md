@@ -58,3 +58,7 @@ The [extension contract](specifications/extensions.md) describes user-defined ty
 The product must exercise [one project, monorepo projects and sibling repositories](specifications/project-scenarios.md) with the same project-collection UI and depth-1 discovery. [Agent questions](specifications/user-interaction.md) add free text, choices and follow-up; MCP Apps and generated browser UI require a prototype before deciding whether to retire the interactive CLI. The document CLI exercises project collections; actual harness questions, MCP Apps and generated browser UI remain design requirements.
 
 The [requirements traceability matrix](specifications/requirements-traceability.md) maps each operator requirement to implementation tasks and acceptance. Initial CLI implementation evidence is tracked separately from unimplemented runtime and release requirements. Every release requires current regression evidence and a [full-feature Playwright video](specifications/release-evidence.md), covering older features as well as new ones with readable pacing, smooth scrolling, overlays and highlights.
+
+## Milestone demo
+
+The [CLI review package](sources/cli-review-video-evidence.md) contains one scene-annotated CLI demo at a stable link, with complete matrix gap accounting in supporting documents. Full-matrix end-to-end qualification remains incomplete. Every future milestone delivery must follow the [mandatory demonstration gate](specifications/release-evidence.md#milestone-review-delivery), including current evidence for old and new implemented features.

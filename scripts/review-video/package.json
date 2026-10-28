@@ -1,0 +1,1 @@
+{"name":"factoryctl-cli-review","private":true,"type":"module","scripts":{"record":"node record.mjs","check":"node record.mjs --check-only"},"devDependencies":{"playwright":"1.64.1"}}
