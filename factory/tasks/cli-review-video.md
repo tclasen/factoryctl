@@ -62,3 +62,7 @@ Before PR 9 merged, the operator rejected a requirements-only video and required
 ## Plan revision 4 — local-only recordings
 
 The operator rejected GitHub video publication as unauthorized. Coordinator owns removal of all tracked recordings, local preservation, ignore rules, local-link evidence/checker changes and ordinary PR delivery of code/documentation only. Independent Reviewer checks the candidate and local video hash. Prior uploaded commits remain historical remote objects until separately purged by GitHub; a deletion commit does not erase history. Do not bypass protected-branch history restrictions.
+
+## Plan revision 5 — purge generated artifact history
+
+The operator explicitly requested removing the entire artifacts folder from all Git history and is temporarily removing repository safeguards for the rewrite. Coordinator owns a local-only recovery backup, exact content-preserving history rewrite excluding artifacts/, verification and lease-protected force push after safeguards are removed. Add ignore rules, pre-commit/pre-push guards and CI checks rejecting artifacts directories and recordings. Independent Reviewer verifies guard behavior, preserved product content and rewritten history. This explicit request authorizes the bounded history rewrite; it does not authorize publishing local backups or altering unrelated history content. GitHub-owned PR references/cached objects require separate host cleanup and must not be reported erased by a branch rewrite.

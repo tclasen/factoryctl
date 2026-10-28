@@ -14,3 +14,10 @@ review-check:
 	node scripts/review-video/check-matrix.mjs $(REVIEW_EVIDENCE)
 review-gate:
 	node scripts/review-video/check-matrix.mjs $(REVIEW_EVIDENCE) --qualify
+
+.PHONY: install-hooks repository-check
+install-hooks:
+	git config core.hooksPath .githooks
+repository-check:
+	python3 scripts/check-repository-content.py --staged
+	python3 -m unittest discover -s scripts -p test_repository_content.py
