@@ -192,7 +192,7 @@ func run() error {
 	result["query_p95_ms"] = percentile(samples)
 	result["query_samples"] = len(samples)
 	result["query_last_match_count"] = matches
-	result["query_scope"] = "actual app.QueryMatcher used by CLI/MCP over cached raw documents, matcher compilation once/query included; excludes load/HTTP/serialization"
+	result["query_scope"] = "actual app.DocumentMatcher used by CLI/MCP over cached raw documents, matcher compilation once/query included; excludes load/HTTP/serialization"
 	result["rss_after_queries_bytes"] = rss()
 	// One external edit then the production cached shared-loader refresh.
 	// A full reload is measured separately afterward; no browser debounce is included.
