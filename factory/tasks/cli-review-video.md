@@ -58,3 +58,7 @@ The single annotated demo at the canonical stable link, all-row supporting gap m
 ## Plan revision 3 — one scene-annotated demo
 
 Before PR 9 merged, the operator rejected a requirements-only video and required requirement IDs/result explanations atop actual CLI scenes plus one stable latest-demo link. Prior candidate approval no longer covers the revised format. Retain the real continuous Playwright CLI recording and add per-scene annotations; do not fake additional functionality or rerun unchanged product solely for captions. The separate matrix video is superseded and removed from the delivered tree (history retained); all-row accounting stays in documents. Add atomic U095. Developer owns annotation tooling, versioned demo.mp4 and identical artifacts/demo/latest.mp4. Coordinator owns updated metadata/checker/docs and Git delivery. Independent review must verify semantic overlays, unchanged scene timing, archive/latest byte identity and the final canonical link. Full-product matrix qualification remains incomplete.
+
+## Plan revision 4 — local-only recordings
+
+The operator rejected GitHub video publication as unauthorized. Coordinator owns removal of all tracked recordings, local preservation, ignore rules, local-link evidence/checker changes and ordinary PR delivery of code/documentation only. Independent Reviewer checks the candidate and local video hash. Prior uploaded commits remain historical remote objects until separately purged by GitHub; a deletion commit does not erase history. Do not bypass protected-branch history restrictions.

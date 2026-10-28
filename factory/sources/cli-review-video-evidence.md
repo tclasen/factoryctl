@@ -20,7 +20,7 @@ sources:
 
 # CLI review video evidence
 
-[Watch the milestone demo](https://raw.githubusercontent.com/tclasen/factoryctl/main/artifacts/demo/latest.mp4). This is the single canonical link for milestone handoffs, updated with each milestone. Requirement IDs and concrete outcome explanations appear atop the actual CLI scenes. The complete row/gap matrix remains supporting documentation, not a separate requirements presentation.
+[Watch the milestone demo](/Users/Shared/factoryctl/artifacts/demo/latest.mp4). This is the single canonical link for milestone handoffs, updated with each milestone. Requirement IDs and concrete outcome explanations appear atop the actual CLI scenes. The complete row/gap matrix remains supporting documentation, not a separate requirements presentation.
 
 This package corrects the omitted video after the first CLI delivery and implements the [every-milestone gate](../specifications/release-evidence.md#milestone-review-delivery). It is a partial product review package, **not full end-to-end qualification**. All 95 atomic rows are accounted for: 8 mapped end-to-end passes, 61 partial/unverified, 26 planned. Unsupported GUI/MCP/runtime refusals do not pass those capabilities.
 
@@ -50,4 +50,4 @@ The independent matrix assessment downgraded an overstated non-Git claim, remove
 
 Project `AGENTS.md`, release policy, R32/R33 and atomic U094/U095 require this format at every milestone, including unreleased development milestones. `make review-check` validates row/source/text freshness, observed named-test passes, scene annotations, canonical link and archive/latest identity. `make review-gate` additionally requires every row to pass end to end; it intentionally fails for this partial product. Fourteen checker regression cases exercise missing, stale and overstated evidence plus scene/link/alias integrity. Tools do not replace semantic/visual review or guarantee future compliance automatically.
 
-Closure of [the review-video task](../tasks/cli-review-video.md) is effective only after independent approval and verified PR/main delivery. This closes the omitted artifact and delivery-rule work, not unimplemented product requirements. The delivery PR records exact candidate, review, merge and remote-main evidence.
+Closure of [the review-video task](../tasks/cli-review-video.md) is effective only after independent approval and verified PR/main delivery. This closes the omitted artifact and delivery-rule work, not unimplemented product requirements. The delivery PR records exact candidate, review, merge and remote-main evidence for code and documentation only. Videos remain local. The earlier upload was unauthorized; removing current-tree files does not purge historical GitHub objects.

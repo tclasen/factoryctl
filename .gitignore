@@ -15,3 +15,8 @@
 /artifacts/cli-review/*/matrix-poster.png
 /artifacts/cli-review/*/matrix-video-coverage.json
 /artifacts/cli-review/*/matrix-input.json
+
+# Videos are local-only: never stage or upload recordings.
+*.mp4
+*.webm
+*.mov

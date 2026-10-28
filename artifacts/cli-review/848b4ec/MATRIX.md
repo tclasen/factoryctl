@@ -1,6 +1,6 @@
 # Demo evidence index
 
-[Watch the milestone demo](https://raw.githubusercontent.com/tclasen/factoryctl/main/artifacts/demo/latest.mp4) — one 6:59 continuous CLI recording. Requirement IDs and explanations accompany the actual scenes. This link stays constant across milestones.
+[Watch the milestone demo](/Users/Shared/factoryctl/artifacts/demo/latest.mp4) — one 6:59 continuous CLI recording. Requirement IDs and explanations accompany the actual scenes. This link stays constant across milestones.
 
 Full-matrix qualification: **incomplete**. All 95 rows are accounted for: 8 mapped end-to-end passes, 61 partial/unverified, 26 planned. A gap mapping is not a functional pass.
 

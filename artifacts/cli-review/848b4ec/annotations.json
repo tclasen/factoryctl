@@ -7,7 +7,7 @@
   "output_sha256": "23fde6a71da2c4451c0ef061e9d73d88fda399e6259013c5c56ea0291b4af2fe",
   "stable_alias": "artifacts/demo/latest.mp4",
   "stable_alias_sha256": "23fde6a71da2c4451c0ef061e9d73d88fda399e6259013c5c56ea0291b4af2fe",
-  "stable_link": "https://raw.githubusercontent.com/tclasen/factoryctl/main/artifacts/demo/latest.mp4",
+  "stable_link": "/Users/Shared/factoryctl/artifacts/demo/latest.mp4",
   "duration_seconds": 418.84,
   "frames": "10471",
   "annotation_region": {
