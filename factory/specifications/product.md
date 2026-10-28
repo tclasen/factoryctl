@@ -96,3 +96,11 @@ See [acceptance criteria](acceptance.md) and the [requirement-to-task map](../de
 - **R35 — Inspectable planning and tangible review.** Make planning documents and their recorded requested/proposed/accepted/superseded/unresolved claims, sources and relationships inspectable. Favor bounded reversible working demos and local videos for this operator while retaining accessible text and details. Never infer acceptance from viewing, silence, Git authorship or tests. The small read-only browser implementation is the assistant-selected first slice; full MCP Apps and editing remain separate outstanding scope.
 
 Source: [explicit approval and context](../sources/operator-brief.md#working-method-correction-and-tangible-review). These requirements do not retroactively turn previous assistant choices into operator instructions.
+
+
+## Project-specific delivery visibility
+
+- **R36 — Evidenced delivery display.** The web UI displays delivery status separately from recorded work/intent state, with evidence, target and freshness. Avoid a ticket self-certifying the merge that contains it. CLI presentation is optional and, if retained, shares the same semantics.
+- **R37 — Local and project-owned delivery criteria.** Managed projects require neither remotes nor GitHub issues/PRs. Delivery criteria are explicitly project-owned; factoryctl's own PR rules must not be inherited. Undefined criteria and unavailable/stale observations remain visible rather than becoming inferred completion. Support local-only delivery evidence.
+
+Source: [delivery discussion](../sources/operator-brief.md#delivery-status-and-project-specific-criteria). [Delivery-status design](../designs/delivery-status.md) distinguishes these accepted requirements from proposed labels, storage and adapters. No backend policy evaluator or implementation is authorized by documenting them. Existing Git-working-tree discovery remains applicable.

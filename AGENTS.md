@@ -23,3 +23,8 @@ The entire `artifacts/` directory and generated recordings are local-only, inclu
 Apply `factory/decisions/intent-and-review.md`. In each task separate the exact user request/context, assistant-selected approach and bounded execution authorization. A proposal remains a proposal until acceptance has evidence; summaries, commits and technical review cannot upgrade it or change its author. Keep one current plan in `factory/designs/implementation-plan.md`, explicitly superseding affected prior choices and dependencies.
 
 For this operator, use a concise visible-outcome checkpoint and a working local demo/video as the primary review surface; detailed prose and accessible text remain available. Short assent authorizes the clear small slice, not unread options, future scope or publishing artifacts. Ask only material unresolved questions, not routine implementation permission. Independent review checks source-grounded outcome fit before technical correctness. Repeated corrections trigger affected-assumption reassessment before further work. User-visible provenance labels are recorded claims, never inferred approvals or a backend workflow engine.
+
+
+## Development rules versus managed-project behavior
+
+This repository's PR/review/remote-main delivery rules govern our development of factoryctl. Do not turn them into product requirements or defaults for managed projects. Managed projects can have no remote, GitHub issues or PRs; their delivery criteria are explicit and project-owned. Preserve the separation between ticket claims and observed delivery evidence described in `factory/designs/delivery-status.md`; do not infer completion, approval or a workflow from absent configuration.

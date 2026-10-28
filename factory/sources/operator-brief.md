@@ -151,3 +151,22 @@ Relevant verbatim excerpts from the operator’s reply (intervening text omitted
 This authorizes implementing those working-method changes and making the evolving planning knowledge inspectable. The assistant selected a small read-only browser explorer as a reversible tangible slice. That selection is an engineering interpretation of this request, not evidence of an earlier operator mandate for a specific architecture. The user's short assent to the previously described CLI authorized that bounded work, not authorship of the CLI-first sequence. Seeing a demo, silence or a preselected choice does not accept future proposals. A request for a stable demo link grants no publication authority.
 
 The current plan is [implementation sequence](../designs/implementation-plan.md), and the adopted working method is [intent and tangible review](../decisions/intent-and-review.md). Videos and all generated artifacts remain local under the explicit subsequent storage directive.
+
+
+## Delivery status and project-specific criteria
+
+The operator asked how to avoid the race between completing work and updating its ticket in the same PR-controlled repository. The assistant proposed separating acceptance criteria and implementation evidence from delivery observations, binding evidence to exact revisions, and verifying delivery after integration rather than committing a self-certifying done claim.
+
+Direct operator responses:
+
+> I like this idea, but keep in mind the web UI (and maybe CLI) needs to be able to display this delivery status.
+
+> Also, what happens when factoryctl is used to manage a local only project with no git remote, and thus no github issues or PRs or anything else to poll or query for status.
+
+> PRs are a requirement in this specific project, not to any project that will be managed using factoryctl.
+
+> Please update whatever documents you need to for the discussion we just had.
+
+Accepted direction: distinguish recorded planning state from evidenced delivery; require web visibility, with CLI presentation optional; support local-only projects without a remote, GitHub, issues or PRs. Factoryctl's own development PR rules do not become product defaults for managed projects. This request authorizes documentation reconciliation, not implementation of a status service, new network polling or a change to repository protections.
+
+The assistant's proposed delivery targets, labels, ignored evidence-store location and resolver mechanics are detailed in [delivery status](../designs/delivery-status.md). They remain implementation proposals under this accepted direction, subject to the minimal-interface boundary and qualification. No remote is required; existing Git-working-tree discovery remains unchanged.
