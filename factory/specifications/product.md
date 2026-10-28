@@ -107,3 +107,11 @@ Source: [delivery discussion](../sources/operator-brief.md#delivery-status-and-p
 
 
 - **R38 — Personal chat selection.** Provide model and reasoning selectors in current FactoryCTL chat and reuse the selection/configuration contract in future chat capabilities. Store explicit personal global defaults and per-project overrides in a home-directory configuration file, outside project Git. Preserve visible inheritance, capability validation and explicit user saving.
+
+
+## Recent UI requests — traceability reconciliation
+
+- **R39 — Viewed document title.** Set the browser page title to `FactoryCTL - ` followed by the title of the document being viewed; successful subsequent navigation keeps it aligned with the displayed document.
+- **R40 — Keyboard chat submission.** Allow submission of the chat form using a familiar keyboard convention without tabbing to the button. The implemented Enter-to-send and Shift+Enter-newline convention is an assistant choice within that requested outcome; composition, repeat and disabled-state guards are engineering criteria.
+
+Source: [verbatim request excerpts](../sources/operator-brief.md#document-title-and-keyboard-submission--recovered-source-excerpts). R39/R40 and U105/U106 are added retrospectively; they do not imply that these mappings or separate build authorization existed before implementation. R34 now explicitly includes the [planning-first correction](../decisions/intent-and-review.md): a feature request updates desired outcomes/plans, while build authority must be separately evidenced for the named scope. The correction changes the working method, not the application's runtime behavior.

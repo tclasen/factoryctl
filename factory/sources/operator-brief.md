@@ -179,3 +179,34 @@ Direct operator request after the agent-interaction and keyboard-submit work:
 > Please give me a selector for the model and reasoning level for both this chat interface and future planned chat capabilities (configuration stored in home directory in a config file on a global and per-project basis).
 
 The assistant interprets the interface as FactoryCTL's browser chat in this project context. The requested outcome is model/reasoning choice and persistent personal global/project configuration reused by future chat capabilities. Exact JSON filename, canonical-root project keys, catalog transport and precedence are assistant-selected mechanisms specified in [personal runtime preferences](../specifications/personal-runtime.md). This does not authorize changing the hosting Codex application's UI or writing its configuration.
+
+
+## Document title and keyboard submission — recovered source excerpts
+
+The following are verbatim user messages present in the supplied conversation, copied into this source record during the planning-first audit. They were previously represented by paraphrases in task records. This audit does not claim these exact quotes were stored here before implementation. The original conversation permalink/export is not available in this checkout; these are agent-maintained excerpts, not an independently authenticated transcript. Git preserves when this record was added or changed, not independent proof of speaker identity.
+
+Page-title request, before the subsequent next-milestone instruction:
+
+> Please set the webpage's title to the title of the document being viewed. Such as `FactoryCTL - Agent questions and rich web interaction`.
+
+Keyboard request, after the next-milestone instruction:
+
+> For the agent chat panel, please make either "enter" or shift+enter or command+enter submit the form, I should be able to submit it using the keyboard without having to tab over to the button. Use whatever convention is industry standard or native to the browser.
+
+These express desired behavior. The exact Enter/Shift+Enter convention and IME/repeat guards were assistant-selected implementation choices. No separate build instruction for either change is present in the supplied exchange. The earlier “Please complete the next milestone.” instruction is not evidence of a later feature's separate build authorization. See [the audit](feature-intent-audit.md) for observed delivery and historical gaps.
+
+## Planning-first correction
+
+Relevant verbatim excerpt from the current user correction:
+
+> When I say "add a new feature" or "change a feature", that should result in planning to do work, not doing the work immediately. Please update the operating instructions such that we always plan before we build, and instructing something to change is actually instructing the plan to change to reflect the new desired outcome.
+
+The same message asks whether recent changes were documented, whether a hypothetical removal of features absent from the requirements matrix would remove them, and how a fresh context could establish requested intent. Those questions authorize an audit and explanation, not feature deletion. The quoted instruction explicitly authorizes correcting operating instructions and related planning records now. It does not request another application change.
+
+Source provenance is the supplied current conversation, without an available original-message permalink/export. The earlier model-selector quote is also an agent-maintained transcription from that conversation. Exact requested outcomes, assistant choices and build authority remain distinct: neither quotes expressing desired behavior nor retrospective matrix repair establish permission to have built immediately. The [adopted instruction](../decisions/intent-and-review.md) now requires a plan first and a separately evidenced explicit build instruction for its bounded scope.
+
+The operator then emphasized prevention over just repairing records:
+
+> Even more important than fixing this is to prevent it from happening again, what is wrong with the system as a whole that let this happen?
+
+The [audit](feature-intent-audit.md#why-the-workflow-allowed-this) distinguishes the systemic interpretation/review failure from traceability and delivery checks. This question does not authorize building an enforcement service or changing product behavior.

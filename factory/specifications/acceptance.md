@@ -128,3 +128,16 @@ For R36/R37, demonstrate all scenarios in [delivery status](../designs/delivery-
 ## A22 Model/reasoning selection and personal defaults
 
 For R38, demonstrate advertised model/reasoning selectors, new and same-thread follow-up selection, and explicit reset to native defaults. Verify native requests carry the resolved pair, including model switch and return. Save distinct global/project defaults, restart/reload to recover them, reset project inheritance, and prove unrelated canonical project roots (including duplicate IDs) remain isolated. Exercise precedence, unsupported pairs, malformed/missing/null stored values, stale revisions and competing process saves, private atomic persistence, symlink rejection and storage failures. Choosing or sending alone must not save. Existing chat choices and document browsing survive malformed saved settings. Future interfaces reuse the shared contract; unimplemented future surfaces are not presented as qualified. Preserve keyboard submission and existing conversation scope boundaries.
+
+
+## A23 Viewed document title
+
+For R39, verify direct document links and subsequent successful navigation set `FactoryCTL - <viewed document title>` and keep the tab title aligned with the visible heading, including stale-response protection. Existing delivery evidence is historical; this retrospective criterion does not claim a fresh execution or video pass.
+
+## A24 Keyboard chat submission
+
+For R40, verify initial and follow-up Enter submission, Shift+Enter newline, input composition and held-key-repeat protection, and blank/busy/disabled states. The composer explains its shortcut accessibly. Preserve targeted historical evidence separately from full-matrix qualification.
+
+## A25 Plan before building and retain source authority
+
+For R34, inspect source → requirement/matrix → current plan/task → distinct explicit build authorization. “Add/change/remove this feature” produces a plan change; approving the plan alone does not start implementation. An explicit request to plan and implement permits that order within its scope. A fresh context must report absent source/build evidence rather than infer it from status, commits or passing tests. Direct instruction to edit operating/planning documents permits those edits and normal reviewed delivery without a recursive planning gate. Audit hypothetical removal without deleting features; retrospective mappings cannot manufacture historical authority. These are instruction/document review criteria, not an implemented runtime approval engine or guarantee of agent compliance.
