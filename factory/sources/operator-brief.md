@@ -119,3 +119,7 @@ This strengthens the demonstration/traceability requirement beyond tagged releas
 > I don't want a video talking about only the requirements. In the CLI demo video you made earlier, you mention the requirements at the top of it and describe how the scene in the video at that time stamp meets the requirement, that is what I want more of. Please ensure there is a single stable link for a single video for the demo at the end of each milestone.
 
 Deliver one actual feature-demonstration video. Each scene identifies the relevant requirements and explains the observed action/result at that timestamp. The complete gap matrix remains supporting documentation, not a second requirements-only film. The final milestone handoff uses the same canonical latest-demo link each time; preserve immutable versioned video copies and checksums for history.
+
+## Local-only video correction
+
+The operator explicitly instructed: “Don’t upload the videos to github, keep them local. Please remove that from github, I didn’t authorize that.” Videos remain local, including archives and the stable latest demo. General repository delivery authorization does not permit publishing recordings.

@@ -42,7 +42,7 @@ The original artifact directory includes hashes, an extracted poster/contact she
 
 ## Complete matrix accounting and gate
 
-Run `annotate.mjs` after converting the continuous capture to MP4. It adds requirement IDs and concrete result explanations to every actual scene, preserving duration and command output. It writes the immutable `demo.mp4`, `annotations.json`, and an identical `artifacts/demo/latest.mp4`. It refuses to overwrite an archived demo. The only final demo link is https://raw.githubusercontent.com/tclasen/factoryctl/main/artifacts/demo/latest.mp4. Raw source captures remain local intermediates; their hashes are recorded in annotation provenance.
+Run `annotate.mjs` after converting the continuous capture to MP4. It adds requirement IDs and concrete result explanations to every actual scene, preserving duration and command output. It writes the immutable `demo.mp4`, `annotations.json`, and an identical `artifacts/demo/latest.mp4`. It refuses to overwrite an archived demo. The only final demo link is /Users/Shared/factoryctl/artifacts/demo/latest.mp4. Raw source captures remain local intermediates; their hashes are recorded in annotation provenance.
 
 The all-row matrix is supporting documentation, not a separate film. The current package accounts for U001–U095 but is not fully qualified. Run `make review-check` for structural reconciliation and `make review-gate` for mandatory full end-to-end qualification. The latter intentionally fails on partial/unimplemented requirements. `node --test scripts/review-video/check-matrix.test.mjs` checks missing/stale/overstated evidence, scene annotations and stable-link integrity. Independent semantic and exported-video review remain required.
 
