@@ -32,7 +32,8 @@
   const defs=await api('/api/v1/definitions?checkout='+encodeURIComponent(p.checkout));
   for(const [type,def] of Object.entries(defs)){
    const fields=def.Fields||def.fields||{},field=def.Raw?.views?.board?.field||def.raw?.views?.board?.field||(fields.task_state?.kind==='enum'?'task_state':'');const spec=fields[field];
-   if(!field||!spec?.values||def.Enabled===false||def.enabled===false)continue;
+   if(def.invalid){const notice=node('p',p.name+' · '+type+': invalid definition; use the generic document view and diagnostics.');notice.className='error';el('board').append(notice);continue;}
+   if(!field||!Array.isArray(spec?.values)||def.Enabled===false||def.enabled===false)continue;
    groups.push({p,type,field,spec,all:documents.filter(d=>d.ref.checkout===p.checkout&&d.type===type)});
   }
  }

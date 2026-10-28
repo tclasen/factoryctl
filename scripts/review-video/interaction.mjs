@@ -69,7 +69,7 @@ try {
  await page.goto(base+'/#host='+serverOutput.stdout.match(/#host=([a-f0-9]+)/)[1]);await page.waitForFunction(()=>document.querySelectorAll('.document-link').length>0);
  await page.evaluate(()=>{const box=document.createElement('div');box.id='review-annotation';Object.assign(box.style,{position:'fixed',top:'0',left:'0',right:'0',height:'86px',boxSizing:'border-box',padding:'14px 24px',background:'#142d28',color:'#fff',zIndex:'9999',font:'17px/1.6 system-ui'});document.body.prepend(box);document.querySelector('.topbar').style.marginTop='86px';document.querySelector('.workspace').style.height='calc(100vh - 150px)';});
  began=Date.now();
- await scene('Explore real planning documents',['U007','U026','U100'],'Actual product UI: search and open local Markdown. This is a read-only browser slice, not full GUI qualification.',async()=>{
+ await scene('Explore real planning documents',['U007','U026','U100'],'Actual product UI: search and open local Markdown. This scene exercises navigation; editing and boards are demonstrated in the companion product scenes.',async()=>{
   await check('Loaded real document collection',async()=>assert.ok(await page.locator('.document-link').count()>50));
   await focus('#open-plan');await page.locator('#open-plan').click();await page.waitForFunction(()=>document.querySelector('#document-title').textContent==='Current implementation plan');
   await check('Current plan opens and missing intent is not inferred',async()=>assert.equal(await page.locator('#document-state').textContent(),'Unresolved'));await focus('.intent-panel');
@@ -96,11 +96,11 @@ try {
   await page.locator('#clear-filters').click();await page.locator('#state-filter').selectOption('requested');await selectDocument('','Explore the evolving planning documents');
   await check('Requested experience stays distinct from solution',async()=>{assert.equal(await page.locator('#document-state').textContent(),'Requested');assert.match(await page.locator('#intent-authorization').textContent(),/does not select/);});await focus('#document-body');
  });
- await scene('Return to one current plan',['U097','U099','U100'],'Follow the current-plan link. Reading and watching submit no acceptance; document editing and external MCP Apps interoperability remain outstanding.',async()=>{
+ await scene('Return to one current plan',['U097','U099','U100'],'Follow the current-plan link. Reading and watching submit no acceptance; external MCP Apps interoperability remains unqualified.',async()=>{
   await page.locator('#document-body a').filter({hasText:'current plan'}).click();await page.waitForFunction(()=>document.querySelector('#document-title').textContent==='Current implementation plan');
   await check('Current plan links are navigable',async()=>assert.match(await page.locator('#document-body').textContent(),/Current work and proposed continuation/));
   await page.locator('#document-body h2').filter({hasText:'Current work and proposed continuation'}).scrollIntoViewIfNeeded();await page.waitForTimeout(3500);
-  await check('Read-only surface exposes no approval or save action',async()=>assert.equal(await page.getByRole('button',{name:/^(approve|accept|save)$/i}).count(),0));
+  await check('Document view never infers an acceptance control',async()=>assert.equal(await page.getByRole('button',{name:/^(approve|accept)$/i}).count(),0));
  });
  const safety='This is a synthetic local review. Do not edit files, read files, execute commands, or use any tools except factory_user_ask, factory_user_wait and factory_ui_present. ';
  const waitIdle=()=>page.waitForFunction(()=>document.querySelector('#conversation-status').textContent==='idle',null,{timeout:180000});
@@ -108,9 +108,10 @@ try {
  async function send(text){await page.locator('#conversation-prompt').fill(text);await page.locator('#send-conversation').click();}
  const questions=page.locator('.question-card');
  let threadID;
- await scene('Ask the real agent; answer in the browser',['U076','U077','U080'],'Live Codex tool call: a free-text question stays pending until the trusted Submit answer action. Synthetic answer: Autumn.',async()=>{
-  await page.click('#open-conversations');await page.waitForFunction(()=>!document.querySelector('#send-conversation').disabled);
-  await send(safety+'Use factory_user_ask to ask exactly "Which season do you prefer?" as a text question. Use factory_user_wait until answered. Then reply exactly "Recorded preference: <answer>".');
+ await scene('Ask the real agent; answer in the browser',['U031','U032','U033','U035','U066','U076','U077','U080'],'Live Codex tool call: a free-text question stays pending until the trusted Submit answer action. Synthetic answer: Autumn.',async()=>{
+  await page.locator('#action-buttons button').filter({hasText:'Discuss'}).first().click();await page.locator('#action-preview').waitFor({state:'visible'});await page.locator('#action-discuss').click();await page.waitForFunction(()=>!document.querySelector('#send-conversation').disabled);
+  const actionDraft=await page.locator('#conversation-prompt').inputValue();assert.ok(actionDraft.includes('Discuss the selected record'));
+  await send(actionDraft+'\n\n'+safety+'Use factory_user_ask to ask exactly "Which season do you prefer?" as a text question. Use factory_user_wait until answered. Then reply exactly "Recorded preference: <answer>".');
   await questions.locator('textarea').waitFor({timeout:180000});await focus('.question-card');
   await check('Question is pending and answer is initially empty',async()=>assert.equal(await questions.locator('textarea').inputValue(),''));
   await questions.locator('textarea').fill('Autumn');await page.waitForTimeout(2000);await questions.getByRole('button',{name:'Submit answer',exact:true}).click();
@@ -165,6 +166,20 @@ try {
   const q=questions.filter({hasText:'Should we schedule this now?'});await q.waitFor({timeout:180000});await page.waitForTimeout(2000);await page.click('#interrupt-conversation');
   await page.waitForFunction(()=>document.querySelector('#conversation-status').textContent==='interrupted',null,{timeout:60000});
   await check('Native interruption completes and question is cancelled',async()=>{assert.match(await q.innerText(),/cancelled/);assert.ok(await page.locator('#send-conversation').isEnabled());});await focus('#conversation-status');
+ });
+
+ await scene('Two native conversations stay independent',['U034','U076','U077','U079'],'Two real conversations own simultaneous pending questions. Each synthetic answer returns only to its requesting native thread.',async()=>{
+  await send(safety+'Ask the text question "First concurrent question?" and wait. When answered reply exactly "FIRST_ACK <answer>".');
+  await questions.filter({hasText:'First concurrent question?'}).locator('textarea').waitFor({timeout:180000});
+  await page.click('#new-conversation');await page.waitForFunction(()=>!document.querySelector('#send-conversation').disabled);
+  await send(safety+'Ask the text question "Second concurrent question?" and wait. When answered reply exactly "SECOND_ACK <answer>".');
+  const second=questions.filter({hasText:'Second concurrent question?'});await second.locator('textarea').waitFor({timeout:180000});
+  const readAll=()=>page.evaluate(async()=>{const headers={'X-Factory-Host':sessionStorage.getItem('factoryctl-host')};const l=await(await fetch('/api/conversations',{headers})).json();return await Promise.all(l.conversations.map(async c=>(await fetch('/api/conversations/'+c.id,{headers})).json()));});
+  const pending=await readAll();assert.equal(pending.length,2);assert.equal(new Set(pending.map(c=>c.thread_id)).size,2);assert.equal(pending.filter(c=>c.questions.some(q=>q.status==='pending')).length,2);
+  await second.locator('textarea').fill('BETA_ONLY_demo');await second.getByRole('button',{name:'Submit answer',exact:true}).click();await page.waitForFunction(()=>document.getElementById('conversation-messages').textContent.includes('SECOND_ACK BETA_ONLY_demo'));await waitIdle();
+  await page.locator('.conversation-tab[aria-pressed="false"]').click();const first=questions.filter({hasText:'First concurrent question?'});await first.locator('textarea').waitFor();assert.equal(await first.locator('textarea').inputValue(),'');await first.locator('textarea').fill('ALPHA_ONLY_demo');await first.getByRole('button',{name:'Submit answer',exact:true}).click();await page.waitForFunction(()=>document.getElementById('conversation-messages').textContent.includes('FIRST_ACK ALPHA_ONLY_demo'));await waitIdle();
+  const completed=await readAll();const firstThread=completed.find(c=>c.thread_id===threadID);assert(firstThread.messages.some(m=>m.role==='assistant'&&m.text.includes('FIRST_ACK ALPHA_ONLY_demo')));const secondThread=completed.find(c=>c.thread_id!==threadID);assert(secondThread.messages.some(m=>m.role==='assistant'&&m.text.includes('SECOND_ACK BETA_ONLY_demo')));
+  await check('Both real pending scopes receive only their correlated answers',async()=>assert.equal(completed.every(c=>c.status==='idle'),true));
  });
 
  assert.deepEqual(errors.filter(e=>!e.includes('Intentional qualification view failure')),[]);assert.deepEqual(external.filter(u=>!u.startsWith('https://factoryctl-blocked.invalid/')),[]);
