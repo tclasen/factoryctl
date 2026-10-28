@@ -1,0 +1,862 @@
+{
+  "revision": "848b4ec072755aafa8d6ba9a93a878170b1bf315",
+  "binary_sha256": "ccff8c58b71eafae519be379ff0deee5b335c27589b06e9b9db248e4db4df7ad",
+  "created_at": "2026-10-27T23:35:18.448Z",
+  "platform": "darwin",
+  "arch": "arm64",
+  "scratch": "/tmp/factoryctl-review-a6aekG",
+  "assertion_count": 112,
+  "scenes": [
+    {
+      "id": 1,
+      "title": "01 / The document CLI",
+      "caption": "Real command execution in synthetic Git projects. This browser is a CLI review harness, not a product GUI.",
+      "features": [
+        "help",
+        "version",
+        "doctor",
+        "build"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --version",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "0.1.0-dev\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --help",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "factoryctl — inspect and safely edit Markdown knowledge bundles\n\nGlobal flags (before or after commands):\n  --path DIR --project ID --checkout TOKEN --json --non-interactive\n\nCommands:\n  projects list\n  init --project-id ID [--starter software]\n  records list [--type TYPE] [--query TEXT] [--limit N] [--cursor C]\n  records show PATH\n  records create --type TYPE --slug SLUG [--input KEY=VALUE ...]\n  records update PATH --expected-revision HASH --set KEY=VALUE ...\n  records replace PATH --expected-revision HASH --file FILE  (- reads stdin)\n  records delete PATH --expected-revision HASH\n  validate [--level okf|factory] [--require-complete-links]\n  templates diff\n  actions list --record PATH\n  doctor\n\nAll input is explicit; this milestone never prompts or starts an agent.\nGUI, MCP, agent actions, network link checks and asset export are unsupported.\nExample: factoryctl --path . records list --type Task --json\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl doctor --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"git_subprocesses\": false,\n  \"limits\": {\n    \"document_bytes\": 1048576,\n    \"frontmatter_bytes\": 262144,\n    \"yaml_depth\": 32\n  },\n  \"network_required\": false,\n  \"runtime\": \"unsupported\",\n  \"version\": \"0.1.0-dev\",\n  \"writer_coordination\": \"advisory per bundle; external editors and other bundles can race\"\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Current source builds successfully",
+        "Runtime explicitly unsupported; no Git subprocesses"
+      ],
+      "executed_at": "2026-10-27T23:35:08.694Z"
+    },
+    {
+      "id": 2,
+      "title": "02 / S1 • initialize one repository",
+      "caption": "Initialize explicit software defaults; repeated identical initialization leaves existing defaults unchanged.",
+      "features": [
+        "init",
+        "S1",
+        "init-conflict"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 init --project-id single --starter software --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"created\": [\n    \"agents/builder.md\",\n    \"control/write-coordination.md\",\n    \"definitions/agent-profile.md\",\n    \"definitions/decision.md\",\n    \"definitions/design.md\",\n    \"definitions/factory-control.md\",\n    \"definitions/factory.md\",\n    \"definitions/prompt.md\",\n    \"definitions/record-definition.md\",\n    \"definitions/record-template.md\",\n    \"definitions/reference.md\",\n    \"definitions/specification.md\",\n    \"definitions/task.md\",\n    \"factory.md\",\n    \"prompts/discuss.md\",\n    \"templates/design.md\",\n    \"templates/specification.md\",\n    \"templates/task.md\"\n  ],\n  \"unchanged\": [],\n  \"project_root\": \"/private/tmp/factoryctl-review-a6aekG/S1\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 init --project-id single --starter software --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"created\": [],\n  \"unchanged\": [\n    \"definitions/record-definition.md\",\n    \"definitions/agent-profile.md\",\n    \"definitions/reference.md\",\n    \"definitions/decision.md\",\n    \"factory.md\",\n    \"agents/builder.md\",\n    \"definitions/factory.md\",\n    \"definitions/record-template.md\",\n    \"control/write-coordination.md\",\n    \"templates/task.md\",\n    \"prompts/discuss.md\",\n    \"definitions/specification.md\",\n    \"templates/specification.md\",\n    \"templates/design.md\",\n    \"definitions/prompt.md\",\n    \"definitions/factory-control.md\",\n    \"definitions/design.md\",\n    \"definitions/task.md\"\n  ],\n  \"project_root\": \"/private/tmp/factoryctl-review-a6aekG/S1\"\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Starter files created",
+        "Repeated initialization creates nothing"
+      ],
+      "executed_at": "2026-10-27T23:35:09.749Z"
+    },
+    {
+      "id": 3,
+      "title": "03 / Discover and create",
+      "caption": "Discovery reports project identity. Explicit template inputs create a Task and revision.",
+      "features": [
+        "projects list",
+        "records create"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 projects list --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"projects\": [\n    {\n      \"project_id\": \"single\",\n      \"name\": \"S1\",\n      \"root\": \"/private/tmp/factoryctl-review-a6aekG/S1\",\n      \"repository_root\": \"/private/tmp/factoryctl-review-a6aekG/S1\",\n      \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\"\n    }\n  ],\n  \"diagnostics\": []\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records create --type Task --slug launch --input \"title=Launch review\" --input \"summary=Real CLI evidence.\" --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"schema\": \"available\",\n  \"ref\": {\n    \"project_id\": \"single\",\n    \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n    \"path\": \"tasks/launch.md\"\n  },\n  \"revision\": \"f432ca95a5a00cbbc5af2e41c876f0e6a5265ba3363dbe4839f35ecce4643c2d\",\n  \"type\": \"Task\",\n  \"title\": \"Launch review\",\n  \"body\": \"\\n# Launch review\\n\\nReal CLI evidence.\\n\",\n  \"diagnostics\": [],\n  \"frontmatter\": {\n    \"depends_on\": [],\n    \"factory\": {\n      \"format\": 1\n    },\n    \"priority\": \"normal\",\n    \"status\": \"draft\",\n    \"task_state\": \"planned\",\n    \"title\": \"Launch review\",\n    \"type\": \"Task\"\n  }\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Exactly one project discovered",
+        "Task template applied"
+      ],
+      "executed_at": "2026-10-27T23:35:09.864Z"
+    },
+    {
+      "id": 4,
+      "title": "04 / Explicit input, exclusive creation",
+      "caption": "Missing input never prompts. An existing destination is protected.",
+      "features": [
+        "non-interactive",
+        "missing-input",
+        "already-exists"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records create --type Task --slug missing --non-interactive --json",
+          "exit": 1,
+          "expected": 1,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"invalid_document\",\n    \"message\": \"missing required input \\\"summary\\\"\",\n    \"retryable\": false\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records create --type Task --slug launch --input title=Duplicate --input \"summary=No overwrite\" --json",
+          "exit": 3,
+          "expected": 3,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"already_exists\",\n    \"message\": \"record already exists\",\n    \"retryable\": false\n  }\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Missing-input attempt created no file"
+      ],
+      "executed_at": "2026-10-27T23:35:09.901Z"
+    },
+    {
+      "id": 5,
+      "title": "05 / Find a record • filter and paginate",
+      "caption": "Lists support type, case-insensitive search, bounded pages and snapshot cursors.",
+      "features": [
+        "records list",
+        "query",
+        "pagination"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records list --type Task --query LAUNCH --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"diagnostics\": null,\n  \"next_cursor\": \"\",\n  \"nodes\": [\n    {\n      \"schema\": \"available\",\n      \"ref\": {\n        \"project_id\": \"single\",\n        \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n        \"path\": \"tasks/launch.md\"\n      },\n      \"revision\": \"f432ca95a5a00cbbc5af2e41c876f0e6a5265ba3363dbe4839f35ecce4643c2d\",\n      \"type\": \"Task\",\n      \"title\": \"Launch review\",\n      \"body\": \"\\n# Launch review\\n\\nReal CLI evidence.\\n\",\n      \"diagnostics\": [],\n      \"frontmatter\": {\n        \"depends_on\": [],\n        \"factory\": {\n          \"format\": 1\n        },\n        \"priority\": \"normal\",\n        \"status\": \"draft\",\n        \"task_state\": \"planned\",\n        \"title\": \"Launch review\",\n        \"type\": \"Task\"\n      }\n    }\n  ],\n  \"snapshot\": \"14f009925d71e4cefecce094fd53adc93e6da8c64fc1edffbb48175751baba23\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records list --limit 2 --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"diagnostics\": null,\n  \"next_cursor\": \"Zjc0ZjQ5OWZiNjdjYWM3MGRlOWY0MTU3NzQzNzBlNjA1ODY4ZWUzYzU3ZTFkYWEwNGM0ZjVmYWRhMzY5ZGQzMToy\",\n  \"nodes\": [\n    {\n      \"schema\": \"available\",\n      \"ref\": {\n        \"project_id\": \"single\",\n        \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n        \"path\": \"agents/builder.md\"\n      },\n      \"revision\": \"e92ef6be9f1fc377ba798b78e59fab84fb4340f851d1599956daeafcf220a600\",\n      \"type\": \"Agent Profile\",\n      \"title\": \"Builder\",\n      \"body\": \"\\n# Builder\\n\\nRead the project documents, implement the requested work, test the result, and distinguish observations from assumptions. Runtime selection and permissions belong to the contributor.\\n\",\n      \"diagnostics\": [],\n      \"frontmatter\": {\n        \"factory\": {\n          \"format\": 1\n        },\n        \"status\": \"draft\",\n        \"title\": \"Builder\",\n        \"type\": \"Agent Profile\"\n      }\n    },\n    {\n      \"schema\": \"available\",\n      \"ref\": {\n        \"project_id\": \"single\",\n        \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n        \"path\": \"factory.md\"\n      },\n      \"revision\": \"81ec5483f9eab70fe2b9b345e4bd32a6a6379c4d7a0ae236006a10386ad44167\",\n      \"type\": \"Factory\",\n      \"title\": \"S1\",\n      \"body\": \"\\n# S1\\n\\nProject knowledge lives in this bundle. Structural validation does not establish truth, approval or completion.\\n\",\n      \"diagnostics\": [],\n      \"frontmatter\": {\n        \"factory\": {\n          \"format\": 1\n        },\n        \"project_id\": \"single\",\n        \"status\": \"draft\",\n        \"title\": \"S1\",\n        \"type\": \"Factory\"\n      }\n    }\n  ],\n  \"snapshot\": \"14f009925d71e4cefecce094fd53adc93e6da8c64fc1edffbb48175751baba23\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records list --limit 2 --cursor Zjc0ZjQ5OWZiNjdjYWM3MGRlOWY0MTU3NzQzNzBlNjA1ODY4ZWUzYzU3ZTFkYWEwNGM0ZjVmYWRhMzY5ZGQzMToy --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"diagnostics\": null,\n  \"next_cursor\": \"Zjc0ZjQ5OWZiNjdjYWM3MGRlOWY0MTU3NzQzNzBlNjA1ODY4ZWUzYzU3ZTFkYWEwNGM0ZjVmYWRhMzY5ZGQzMTo0\",\n  \"nodes\": [\n    {\n      \"schema\": \"available\",\n      \"ref\": {\n        \"project_id\": \"single\",\n        \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n        \"path\": \"control/write-coordination.md\"\n      },\n      \"revision\": \"cbcf9d734f3c51750e6bdf0439808cfa423bdfab296590134156fadfff74d7e4\",\n      \"type\": \"Factory Control\",\n      \"title\": \"Writer coordination\",\n      \"body\": \"\\n# Writer coordination\\n\\nFactoryctl holds a native advisory lock on this stable file during a single-record write. Do not replace it during writes. Editors and Git do not share this lock; avoid concurrent Git operations. This file contains no lease or mutable lock state.\\n\",\n      \"diagnostics\": [],\n      \"frontmatter\": {\n        \"factory\": {\n          \"format\": 1\n        },\n        \"status\": \"stable\",\n        \"title\": \"Writer coordination\",\n        \"type\": \"Factory Control\"\n      }\n    },\n    {\n      \"schema\": \"available\",\n      \"ref\": {\n        \"project_id\": \"single\",\n        \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n        \"path\": \"prompts/discuss.md\"\n      },\n      \"revision\": \"065f269149c7253bdbbed7392204a213286b478b692d3704b59b6d5f5b21762f\",\n      \"type\": \"Prompt\",\n      \"title\": \"Discuss record\",\n      \"body\": \"\\n# Discuss record\\n\\nDiscuss the selected record without interpreting structural validity as approval.\\n\\n# Template\\n\\n```factory-prompt\\nRead and discuss the selected record in project {{ .Project.Name }}.\\n{{ if .Record }}{{ .Record.Body }}{{ end }}\\n```\\n\",\n      \"diagnostics\": [],\n      \"frontmatter\": {\n        \"applies_to\": [\n          \"*\"\n        ],\n        \"conversation\": \"fresh\",\n        \"factory\": {\n          \"format\": 1\n        },\n        \"inputs\": {},\n        \"status\": \"draft\",\n        \"title\": \"Discuss record\",\n        \"type\": \"Prompt\"\n      }\n    }\n  ],\n  \"snapshot\": \"14f009925d71e4cefecce094fd53adc93e6da8c64fc1edffbb48175751baba23\"\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Filtered match is launch Task",
+        "Next cursor supplied",
+        "Second page differs"
+      ],
+      "executed_at": "2026-10-27T23:35:09.944Z"
+    },
+    {
+      "id": 6,
+      "title": "06 / Read exact source and revision",
+      "caption": "Read includes exact Markdown, parsed metadata, links, backlinks and the SHA-256 revision.",
+      "features": [
+        "records show",
+        "source",
+        "revision"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records show tasks/launch.md --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"backlinks\": [],\n  \"diagnostics\": null,\n  \"document\": \"---\\ntype: Task\\ntitle: \\\"Launch review\\\"\\nstatus: draft\\nfactory:\\n  format: 1\\ntask_state: planned\\npriority: normal\\ndepends_on: []\\n---\\n\\n# Launch review\\n\\nReal CLI evidence.\\n\",\n  \"node\": {\n    \"schema\": \"available\",\n    \"ref\": {\n      \"project_id\": \"single\",\n      \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n      \"path\": \"tasks/launch.md\"\n    },\n    \"revision\": \"f432ca95a5a00cbbc5af2e41c876f0e6a5265ba3363dbe4839f35ecce4643c2d\",\n    \"type\": \"Task\",\n    \"title\": \"Launch review\",\n    \"body\": \"\\n# Launch review\\n\\nReal CLI evidence.\\n\",\n    \"diagnostics\": [],\n    \"frontmatter\": {\n      \"depends_on\": [],\n      \"factory\": {\n        \"format\": 1\n      },\n      \"priority\": \"normal\",\n      \"status\": \"draft\",\n      \"task_state\": \"planned\",\n      \"title\": \"Launch review\",\n      \"type\": \"Task\"\n    }\n  },\n  \"outgoing\": [],\n  \"schema\": \"available\"\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Exact source equals disk",
+        "Revision is SHA-256"
+      ],
+      "executed_at": "2026-10-27T23:35:09.972Z"
+    },
+    {
+      "id": 7,
+      "title": "07 / Safe field edit",
+      "caption": "A valid enum update preserves unrelated source bytes. Structural validity is not workflow approval.",
+      "features": [
+        "records update",
+        "source-preservation",
+        "enum"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records update tasks/launch.md --expected-revision f432ca95a5a00cbbc5af2e41c876f0e6a5265ba3363dbe4839f35ecce4643c2d --set task_state=done --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"schema\": \"available\",\n  \"ref\": {\n    \"project_id\": \"single\",\n    \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n    \"path\": \"tasks/launch.md\"\n  },\n  \"revision\": \"a2fa44b4ec72809c70e6bd07575c86d9540267f2fbf893be930c6b53b0611f4f\",\n  \"type\": \"Task\",\n  \"title\": \"Launch review\",\n  \"body\": \"\\n# Launch review\\n\\nReal CLI evidence.\\n\",\n  \"diagnostics\": [],\n  \"frontmatter\": {\n    \"depends_on\": [],\n    \"factory\": {\n      \"format\": 1\n    },\n    \"priority\": \"normal\",\n    \"status\": \"draft\",\n    \"task_state\": \"done\",\n    \"title\": \"Launch review\",\n    \"type\": \"Task\"\n  }\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Task state updated",
+        "Only scalar value changed"
+      ],
+      "executed_at": "2026-10-27T23:35:09.981Z"
+    },
+    {
+      "id": 8,
+      "title": "08 / Conflict and invalid-state recovery",
+      "caption": "Stale revision, invalid enum and expired cursor produce explicit errors; rejected writes preserve bytes.",
+      "features": [
+        "stale_revision",
+        "invalid_document",
+        "cursor_expired"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records update tasks/launch.md --expected-revision f432ca95a5a00cbbc5af2e41c876f0e6a5265ba3363dbe4839f35ecce4643c2d --set title=Stale --json",
+          "exit": 3,
+          "expected": 3,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"stale_revision\",\n    \"message\": \"expected revision differs from disk\",\n    \"retryable\": false,\n    \"current_revision\": \"a2fa44b4ec72809c70e6bd07575c86d9540267f2fbf893be930c6b53b0611f4f\"\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records update tasks/launch.md --expected-revision a2fa44b4ec72809c70e6bd07575c86d9540267f2fbf893be930c6b53b0611f4f --set task_state=impossible --json",
+          "exit": 1,
+          "expected": 1,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"invalid_document\",\n    \"message\": \"proposed document graph fails structural validation\",\n    \"retryable\": false,\n    \"diagnostics\": [\n      {\n        \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n        \"code\": \"invalid_document\",\n        \"severity\": \"error\",\n        \"project_id\": \"single\",\n        \"path\": \"tasks/launch.md\",\n        \"line\": 1,\n        \"column\": 1,\n        \"field\": \"task_state\",\n        \"message\": \"value is not in the declared enum\"\n      },\n      {\n        \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n        \"code\": \"invalid_document\",\n        \"severity\": \"error\",\n        \"project_id\": \"single\",\n        \"path\": \"tasks/launch.md\",\n        \"line\": 1,\n        \"column\": 1,\n        \"field\": \"task_state\",\n        \"message\": \"value is not in the declared enum\"\n      }\n    ]\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records list --limit 2 --cursor Zjc0ZjQ5OWZiNjdjYWM3MGRlOWY0MTU3NzQzNzBlNjA1ODY4ZWUzYzU3ZTFkYWEwNGM0ZjVmYWRhMzY5ZGQzMToy --json",
+          "exit": 2,
+          "expected": 2,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"cursor_expired\",\n    \"message\": \"snapshot or query changed; restart listing\",\n    \"retryable\": false\n  }\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Rejected edits leave exact bytes intact"
+      ],
+      "executed_at": "2026-10-27T23:35:10.020Z"
+    },
+    {
+      "id": 9,
+      "title": "09 / Whole-document replacement",
+      "caption": "Replace from stdin supports deliberate body edits using the latest revision.",
+      "features": [
+        "records replace",
+        "stdin"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records replace tasks/launch.md --expected-revision a2fa44b4ec72809c70e6bd07575c86d9540267f2fbf893be930c6b53b0611f4f --file - --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"schema\": \"available\",\n  \"ref\": {\n    \"project_id\": \"single\",\n    \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n    \"path\": \"tasks/launch.md\"\n  },\n  \"revision\": \"8a6713861ebdaeb87f82071b45dde90e2a224af0602abdfa46bd8d60087480fc\",\n  \"type\": \"Task\",\n  \"title\": \"Launch review\",\n  \"body\": \"\\n# Launch review\\n\\nReal CLI evidence.\\n\\n## Evidence\\n\\nUpdated through stdin.\\n\",\n  \"diagnostics\": [],\n  \"frontmatter\": {\n    \"depends_on\": [],\n    \"factory\": {\n      \"format\": 1\n    },\n    \"priority\": \"normal\",\n    \"status\": \"draft\",\n    \"task_state\": \"done\",\n    \"title\": \"Launch review\",\n    \"type\": \"Task\"\n  }\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Replacement persisted exact supplied bytes"
+      ],
+      "executed_at": "2026-10-27T23:35:10.070Z"
+    },
+    {
+      "id": 10,
+      "title": "10 / Incoming links guard deletion",
+      "caption": "A dependent Task creates a backlink. Deletion is refused until the incoming record is removed.",
+      "features": [
+        "backlinks",
+        "outgoing-links",
+        "referenced_node",
+        "records delete"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records create --type Task --slug dependent --input title=Dependent --input summary=[Launch](launch.md#evidence) --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"schema\": \"available\",\n  \"ref\": {\n    \"project_id\": \"single\",\n    \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n    \"path\": \"tasks/dependent.md\"\n  },\n  \"revision\": \"fece6b694f19142d18b41c4d3a817e934deb84c27895a061512a9621f296fc11\",\n  \"type\": \"Task\",\n  \"title\": \"Dependent\",\n  \"body\": \"\\n# Dependent\\n\\n[Launch](launch.md#evidence)\\n\",\n  \"diagnostics\": [],\n  \"frontmatter\": {\n    \"depends_on\": [],\n    \"factory\": {\n      \"format\": 1\n    },\n    \"priority\": \"normal\",\n    \"status\": \"draft\",\n    \"task_state\": \"planned\",\n    \"title\": \"Dependent\",\n    \"type\": \"Task\"\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records show tasks/launch.md --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"backlinks\": [\n    {\n      \"source\": {\n        \"project_id\": \"single\",\n        \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n        \"path\": \"tasks/dependent.md\"\n      },\n      \"target\": \"launch.md#evidence\",\n      \"resolved\": {\n        \"project_id\": \"single\",\n        \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n        \"path\": \"tasks/launch.md\"\n      },\n      \"status\": \"valid\",\n      \"field\": \"body\"\n    }\n  ],\n  \"diagnostics\": null,\n  \"document\": \"---\\ntype: Task\\ntitle: \\\"Launch review\\\"\\nstatus: draft\\nfactory:\\n  format: 1\\ntask_state: \\\"done\\\"\\npriority: normal\\ndepends_on: []\\n---\\n\\n# Launch review\\n\\nReal CLI evidence.\\n\\n## Evidence\\n\\nUpdated through stdin.\\n\",\n  \"node\": {\n    \"schema\": \"available\",\n    \"ref\": {\n      \"project_id\": \"single\",\n      \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n      \"path\": \"tasks/launch.md\"\n    },\n    \"revision\": \"8a6713861ebdaeb87f82071b45dde90e2a224af0602abdfa46bd8d60087480fc\",\n    \"type\": \"Task\",\n    \"title\": \"Launch review\",\n    \"body\": \"\\n# Launch review\\n\\nReal CLI evidence.\\n\\n## Evidence\\n\\nUpdated through stdin.\\n\",\n    \"diagnostics\": [],\n    \"frontmatter\": {\n      \"depends_on\": [],\n      \"factory\": {\n        \"format\": 1\n      },\n      \"priority\": \"normal\",\n      \"status\": \"draft\",\n      \"task_state\": \"done\",\n      \"title\": \"Launch review\",\n      \"type\": \"Task\"\n    }\n  },\n  \"outgoing\": [],\n  \"schema\": \"available\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records delete tasks/launch.md --expected-revision 8a6713861ebdaeb87f82071b45dde90e2a224af0602abdfa46bd8d60087480fc --json",
+          "exit": 1,
+          "expected": 1,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"referenced_node\",\n    \"message\": \"proposed document graph fails structural validation\",\n    \"retryable\": false,\n    \"diagnostics\": [\n      {\n        \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n        \"code\": \"broken_link\",\n        \"severity\": \"error\",\n        \"project_id\": \"single\",\n        \"path\": \"tasks/dependent.md\",\n        \"line\": 1,\n        \"column\": 1,\n        \"field\": \"body\",\n        \"target\": \"launch.md#evidence\",\n        \"message\": \"missing, unsafe or incompatible reference target/anchor\"\n      }\n    ]\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records delete tasks/dependent.md --expected-revision fece6b694f19142d18b41c4d3a817e934deb84c27895a061512a9621f296fc11 --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"schema\": \"available\",\n  \"ref\": {\n    \"project_id\": \"single\",\n    \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n    \"path\": \"tasks/dependent.md\"\n  },\n  \"revision\": \"fece6b694f19142d18b41c4d3a817e934deb84c27895a061512a9621f296fc11\",\n  \"type\": \"Task\",\n  \"title\": \"Dependent\",\n  \"body\": \"\\n# Dependent\\n\\n[Launch](launch.md#evidence)\\n\",\n  \"diagnostics\": [],\n  \"frontmatter\": {\n    \"depends_on\": [],\n    \"factory\": {\n      \"format\": 1\n    },\n    \"priority\": \"normal\",\n    \"status\": \"draft\",\n    \"task_state\": \"planned\",\n    \"title\": \"Dependent\",\n    \"type\": \"Task\"\n  }\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Backlink resolves to dependent Task",
+        "Dependent record removed"
+      ],
+      "executed_at": "2026-10-27T23:35:10.108Z"
+    },
+    {
+      "id": 11,
+      "title": "11 / Templates and available actions",
+      "caption": "Inspect local defaults and discover prompt applicability without launching an agent.",
+      "features": [
+        "templates diff",
+        "actions list"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 templates diff --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "[\n  {\n    \"path\": \"agents/builder.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"control/write-coordination.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"definitions/agent-profile.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"definitions/decision.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"definitions/design.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"definitions/factory-control.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"definitions/factory.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"definitions/prompt.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"definitions/record-definition.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"definitions/record-template.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"definitions/reference.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"definitions/specification.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"definitions/task.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"factory.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"prompts/discuss.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"templates/design.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"templates/specification.md\",\n    \"status\": \"equal\"\n  },\n  {\n    \"path\": \"templates/task.md\",\n    \"status\": \"equal\"\n  }\n]\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 actions list --record tasks/launch.md --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "[\n  {\n    \"schema\": \"available\",\n    \"ref\": {\n      \"project_id\": \"single\",\n      \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n      \"path\": \"prompts/discuss.md\"\n    },\n    \"revision\": \"065f269149c7253bdbbed7392204a213286b478b692d3704b59b6d5f5b21762f\",\n    \"type\": \"Prompt\",\n    \"title\": \"Discuss record\",\n    \"body\": \"\\n# Discuss record\\n\\nDiscuss the selected record without interpreting structural validity as approval.\\n\\n# Template\\n\\n```factory-prompt\\nRead and discuss the selected record in project {{ .Project.Name }}.\\n{{ if .Record }}{{ .Record.Body }}{{ end }}\\n```\\n\",\n    \"diagnostics\": [],\n    \"frontmatter\": {\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"conversation\": \"fresh\",\n      \"factory\": {\n        \"format\": 1\n      },\n      \"inputs\": {},\n      \"status\": \"draft\",\n      \"title\": \"Discuss record\",\n      \"type\": \"Prompt\"\n    }\n  }\n]\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Task template equals bundled default",
+        "Discuss prompt is applicable"
+      ],
+      "executed_at": "2026-10-27T23:35:10.193Z"
+    },
+    {
+      "id": 12,
+      "title": "12 / Validation and honest completeness",
+      "caption": "Factory and OKF levels validate structure. External links remain unchecked; strict completeness returns exit 5.",
+      "features": [
+        "validate",
+        "okf",
+        "factory",
+        "require-complete-links"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 validate --level okf --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"scope\": [\n    {\n      \"project_id\": \"single\",\n      \"name\": \"S1\",\n      \"root\": \"/private/tmp/factoryctl-review-a6aekG/S1\",\n      \"repository_root\": \"/private/tmp/factoryctl-review-a6aekG/S1\",\n      \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\"\n    }\n  ],\n  \"level\": \"okf\",\n  \"complete\": true,\n  \"errors\": 0,\n  \"warnings\": 0,\n  \"unchecked_links\": 0,\n  \"diagnostics\": []\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 validate --level factory --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"scope\": [\n    {\n      \"project_id\": \"single\",\n      \"name\": \"S1\",\n      \"root\": \"/private/tmp/factoryctl-review-a6aekG/S1\",\n      \"repository_root\": \"/private/tmp/factoryctl-review-a6aekG/S1\",\n      \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\"\n    }\n  ],\n  \"level\": \"factory\",\n  \"complete\": true,\n  \"errors\": 0,\n  \"warnings\": 0,\n  \"unchecked_links\": 0,\n  \"diagnostics\": []\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records replace tasks/launch.md --expected-revision 8a6713861ebdaeb87f82071b45dde90e2a224af0602abdfa46bd8d60087480fc --file - --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"schema\": \"available\",\n  \"ref\": {\n    \"project_id\": \"single\",\n    \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n    \"path\": \"tasks/launch.md\"\n  },\n  \"revision\": \"9200ba0d64ff9bd28cb21c19fae34839c205c90ff64b1de7761344a2f82f10f5\",\n  \"type\": \"Task\",\n  \"title\": \"Launch review\",\n  \"body\": \"\\n# Launch review\\n\\nReal CLI evidence.\\n\\n## Evidence\\n\\nUpdated through stdin.\\n\\n[External](https://example.org/not-fetched)\\n\",\n  \"diagnostics\": [],\n  \"frontmatter\": {\n    \"depends_on\": [],\n    \"factory\": {\n      \"format\": 1\n    },\n    \"priority\": \"normal\",\n    \"status\": \"draft\",\n    \"task_state\": \"done\",\n    \"title\": \"Launch review\",\n    \"type\": \"Task\"\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 validate --require-complete-links --json",
+          "exit": 5,
+          "expected": 5,
+          "stdout": "{\n  \"scope\": [\n    {\n      \"project_id\": \"single\",\n      \"name\": \"S1\",\n      \"root\": \"/private/tmp/factoryctl-review-a6aekG/S1\",\n      \"repository_root\": \"/private/tmp/factoryctl-review-a6aekG/S1\",\n      \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\"\n    }\n  ],\n  \"level\": \"factory\",\n  \"complete\": false,\n  \"errors\": 0,\n  \"warnings\": 0,\n  \"unchecked_links\": 1,\n  \"diagnostics\": []\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "okf has zero errors",
+        "factory has zero errors",
+        "Incomplete external link reported"
+      ],
+      "executed_at": "2026-10-27T23:35:10.211Z"
+    },
+    {
+      "id": 13,
+      "title": "13 / Containment and stable lock anchor",
+      "caption": "Traversal and editing the coordination anchor are rejected. Existing files remain intact.",
+      "features": [
+        "invalid_path",
+        "write-anchor"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records show ../escape.md --json",
+          "exit": 2,
+          "expected": 2,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"invalid_path\",\n    \"message\": \"expected a normalized bundle-relative .md path\",\n    \"retryable\": false\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records show control/write-coordination.md --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"backlinks\": [],\n  \"diagnostics\": null,\n  \"document\": \"---\\nfactory:\\n    format: 1\\nstatus: stable\\ntitle: Writer coordination\\ntype: Factory Control\\n---\\n\\n# Writer coordination\\n\\nFactoryctl holds a native advisory lock on this stable file during a single-record write. Do not replace it during writes. Editors and Git do not share this lock; avoid concurrent Git operations. This file contains no lease or mutable lock state.\\n\",\n  \"node\": {\n    \"schema\": \"available\",\n    \"ref\": {\n      \"project_id\": \"single\",\n      \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n      \"path\": \"control/write-coordination.md\"\n    },\n    \"revision\": \"cbcf9d734f3c51750e6bdf0439808cfa423bdfab296590134156fadfff74d7e4\",\n    \"type\": \"Factory Control\",\n    \"title\": \"Writer coordination\",\n    \"body\": \"\\n# Writer coordination\\n\\nFactoryctl holds a native advisory lock on this stable file during a single-record write. Do not replace it during writes. Editors and Git do not share this lock; avoid concurrent Git operations. This file contains no lease or mutable lock state.\\n\",\n    \"diagnostics\": [],\n    \"frontmatter\": {\n      \"factory\": {\n        \"format\": 1\n      },\n      \"status\": \"stable\",\n      \"title\": \"Writer coordination\",\n      \"type\": \"Factory Control\"\n    }\n  },\n  \"outgoing\": [],\n  \"schema\": \"available\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl records delete control/write-coordination.md --expected-revision <current> --json",
+          "exit": 2,
+          "expected": 2,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"invalid_path\",\n    \"message\": \"the stable lock anchor cannot be mutated\",\n    \"retryable\": false\n  }\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Anchor deletion rejected",
+        "Anchor remains"
+      ],
+      "executed_at": "2026-10-27T23:35:10.279Z"
+    },
+    {
+      "id": 14,
+      "title": "14 / S2 • one Git root, two projects",
+      "caption": "Identical record paths and type names remain separate. Canonical bundle URLs resolve across loaded projects.",
+      "features": [
+        "S2",
+        "projects list",
+        "mapped-links",
+        "backlinks"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S2 projects list --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"projects\": [\n    {\n      \"project_id\": \"alpha\",\n      \"name\": \"alpha\",\n      \"root\": \"/private/tmp/factoryctl-review-a6aekG/S2/alpha\",\n      \"repository_root\": \"/private/tmp/factoryctl-review-a6aekG/S2\",\n      \"checkout\": \"bef3d38ca21ddee10c772d32530455dabbd16989977ee441ddb00cee8397574d\",\n      \"bundle_uri\": \"https://example.org/alpha/factory/\"\n    },\n    {\n      \"project_id\": \"beta\",\n      \"name\": \"beta\",\n      \"root\": \"/private/tmp/factoryctl-review-a6aekG/S2/beta\",\n      \"repository_root\": \"/private/tmp/factoryctl-review-a6aekG/S2\",\n      \"checkout\": \"da3f8a60c216fa891d892b266851e7753f587c3398a465ba8150a84e9295bd46\",\n      \"bundle_uri\": \"https://example.org/beta/factory/\"\n    }\n  ],\n  \"diagnostics\": []\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S2 --project alpha records show widgets/example.md --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"backlinks\": [\n    {\n      \"source\": {\n        \"project_id\": \"beta\",\n        \"checkout\": \"da3f8a60c216fa891d892b266851e7753f587c3398a465ba8150a84e9295bd46\",\n        \"path\": \"widgets/example.md\"\n      },\n      \"target\": \"https://example.org/alpha/factory/widgets/example.md#target\",\n      \"resolved\": {\n        \"project_id\": \"alpha\",\n        \"checkout\": \"bef3d38ca21ddee10c772d32530455dabbd16989977ee441ddb00cee8397574d\",\n        \"path\": \"widgets/example.md\"\n      },\n      \"status\": \"valid\",\n      \"field\": \"peer\"\n    }\n  ],\n  \"diagnostics\": null,\n  \"document\": \"---\\ntype: Widget\\ntitle: alpha widget\\nstate: alpha\\npeer: https://example.org/beta/factory/widgets/example.md#target\\n---\\n# Target\\n\\nOwned by alpha.\\n\",\n  \"node\": {\n    \"schema\": \"available\",\n    \"ref\": {\n      \"project_id\": \"alpha\",\n      \"checkout\": \"bef3d38ca21ddee10c772d32530455dabbd16989977ee441ddb00cee8397574d\",\n      \"path\": \"widgets/example.md\"\n    },\n    \"revision\": \"9329e5a986e03761bfcd49b9ba9a88ae24691af4580e5cc1003ad744149ac61c\",\n    \"type\": \"Widget\",\n    \"title\": \"alpha widget\",\n    \"body\": \"# Target\\n\\nOwned by alpha.\\n\",\n    \"diagnostics\": [],\n    \"frontmatter\": {\n      \"peer\": \"https://example.org/beta/factory/widgets/example.md#target\",\n      \"state\": \"alpha\",\n      \"title\": \"alpha widget\",\n      \"type\": \"Widget\"\n    }\n  },\n  \"outgoing\": [\n    {\n      \"source\": {\n        \"project_id\": \"alpha\",\n        \"checkout\": \"bef3d38ca21ddee10c772d32530455dabbd16989977ee441ddb00cee8397574d\",\n        \"path\": \"widgets/example.md\"\n      },\n      \"target\": \"https://example.org/beta/factory/widgets/example.md#target\",\n      \"resolved\": {\n        \"project_id\": \"beta\",\n        \"checkout\": \"da3f8a60c216fa891d892b266851e7753f587c3398a465ba8150a84e9295bd46\",\n        \"path\": \"widgets/example.md\"\n      },\n      \"status\": \"valid\",\n      \"field\": \"peer\"\n    }\n  ],\n  \"schema\": \"available\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S2 validate --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"scope\": [\n    {\n      \"project_id\": \"alpha\",\n      \"name\": \"alpha\",\n      \"root\": \"/private/tmp/factoryctl-review-a6aekG/S2/alpha\",\n      \"repository_root\": \"/private/tmp/factoryctl-review-a6aekG/S2\",\n      \"checkout\": \"bef3d38ca21ddee10c772d32530455dabbd16989977ee441ddb00cee8397574d\",\n      \"bundle_uri\": \"https://example.org/alpha/factory/\"\n    },\n    {\n      \"project_id\": \"beta\",\n      \"name\": \"beta\",\n      \"root\": \"/private/tmp/factoryctl-review-a6aekG/S2/beta\",\n      \"repository_root\": \"/private/tmp/factoryctl-review-a6aekG/S2\",\n      \"checkout\": \"da3f8a60c216fa891d892b266851e7753f587c3398a465ba8150a84e9295bd46\",\n      \"bundle_uri\": \"https://example.org/beta/factory/\"\n    }\n  ],\n  \"level\": \"factory\",\n  \"complete\": true,\n  \"errors\": 0,\n  \"warnings\": 0,\n  \"unchecked_links\": 0,\n  \"diagnostics\": []\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Two project instances",
+        "Git-root topology matches scenario",
+        "Mapped outgoing link and backlink",
+        "Collection validates completely"
+      ],
+      "executed_at": "2026-10-27T23:35:10.335Z"
+    },
+    {
+      "id": 15,
+      "title": "15 / S2 • local definitions and isolation",
+      "caption": "Alpha accepts its own enum and rejects beta’s value. A selected write cannot change beta’s same-named record.",
+      "features": [
+        "S2",
+        "independent-definitions",
+        "isolation",
+        "ambiguous_project"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S2 records update widgets/example.md --expected-revision 9329e5a986e03761bfcd49b9ba9a88ae24691af4580e5cc1003ad744149ac61c --set state=alpha-ready --json",
+          "exit": 2,
+          "expected": 2,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"ambiguous_project\",\n    \"message\": \"select exactly one project with --project and, for duplicates, --checkout\",\n    \"retryable\": false\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S2 --project alpha records update widgets/example.md --expected-revision 9329e5a986e03761bfcd49b9ba9a88ae24691af4580e5cc1003ad744149ac61c --set state=alpha-ready --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"schema\": \"available\",\n  \"ref\": {\n    \"project_id\": \"alpha\",\n    \"checkout\": \"bef3d38ca21ddee10c772d32530455dabbd16989977ee441ddb00cee8397574d\",\n    \"path\": \"widgets/example.md\"\n  },\n  \"revision\": \"e7437ae28e5d21ec8c7fc62e9cacb1e3ced79a06347b016498c728c6ffd24f6d\",\n  \"type\": \"Widget\",\n  \"title\": \"alpha widget\",\n  \"body\": \"# Target\\n\\nOwned by alpha.\\n\",\n  \"diagnostics\": [],\n  \"frontmatter\": {\n    \"peer\": \"https://example.org/beta/factory/widgets/example.md#target\",\n    \"state\": \"alpha-ready\",\n    \"title\": \"alpha widget\",\n    \"type\": \"Widget\"\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S2 --project alpha records update widgets/example.md --expected-revision e7437ae28e5d21ec8c7fc62e9cacb1e3ced79a06347b016498c728c6ffd24f6d --set state=beta --json",
+          "exit": 1,
+          "expected": 1,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"invalid_document\",\n    \"message\": \"proposed document graph fails structural validation\",\n    \"retryable\": false,\n    \"diagnostics\": [\n      {\n        \"checkout\": \"bef3d38ca21ddee10c772d32530455dabbd16989977ee441ddb00cee8397574d\",\n        \"code\": \"invalid_document\",\n        \"severity\": \"error\",\n        \"project_id\": \"alpha\",\n        \"path\": \"widgets/example.md\",\n        \"line\": 1,\n        \"column\": 1,\n        \"field\": \"state\",\n        \"message\": \"value is not in the declared enum\"\n      },\n      {\n        \"checkout\": \"bef3d38ca21ddee10c772d32530455dabbd16989977ee441ddb00cee8397574d\",\n        \"code\": \"invalid_document\",\n        \"severity\": \"error\",\n        \"project_id\": \"alpha\",\n        \"path\": \"widgets/example.md\",\n        \"line\": 1,\n        \"column\": 1,\n        \"field\": \"state\",\n        \"message\": \"value is not in the declared enum\"\n      }\n    ]\n  }\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Beta exact bytes unchanged"
+      ],
+      "executed_at": "2026-10-27T23:35:10.360Z"
+    },
+    {
+      "id": 16,
+      "title": "16 / S2 • custom template and graph protection",
+      "caption": "Create a custom Widget using typed template input; incoming heading references protect whole-document edits.",
+      "features": [
+        "S2",
+        "custom-type",
+        "custom-template",
+        "proposed-graph"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S2 --project alpha records create --type Widget --slug custom --input \"title=Custom rendered widget\" --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"schema\": \"available\",\n  \"ref\": {\n    \"project_id\": \"alpha\",\n    \"checkout\": \"bef3d38ca21ddee10c772d32530455dabbd16989977ee441ddb00cee8397574d\",\n    \"path\": \"widgets/custom.md\"\n  },\n  \"revision\": \"59b55bccd689dd9f83692a609ab21bee16052fa7d2b4e17665b1b00a3040cace\",\n  \"type\": \"Widget\",\n  \"title\": \"Custom rendered widget\",\n  \"body\": \"# Custom widget\\n\",\n  \"diagnostics\": [],\n  \"frontmatter\": {\n    \"state\": \"alpha\",\n    \"title\": \"Custom rendered widget\",\n    \"type\": \"Widget\"\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S2 --project alpha records replace widgets/example.md --expected-revision e7437ae28e5d21ec8c7fc62e9cacb1e3ced79a06347b016498c728c6ffd24f6d --file - --json",
+          "exit": 1,
+          "expected": 1,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"invalid_document\",\n    \"message\": \"proposed document graph fails structural validation\",\n    \"retryable\": false,\n    \"diagnostics\": [\n      {\n        \"checkout\": \"da3f8a60c216fa891d892b266851e7753f587c3398a465ba8150a84e9295bd46\",\n        \"code\": \"broken_link\",\n        \"severity\": \"error\",\n        \"project_id\": \"beta\",\n        \"path\": \"widgets/example.md\",\n        \"line\": 1,\n        \"column\": 1,\n        \"field\": \"peer\",\n        \"target\": \"https://example.org/alpha/factory/widgets/example.md#target\",\n        \"message\": \"missing, unsafe or incompatible reference target/anchor\"\n      }\n    ]\n  }\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Custom template rendered local enum",
+        "Referenced heading preserved"
+      ],
+      "executed_at": "2026-10-27T23:35:10.409Z"
+    },
+    {
+      "id": 17,
+      "title": "17 / S3 • two independent Git repositories",
+      "caption": "Identical record paths and type names remain separate. Canonical bundle URLs resolve across loaded projects.",
+      "features": [
+        "S3",
+        "projects list",
+        "mapped-links",
+        "backlinks"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S3 projects list --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"projects\": [\n    {\n      \"project_id\": \"alpha\",\n      \"name\": \"alpha\",\n      \"root\": \"/private/tmp/factoryctl-review-a6aekG/S3/alpha\",\n      \"repository_root\": \"/private/tmp/factoryctl-review-a6aekG/S3/alpha\",\n      \"checkout\": \"195cdf46a63c5840d6fd6487e487f26938c7e544df2eed27217eac9a0b2a6a35\",\n      \"bundle_uri\": \"https://example.org/alpha/factory/\"\n    },\n    {\n      \"project_id\": \"beta\",\n      \"name\": \"beta\",\n      \"root\": \"/private/tmp/factoryctl-review-a6aekG/S3/beta\",\n      \"repository_root\": \"/private/tmp/factoryctl-review-a6aekG/S3/beta\",\n      \"checkout\": \"6a33cef7f654f61ce5a09a7504dc829ebdc821d6eb21c021d3d6244fe2aca40f\",\n      \"bundle_uri\": \"https://example.org/beta/factory/\"\n    }\n  ],\n  \"diagnostics\": []\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S3 --project alpha records show widgets/example.md --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"backlinks\": [\n    {\n      \"source\": {\n        \"project_id\": \"beta\",\n        \"checkout\": \"6a33cef7f654f61ce5a09a7504dc829ebdc821d6eb21c021d3d6244fe2aca40f\",\n        \"path\": \"widgets/example.md\"\n      },\n      \"target\": \"https://example.org/alpha/factory/widgets/example.md#target\",\n      \"resolved\": {\n        \"project_id\": \"alpha\",\n        \"checkout\": \"195cdf46a63c5840d6fd6487e487f26938c7e544df2eed27217eac9a0b2a6a35\",\n        \"path\": \"widgets/example.md\"\n      },\n      \"status\": \"valid\",\n      \"field\": \"peer\"\n    }\n  ],\n  \"diagnostics\": null,\n  \"document\": \"---\\ntype: Widget\\ntitle: alpha widget\\nstate: alpha\\npeer: https://example.org/beta/factory/widgets/example.md#target\\n---\\n# Target\\n\\nOwned by alpha.\\n\",\n  \"node\": {\n    \"schema\": \"available\",\n    \"ref\": {\n      \"project_id\": \"alpha\",\n      \"checkout\": \"195cdf46a63c5840d6fd6487e487f26938c7e544df2eed27217eac9a0b2a6a35\",\n      \"path\": \"widgets/example.md\"\n    },\n    \"revision\": \"9329e5a986e03761bfcd49b9ba9a88ae24691af4580e5cc1003ad744149ac61c\",\n    \"type\": \"Widget\",\n    \"title\": \"alpha widget\",\n    \"body\": \"# Target\\n\\nOwned by alpha.\\n\",\n    \"diagnostics\": [],\n    \"frontmatter\": {\n      \"peer\": \"https://example.org/beta/factory/widgets/example.md#target\",\n      \"state\": \"alpha\",\n      \"title\": \"alpha widget\",\n      \"type\": \"Widget\"\n    }\n  },\n  \"outgoing\": [\n    {\n      \"source\": {\n        \"project_id\": \"alpha\",\n        \"checkout\": \"195cdf46a63c5840d6fd6487e487f26938c7e544df2eed27217eac9a0b2a6a35\",\n        \"path\": \"widgets/example.md\"\n      },\n      \"target\": \"https://example.org/beta/factory/widgets/example.md#target\",\n      \"resolved\": {\n        \"project_id\": \"beta\",\n        \"checkout\": \"6a33cef7f654f61ce5a09a7504dc829ebdc821d6eb21c021d3d6244fe2aca40f\",\n        \"path\": \"widgets/example.md\"\n      },\n      \"status\": \"valid\",\n      \"field\": \"peer\"\n    }\n  ],\n  \"schema\": \"available\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S3 validate --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"scope\": [\n    {\n      \"project_id\": \"alpha\",\n      \"name\": \"alpha\",\n      \"root\": \"/private/tmp/factoryctl-review-a6aekG/S3/alpha\",\n      \"repository_root\": \"/private/tmp/factoryctl-review-a6aekG/S3/alpha\",\n      \"checkout\": \"195cdf46a63c5840d6fd6487e487f26938c7e544df2eed27217eac9a0b2a6a35\",\n      \"bundle_uri\": \"https://example.org/alpha/factory/\"\n    },\n    {\n      \"project_id\": \"beta\",\n      \"name\": \"beta\",\n      \"root\": \"/private/tmp/factoryctl-review-a6aekG/S3/beta\",\n      \"repository_root\": \"/private/tmp/factoryctl-review-a6aekG/S3/beta\",\n      \"checkout\": \"6a33cef7f654f61ce5a09a7504dc829ebdc821d6eb21c021d3d6244fe2aca40f\",\n      \"bundle_uri\": \"https://example.org/beta/factory/\"\n    }\n  ],\n  \"level\": \"factory\",\n  \"complete\": true,\n  \"errors\": 0,\n  \"warnings\": 0,\n  \"unchecked_links\": 0,\n  \"diagnostics\": []\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Two project instances",
+        "Git-root topology matches scenario",
+        "Mapped outgoing link and backlink",
+        "Collection validates completely"
+      ],
+      "executed_at": "2026-10-27T23:35:10.508Z"
+    },
+    {
+      "id": 18,
+      "title": "18 / S3 • local definitions and isolation",
+      "caption": "Alpha accepts its own enum and rejects beta’s value. A selected write cannot change beta’s same-named record.",
+      "features": [
+        "S3",
+        "independent-definitions",
+        "isolation",
+        "ambiguous_project"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S3 records update widgets/example.md --expected-revision 9329e5a986e03761bfcd49b9ba9a88ae24691af4580e5cc1003ad744149ac61c --set state=alpha-ready --json",
+          "exit": 2,
+          "expected": 2,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"ambiguous_project\",\n    \"message\": \"select exactly one project with --project and, for duplicates, --checkout\",\n    \"retryable\": false\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S3 --project alpha records update widgets/example.md --expected-revision 9329e5a986e03761bfcd49b9ba9a88ae24691af4580e5cc1003ad744149ac61c --set state=alpha-ready --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"schema\": \"available\",\n  \"ref\": {\n    \"project_id\": \"alpha\",\n    \"checkout\": \"195cdf46a63c5840d6fd6487e487f26938c7e544df2eed27217eac9a0b2a6a35\",\n    \"path\": \"widgets/example.md\"\n  },\n  \"revision\": \"e7437ae28e5d21ec8c7fc62e9cacb1e3ced79a06347b016498c728c6ffd24f6d\",\n  \"type\": \"Widget\",\n  \"title\": \"alpha widget\",\n  \"body\": \"# Target\\n\\nOwned by alpha.\\n\",\n  \"diagnostics\": [],\n  \"frontmatter\": {\n    \"peer\": \"https://example.org/beta/factory/widgets/example.md#target\",\n    \"state\": \"alpha-ready\",\n    \"title\": \"alpha widget\",\n    \"type\": \"Widget\"\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S3 --project alpha records update widgets/example.md --expected-revision e7437ae28e5d21ec8c7fc62e9cacb1e3ced79a06347b016498c728c6ffd24f6d --set state=beta --json",
+          "exit": 1,
+          "expected": 1,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"invalid_document\",\n    \"message\": \"proposed document graph fails structural validation\",\n    \"retryable\": false,\n    \"diagnostics\": [\n      {\n        \"checkout\": \"195cdf46a63c5840d6fd6487e487f26938c7e544df2eed27217eac9a0b2a6a35\",\n        \"code\": \"invalid_document\",\n        \"severity\": \"error\",\n        \"project_id\": \"alpha\",\n        \"path\": \"widgets/example.md\",\n        \"line\": 1,\n        \"column\": 1,\n        \"field\": \"state\",\n        \"message\": \"value is not in the declared enum\"\n      },\n      {\n        \"checkout\": \"195cdf46a63c5840d6fd6487e487f26938c7e544df2eed27217eac9a0b2a6a35\",\n        \"code\": \"invalid_document\",\n        \"severity\": \"error\",\n        \"project_id\": \"alpha\",\n        \"path\": \"widgets/example.md\",\n        \"line\": 1,\n        \"column\": 1,\n        \"field\": \"state\",\n        \"message\": \"value is not in the declared enum\"\n      }\n    ]\n  }\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Beta exact bytes unchanged"
+      ],
+      "executed_at": "2026-10-27T23:35:10.531Z"
+    },
+    {
+      "id": 19,
+      "title": "19 / S3 • custom template and graph protection",
+      "caption": "Create a custom Widget using typed template input; incoming heading references protect whole-document edits.",
+      "features": [
+        "S3",
+        "custom-type",
+        "custom-template",
+        "proposed-graph"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S3 --project alpha records create --type Widget --slug custom --input \"title=Custom rendered widget\" --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"schema\": \"available\",\n  \"ref\": {\n    \"project_id\": \"alpha\",\n    \"checkout\": \"195cdf46a63c5840d6fd6487e487f26938c7e544df2eed27217eac9a0b2a6a35\",\n    \"path\": \"widgets/custom.md\"\n  },\n  \"revision\": \"59b55bccd689dd9f83692a609ab21bee16052fa7d2b4e17665b1b00a3040cace\",\n  \"type\": \"Widget\",\n  \"title\": \"Custom rendered widget\",\n  \"body\": \"# Custom widget\\n\",\n  \"diagnostics\": [],\n  \"frontmatter\": {\n    \"state\": \"alpha\",\n    \"title\": \"Custom rendered widget\",\n    \"type\": \"Widget\"\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S3 --project alpha records replace widgets/example.md --expected-revision e7437ae28e5d21ec8c7fc62e9cacb1e3ced79a06347b016498c728c6ffd24f6d --file - --json",
+          "exit": 1,
+          "expected": 1,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"invalid_document\",\n    \"message\": \"proposed document graph fails structural validation\",\n    \"retryable\": false,\n    \"diagnostics\": [\n      {\n        \"checkout\": \"6a33cef7f654f61ce5a09a7504dc829ebdc821d6eb21c021d3d6244fe2aca40f\",\n        \"code\": \"broken_link\",\n        \"severity\": \"error\",\n        \"project_id\": \"beta\",\n        \"path\": \"widgets/example.md\",\n        \"line\": 1,\n        \"column\": 1,\n        \"field\": \"peer\",\n        \"target\": \"https://example.org/alpha/factory/widgets/example.md#target\",\n        \"message\": \"missing, unsafe or incompatible reference target/anchor\"\n      }\n    ]\n  }\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Custom template rendered local enum",
+        "Referenced heading preserved"
+      ],
+      "executed_at": "2026-10-27T23:35:10.580Z"
+    },
+    {
+      "id": 20,
+      "title": "20 / Checkout selection and source fallback",
+      "caption": "Duplicate IDs require a checkout token. Complex YAML edits use explicit whole-document replacement.",
+      "features": [
+        "checkout",
+        "lossless_edit_unavailable",
+        "replace-file",
+        "cwd-fallback"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/duplicates/one init --project-id duplicate --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"created\": [\n    \"agents/builder.md\",\n    \"control/write-coordination.md\",\n    \"definitions/agent-profile.md\",\n    \"definitions/decision.md\",\n    \"definitions/factory-control.md\",\n    \"definitions/factory.md\",\n    \"definitions/prompt.md\",\n    \"definitions/record-definition.md\",\n    \"definitions/record-template.md\",\n    \"definitions/reference.md\",\n    \"definitions/task.md\",\n    \"factory.md\",\n    \"prompts/discuss.md\",\n    \"templates/task.md\"\n  ],\n  \"unchanged\": [],\n  \"project_root\": \"/private/tmp/factoryctl-review-a6aekG/duplicates/one\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/duplicates/two init --project-id duplicate --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"created\": [\n    \"agents/builder.md\",\n    \"control/write-coordination.md\",\n    \"definitions/agent-profile.md\",\n    \"definitions/decision.md\",\n    \"definitions/factory-control.md\",\n    \"definitions/factory.md\",\n    \"definitions/prompt.md\",\n    \"definitions/record-definition.md\",\n    \"definitions/record-template.md\",\n    \"definitions/reference.md\",\n    \"definitions/task.md\",\n    \"factory.md\",\n    \"prompts/discuss.md\",\n    \"templates/task.md\"\n  ],\n  \"unchanged\": [],\n  \"project_root\": \"/private/tmp/factoryctl-review-a6aekG/duplicates/two\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/duplicates projects list --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"projects\": [\n    {\n      \"project_id\": \"duplicate\",\n      \"name\": \"one\",\n      \"root\": \"/private/tmp/factoryctl-review-a6aekG/duplicates/one\",\n      \"repository_root\": \"/private/tmp/factoryctl-review-a6aekG/duplicates/one\",\n      \"checkout\": \"5fdeea771b74f4ee655621ffda4ef05efd0ddc2fb0a538e82b07958df752514f\"\n    },\n    {\n      \"project_id\": \"duplicate\",\n      \"name\": \"two\",\n      \"root\": \"/private/tmp/factoryctl-review-a6aekG/duplicates/two\",\n      \"repository_root\": \"/private/tmp/factoryctl-review-a6aekG/duplicates/two\",\n      \"checkout\": \"fb5c307b67e7a9007c073d6b7870a9446c2dd495c189ef5207cd4877c0695654\"\n    }\n  ],\n  \"diagnostics\": [\n    {\n      \"code\": \"duplicate_project_id\",\n      \"severity\": \"warning\",\n      \"path\": \"/private/tmp/factoryctl-review-a6aekG/duplicates/two\",\n      \"message\": \"project identity also occurs at /private/tmp/factoryctl-review-a6aekG/duplicates/one\"\n    }\n  ]\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/duplicates --project duplicate records create --type Task --slug chosen --input title=Chosen --input summary=Selected --json",
+          "exit": 2,
+          "expected": 2,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"ambiguous_project\",\n    \"message\": \"select exactly one project with --project and, for duplicates, --checkout\",\n    \"retryable\": false\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/duplicates --project duplicate --checkout 5fdeea771b74f4ee655621ffda4ef05efd0ddc2fb0a538e82b07958df752514f records create --type Task --slug chosen --input title=Chosen --input summary=Selected --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"schema\": \"available\",\n  \"ref\": {\n    \"project_id\": \"duplicate\",\n    \"checkout\": \"5fdeea771b74f4ee655621ffda4ef05efd0ddc2fb0a538e82b07958df752514f\",\n    \"path\": \"tasks/chosen.md\"\n  },\n  \"revision\": \"947de54b3524eb5d070264ed7794c716086a81742b7e2c1e425c7b05c964b1ba\",\n  \"type\": \"Task\",\n  \"title\": \"Chosen\",\n  \"body\": \"\\n# Chosen\\n\\nSelected\\n\",\n  \"diagnostics\": [],\n  \"frontmatter\": {\n    \"depends_on\": [],\n    \"factory\": {\n      \"format\": 1\n    },\n    \"priority\": \"normal\",\n    \"status\": \"draft\",\n    \"task_state\": \"planned\",\n    \"title\": \"Chosen\",\n    \"type\": \"Task\"\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records update tasks/launch.md --expected-revision c66ef90938088177191dd4e77758f5263bf26ba612f34e3313a71afac6fae636 --set title=Replacement --json",
+          "exit": 2,
+          "expected": 2,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"lossless_edit_unavailable\",\n    \"message\": \"lossless_edit_unavailable: complex fields require records replace\",\n    \"retryable\": false\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records replace tasks/launch.md --expected-revision c66ef90938088177191dd4e77758f5263bf26ba612f34e3313a71afac6fae636 --file /tmp/factoryctl-review-a6aekG/replacement.md --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"schema\": \"available\",\n  \"ref\": {\n    \"project_id\": \"single\",\n    \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\",\n    \"path\": \"tasks/launch.md\"\n  },\n  \"revision\": \"f06b5c6c2d8aa2d35dfbf47c24aa39c295323c8472541f3a216928cd0a6dc64f\",\n  \"type\": \"Task\",\n  \"title\": \"Replacement\",\n  \"body\": \"\\n# Launch review\\n\\nReal CLI evidence.\\n\\n## Evidence\\n\\nUpdated through stdin.\\n\\n[External](https://example.org/not-fetched)\\n\",\n  \"diagnostics\": [],\n  \"frontmatter\": {\n    \"depends_on\": [],\n    \"factory\": {\n      \"format\": 1\n    },\n    \"priority\": \"normal\",\n    \"status\": \"draft\",\n    \"task_state\": \"done\",\n    \"title\": \"Replacement\",\n    \"type\": \"Task\"\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl projects list --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"projects\": [\n    {\n      \"project_id\": \"single\",\n      \"name\": \"S1\",\n      \"root\": \"/private/tmp/factoryctl-review-a6aekG/S1\",\n      \"repository_root\": \"/private/tmp/factoryctl-review-a6aekG/S1\",\n      \"checkout\": \"fd79d3ec7a7da4b97234f94d524c455cfc246352a82591c01e448a117ba6e8f6\"\n    }\n  ],\n  \"diagnostics\": []\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1/src/deep projects list --json",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "{\n  \"projects\": [],\n  \"diagnostics\": []\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "Only selected checkout has record",
+        "Complex scalar rejection preserves bytes",
+        "Implicit CWD finds ancestor project",
+        "Explicit path does not fall back"
+      ],
+      "executed_at": "2026-10-27T23:35:10.629Z"
+    },
+    {
+      "id": 21,
+      "title": "20 / Unsupported means unsupported",
+      "caption": "GUI, MCP, runtime action execution, view export and external network checks are not implemented. These are expected errors.",
+      "features": [
+        "unsupported_capability",
+        "gui",
+        "mcp",
+        "actions run",
+        "templates export",
+        "check-external"
+      ],
+      "commands": [
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 gui --json",
+          "exit": 4,
+          "expected": 4,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"unsupported_capability\",\n    \"message\": \"this capability is not implemented in the document CLI milestone\",\n    \"retryable\": false\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 mcp --json",
+          "exit": 4,
+          "expected": 4,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"unsupported_capability\",\n    \"message\": \"this capability is not implemented in the document CLI milestone\",\n    \"retryable\": false\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 actions run prompts/discuss.md --json",
+          "exit": 4,
+          "expected": 4,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"unsupported_capability\",\n    \"message\": \"this capability is not implemented in the document CLI milestone\",\n    \"retryable\": false\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 templates export --kind view --json",
+          "exit": 4,
+          "expected": 4,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"unsupported_capability\",\n    \"message\": \"this capability is not implemented in the document CLI milestone\",\n    \"retryable\": false\n  }\n}\n",
+          "stderr": ""
+        },
+        {
+          "command": "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 validate --check-external --json",
+          "exit": 4,
+          "expected": 4,
+          "stdout": "{\n  \"error\": {\n    \"code\": \"unsupported_capability\",\n    \"message\": \"this capability is not implemented in the document CLI milestone\",\n    \"retryable\": false\n  }\n}\n",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "gui explicitly unsupported",
+        "mcp explicitly unsupported",
+        "actions run prompts/discuss.md explicitly unsupported",
+        "templates export --kind view explicitly unsupported",
+        "validate --check-external explicitly unsupported"
+      ],
+      "executed_at": "2026-10-27T23:35:10.940Z"
+    },
+    {
+      "id": 22,
+      "title": "21 / Fresh regression evidence",
+      "caption": "Current source is tested on this macOS host. Regression tests cover parser hazards, templates, races, processes and all collection scenarios.",
+      "features": [
+        "go test",
+        "race",
+        "vet"
+      ],
+      "commands": [
+        {
+          "command": "go test -count=1 ./...",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "ok  \tgithub.com/tclasen/factoryctl/cmd/factoryctl\t1.755s\nok  \tgithub.com/tclasen/factoryctl/internal/app\t1.285s\nok  \tgithub.com/tclasen/factoryctl/internal/defaults\t0.396s\nok  \tgithub.com/tclasen/factoryctl/internal/knowledge\t0.163s\nok  \tgithub.com/tclasen/factoryctl/internal/project\t0.446s\n?   \tgithub.com/tclasen/factoryctl/internal/safeio\t[no test files]\nok  \tgithub.com/tclasen/factoryctl/internal/templates\t0.180s\n",
+          "stderr": ""
+        },
+        {
+          "command": "go test -race -count=1 ./...",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "ok  \tgithub.com/tclasen/factoryctl/cmd/factoryctl\t4.284s\nok  \tgithub.com/tclasen/factoryctl/internal/app\t2.685s\nok  \tgithub.com/tclasen/factoryctl/internal/defaults\t1.171s\nok  \tgithub.com/tclasen/factoryctl/internal/knowledge\t1.432s\nok  \tgithub.com/tclasen/factoryctl/internal/project\t1.345s\n?   \tgithub.com/tclasen/factoryctl/internal/safeio\t[no test files]\nok  \tgithub.com/tclasen/factoryctl/internal/templates\t1.277s\n",
+          "stderr": ""
+        },
+        {
+          "command": "go vet ./...",
+          "exit": 0,
+          "expected": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assertions": [
+        "go test -count=1 ./... passed",
+        "go test -race -count=1 ./... passed",
+        "go vet ./... passed"
+      ],
+      "executed_at": "2026-10-27T23:35:10.962Z"
+    },
+    {
+      "id": 23,
+      "title": "22 / Review complete • bounded milestone",
+      "caption": "All recorded results come from real CLI executions. No product GUI, runtime, MCP or full release qualification is claimed.",
+      "features": [
+        "summary"
+      ],
+      "commands": [],
+      "assertions": [
+        "Every scene passed its assertions"
+      ],
+      "executed_at": "2026-10-27T23:35:18.436Z"
+    }
+  ]
+}

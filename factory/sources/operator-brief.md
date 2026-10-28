@@ -107,3 +107,15 @@ The CLI and web UI must let the selected coding harness ask the user questions t
 For every release, provide a Playwright video demonstrating all implemented features, including older features to prove they still work; omit only features deprecated and removed. The recording should resemble human use, with smooth scrolling and enough pauses for orientation. Overlay what is being demonstrated/evaluated and highlight the element or area needing attention.
 
 Maintain a full requirements traceability matrix covering everything the operator declared a requirement, linking it to implementation evidence and ongoing evidence that it continues to function. Historical evidence alone is not current-release proof.
+
+## Every-milestone end-to-end demonstration — direct operator source
+
+> Please also ensure that every milestone delivery includes a demo video that exercises the complete requirements tracability matrix end to end.
+
+This strengthens the demonstration/traceability requirement beyond tagged releases to every milestone delivery. Current and earlier implemented behaviors require fresh end-to-end evidence. Every matrix row must be reconciled with actual results and video coverage; missing capabilities remain unmet rather than being passed by a caption or an unsupported-operation refusal.
+
+## Single annotated demo and stable link — direct operator clarification
+
+> I don't want a video talking about only the requirements. In the CLI demo video you made earlier, you mention the requirements at the top of it and describe how the scene in the video at that time stamp meets the requirement, that is what I want more of. Please ensure there is a single stable link for a single video for the demo at the end of each milestone.
+
+Deliver one actual feature-demonstration video. Each scene identifies the relevant requirements and explains the observed action/result at that timestamp. The complete gap matrix remains supporting documentation, not a second requirements-only film. The final milestone handoff uses the same canonical latest-demo link each time; preserve immutable versioned video copies and checksums for history.

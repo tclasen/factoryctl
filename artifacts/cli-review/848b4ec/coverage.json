@@ -1,0 +1,520 @@
+{
+  "revision": "848b4ec072755aafa8d6ba9a93a878170b1bf315",
+  "assertion_count": 112,
+  "duration_seconds": 418.135,
+  "scenes": [
+    {
+      "id": 1,
+      "title": "01 / The document CLI",
+      "caption": "Real command execution in synthetic Git projects. This browser is a CLI review harness, not a product GUI.",
+      "features": [
+        "help",
+        "version",
+        "doctor",
+        "build"
+      ],
+      "assertions": [
+        "Current source builds successfully",
+        "Runtime explicitly unsupported; no Git subprocesses"
+      ],
+      "executed_at": "2026-10-27T23:35:08.694Z",
+      "start_seconds": 0,
+      "end_seconds": 16.463,
+      "commands": [
+        "factoryctl --version",
+        "factoryctl --help",
+        "factoryctl doctor --json"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "02 / S1 • initialize one repository",
+      "caption": "Initialize explicit software defaults; repeated identical initialization leaves existing defaults unchanged.",
+      "features": [
+        "init",
+        "S1",
+        "init-conflict"
+      ],
+      "assertions": [
+        "Starter files created",
+        "Repeated initialization creates nothing"
+      ],
+      "executed_at": "2026-10-27T23:35:09.749Z",
+      "start_seconds": 16.463,
+      "end_seconds": 32.504,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 init --project-id single --starter software --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 init --project-id single --starter software --json"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "03 / Discover and create",
+      "caption": "Discovery reports project identity. Explicit template inputs create a Task and revision.",
+      "features": [
+        "projects list",
+        "records create"
+      ],
+      "assertions": [
+        "Exactly one project discovered",
+        "Task template applied"
+      ],
+      "executed_at": "2026-10-27T23:35:09.864Z",
+      "start_seconds": 32.504,
+      "end_seconds": 48.544,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 projects list --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records create --type Task --slug launch --input \"title=Launch review\" --input \"summary=Real CLI evidence.\" --json"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "04 / Explicit input, exclusive creation",
+      "caption": "Missing input never prompts. An existing destination is protected.",
+      "features": [
+        "non-interactive",
+        "missing-input",
+        "already-exists"
+      ],
+      "assertions": [
+        "Missing-input attempt created no file"
+      ],
+      "executed_at": "2026-10-27T23:35:09.901Z",
+      "start_seconds": 48.545,
+      "end_seconds": 64.585,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records create --type Task --slug missing --non-interactive --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records create --type Task --slug launch --input title=Duplicate --input \"summary=No overwrite\" --json"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "05 / Find a record • filter and paginate",
+      "caption": "Lists support type, case-insensitive search, bounded pages and snapshot cursors.",
+      "features": [
+        "records list",
+        "query",
+        "pagination"
+      ],
+      "assertions": [
+        "Filtered match is launch Task",
+        "Next cursor supplied",
+        "Second page differs"
+      ],
+      "executed_at": "2026-10-27T23:35:09.944Z",
+      "start_seconds": 64.585,
+      "end_seconds": 80.63,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records list --type Task --query LAUNCH --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records list --limit 2 --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records list --limit 2 --cursor Zjc0ZjQ5OWZiNjdjYWM3MGRlOWY0MTU3NzQzNzBlNjA1ODY4ZWUzYzU3ZTFkYWEwNGM0ZjVmYWRhMzY5ZGQzMToy --json"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "06 / Read exact source and revision",
+      "caption": "Read includes exact Markdown, parsed metadata, links, backlinks and the SHA-256 revision.",
+      "features": [
+        "records show",
+        "source",
+        "revision"
+      ],
+      "assertions": [
+        "Exact source equals disk",
+        "Revision is SHA-256"
+      ],
+      "executed_at": "2026-10-27T23:35:09.972Z",
+      "start_seconds": 80.63,
+      "end_seconds": 96.669,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records show tasks/launch.md --json"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "07 / Safe field edit",
+      "caption": "A valid enum update preserves unrelated source bytes. Structural validity is not workflow approval.",
+      "features": [
+        "records update",
+        "source-preservation",
+        "enum"
+      ],
+      "assertions": [
+        "Task state updated",
+        "Only scalar value changed"
+      ],
+      "executed_at": "2026-10-27T23:35:09.981Z",
+      "start_seconds": 96.669,
+      "end_seconds": 112.704,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records update tasks/launch.md --expected-revision f432ca95a5a00cbbc5af2e41c876f0e6a5265ba3363dbe4839f35ecce4643c2d --set task_state=done --json"
+      ]
+    },
+    {
+      "id": 8,
+      "title": "08 / Conflict and invalid-state recovery",
+      "caption": "Stale revision, invalid enum and expired cursor produce explicit errors; rejected writes preserve bytes.",
+      "features": [
+        "stale_revision",
+        "invalid_document",
+        "cursor_expired"
+      ],
+      "assertions": [
+        "Rejected edits leave exact bytes intact"
+      ],
+      "executed_at": "2026-10-27T23:35:10.020Z",
+      "start_seconds": 112.704,
+      "end_seconds": 128.751,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records update tasks/launch.md --expected-revision f432ca95a5a00cbbc5af2e41c876f0e6a5265ba3363dbe4839f35ecce4643c2d --set title=Stale --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records update tasks/launch.md --expected-revision a2fa44b4ec72809c70e6bd07575c86d9540267f2fbf893be930c6b53b0611f4f --set task_state=impossible --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records list --limit 2 --cursor Zjc0ZjQ5OWZiNjdjYWM3MGRlOWY0MTU3NzQzNzBlNjA1ODY4ZWUzYzU3ZTFkYWEwNGM0ZjVmYWRhMzY5ZGQzMToy --json"
+      ]
+    },
+    {
+      "id": 9,
+      "title": "09 / Whole-document replacement",
+      "caption": "Replace from stdin supports deliberate body edits using the latest revision.",
+      "features": [
+        "records replace",
+        "stdin"
+      ],
+      "assertions": [
+        "Replacement persisted exact supplied bytes"
+      ],
+      "executed_at": "2026-10-27T23:35:10.070Z",
+      "start_seconds": 128.751,
+      "end_seconds": 144.787,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records replace tasks/launch.md --expected-revision a2fa44b4ec72809c70e6bd07575c86d9540267f2fbf893be930c6b53b0611f4f --file - --json"
+      ]
+    },
+    {
+      "id": 10,
+      "title": "10 / Incoming links guard deletion",
+      "caption": "A dependent Task creates a backlink. Deletion is refused until the incoming record is removed.",
+      "features": [
+        "backlinks",
+        "outgoing-links",
+        "referenced_node",
+        "records delete"
+      ],
+      "assertions": [
+        "Backlink resolves to dependent Task",
+        "Dependent record removed"
+      ],
+      "executed_at": "2026-10-27T23:35:10.108Z",
+      "start_seconds": 144.787,
+      "end_seconds": 165.728,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records create --type Task --slug dependent --input title=Dependent --input summary=[Launch](launch.md#evidence) --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records show tasks/launch.md --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records delete tasks/launch.md --expected-revision 8a6713861ebdaeb87f82071b45dde90e2a224af0602abdfa46bd8d60087480fc --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records delete tasks/dependent.md --expected-revision fece6b694f19142d18b41c4d3a817e934deb84c27895a061512a9621f296fc11 --json"
+      ]
+    },
+    {
+      "id": 11,
+      "title": "11 / Templates and available actions",
+      "caption": "Inspect local defaults and discover prompt applicability without launching an agent.",
+      "features": [
+        "templates diff",
+        "actions list"
+      ],
+      "assertions": [
+        "Task template equals bundled default",
+        "Discuss prompt is applicable"
+      ],
+      "executed_at": "2026-10-27T23:35:10.193Z",
+      "start_seconds": 165.728,
+      "end_seconds": 181.768,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 templates diff --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 actions list --record tasks/launch.md --json"
+      ]
+    },
+    {
+      "id": 12,
+      "title": "12 / Validation and honest completeness",
+      "caption": "Factory and OKF levels validate structure. External links remain unchecked; strict completeness returns exit 5.",
+      "features": [
+        "validate",
+        "okf",
+        "factory",
+        "require-complete-links"
+      ],
+      "assertions": [
+        "okf has zero errors",
+        "factory has zero errors",
+        "Incomplete external link reported"
+      ],
+      "executed_at": "2026-10-27T23:35:10.211Z",
+      "start_seconds": 181.768,
+      "end_seconds": 202.465,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 validate --level okf --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 validate --level factory --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records replace tasks/launch.md --expected-revision 8a6713861ebdaeb87f82071b45dde90e2a224af0602abdfa46bd8d60087480fc --file - --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 validate --require-complete-links --json"
+      ]
+    },
+    {
+      "id": 13,
+      "title": "13 / Containment and stable lock anchor",
+      "caption": "Traversal and editing the coordination anchor are rejected. Existing files remain intact.",
+      "features": [
+        "invalid_path",
+        "write-anchor"
+      ],
+      "assertions": [
+        "Anchor deletion rejected",
+        "Anchor remains"
+      ],
+      "executed_at": "2026-10-27T23:35:10.279Z",
+      "start_seconds": 202.465,
+      "end_seconds": 218.51,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records show ../escape.md --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records show control/write-coordination.md --json",
+        "factoryctl records delete control/write-coordination.md --expected-revision <current> --json"
+      ]
+    },
+    {
+      "id": 14,
+      "title": "14 / S2 • one Git root, two projects",
+      "caption": "Identical record paths and type names remain separate. Canonical bundle URLs resolve across loaded projects.",
+      "features": [
+        "S2",
+        "projects list",
+        "mapped-links",
+        "backlinks"
+      ],
+      "assertions": [
+        "Two project instances",
+        "Git-root topology matches scenario",
+        "Mapped outgoing link and backlink",
+        "Collection validates completely"
+      ],
+      "executed_at": "2026-10-27T23:35:10.335Z",
+      "start_seconds": 218.51,
+      "end_seconds": 234.56,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S2 projects list --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S2 --project alpha records show widgets/example.md --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S2 validate --json"
+      ]
+    },
+    {
+      "id": 15,
+      "title": "15 / S2 • local definitions and isolation",
+      "caption": "Alpha accepts its own enum and rejects beta’s value. A selected write cannot change beta’s same-named record.",
+      "features": [
+        "S2",
+        "independent-definitions",
+        "isolation",
+        "ambiguous_project"
+      ],
+      "assertions": [
+        "Beta exact bytes unchanged"
+      ],
+      "executed_at": "2026-10-27T23:35:10.360Z",
+      "start_seconds": 234.56,
+      "end_seconds": 250.759,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S2 records update widgets/example.md --expected-revision 9329e5a986e03761bfcd49b9ba9a88ae24691af4580e5cc1003ad744149ac61c --set state=alpha-ready --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S2 --project alpha records update widgets/example.md --expected-revision 9329e5a986e03761bfcd49b9ba9a88ae24691af4580e5cc1003ad744149ac61c --set state=alpha-ready --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S2 --project alpha records update widgets/example.md --expected-revision e7437ae28e5d21ec8c7fc62e9cacb1e3ced79a06347b016498c728c6ffd24f6d --set state=beta --json"
+      ]
+    },
+    {
+      "id": 16,
+      "title": "16 / S2 • custom template and graph protection",
+      "caption": "Create a custom Widget using typed template input; incoming heading references protect whole-document edits.",
+      "features": [
+        "S2",
+        "custom-type",
+        "custom-template",
+        "proposed-graph"
+      ],
+      "assertions": [
+        "Custom template rendered local enum",
+        "Referenced heading preserved"
+      ],
+      "executed_at": "2026-10-27T23:35:10.409Z",
+      "start_seconds": 250.759,
+      "end_seconds": 266.808,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S2 --project alpha records create --type Widget --slug custom --input \"title=Custom rendered widget\" --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S2 --project alpha records replace widgets/example.md --expected-revision e7437ae28e5d21ec8c7fc62e9cacb1e3ced79a06347b016498c728c6ffd24f6d --file - --json"
+      ]
+    },
+    {
+      "id": 17,
+      "title": "17 / S3 • two independent Git repositories",
+      "caption": "Identical record paths and type names remain separate. Canonical bundle URLs resolve across loaded projects.",
+      "features": [
+        "S3",
+        "projects list",
+        "mapped-links",
+        "backlinks"
+      ],
+      "assertions": [
+        "Two project instances",
+        "Git-root topology matches scenario",
+        "Mapped outgoing link and backlink",
+        "Collection validates completely"
+      ],
+      "executed_at": "2026-10-27T23:35:10.508Z",
+      "start_seconds": 266.808,
+      "end_seconds": 282.858,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S3 projects list --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S3 --project alpha records show widgets/example.md --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S3 validate --json"
+      ]
+    },
+    {
+      "id": 18,
+      "title": "18 / S3 • local definitions and isolation",
+      "caption": "Alpha accepts its own enum and rejects beta’s value. A selected write cannot change beta’s same-named record.",
+      "features": [
+        "S3",
+        "independent-definitions",
+        "isolation",
+        "ambiguous_project"
+      ],
+      "assertions": [
+        "Beta exact bytes unchanged"
+      ],
+      "executed_at": "2026-10-27T23:35:10.531Z",
+      "start_seconds": 282.858,
+      "end_seconds": 299.06,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S3 records update widgets/example.md --expected-revision 9329e5a986e03761bfcd49b9ba9a88ae24691af4580e5cc1003ad744149ac61c --set state=alpha-ready --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S3 --project alpha records update widgets/example.md --expected-revision 9329e5a986e03761bfcd49b9ba9a88ae24691af4580e5cc1003ad744149ac61c --set state=alpha-ready --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S3 --project alpha records update widgets/example.md --expected-revision e7437ae28e5d21ec8c7fc62e9cacb1e3ced79a06347b016498c728c6ffd24f6d --set state=beta --json"
+      ]
+    },
+    {
+      "id": 19,
+      "title": "19 / S3 • custom template and graph protection",
+      "caption": "Create a custom Widget using typed template input; incoming heading references protect whole-document edits.",
+      "features": [
+        "S3",
+        "custom-type",
+        "custom-template",
+        "proposed-graph"
+      ],
+      "assertions": [
+        "Custom template rendered local enum",
+        "Referenced heading preserved"
+      ],
+      "executed_at": "2026-10-27T23:35:10.580Z",
+      "start_seconds": 299.06,
+      "end_seconds": 315.112,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S3 --project alpha records create --type Widget --slug custom --input \"title=Custom rendered widget\" --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S3 --project alpha records replace widgets/example.md --expected-revision e7437ae28e5d21ec8c7fc62e9cacb1e3ced79a06347b016498c728c6ffd24f6d --file - --json"
+      ]
+    },
+    {
+      "id": 20,
+      "title": "20 / Checkout selection and source fallback",
+      "caption": "Duplicate IDs require a checkout token. Complex YAML edits use explicit whole-document replacement.",
+      "features": [
+        "checkout",
+        "lossless_edit_unavailable",
+        "replace-file",
+        "cwd-fallback"
+      ],
+      "assertions": [
+        "Only selected checkout has record",
+        "Complex scalar rejection preserves bytes",
+        "Implicit CWD finds ancestor project",
+        "Explicit path does not fall back"
+      ],
+      "executed_at": "2026-10-27T23:35:10.629Z",
+      "start_seconds": 315.112,
+      "end_seconds": 359.46,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/duplicates/one init --project-id duplicate --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/duplicates/two init --project-id duplicate --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/duplicates projects list --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/duplicates --project duplicate records create --type Task --slug chosen --input title=Chosen --input summary=Selected --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/duplicates --project duplicate --checkout 5fdeea771b74f4ee655621ffda4ef05efd0ddc2fb0a538e82b07958df752514f records create --type Task --slug chosen --input title=Chosen --input summary=Selected --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records update tasks/launch.md --expected-revision c66ef90938088177191dd4e77758f5263bf26ba612f34e3313a71afac6fae636 --set title=Replacement --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 records replace tasks/launch.md --expected-revision c66ef90938088177191dd4e77758f5263bf26ba612f34e3313a71afac6fae636 --file /tmp/factoryctl-review-a6aekG/replacement.md --json",
+        "factoryctl projects list --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1/src/deep projects list --json"
+      ]
+    },
+    {
+      "id": 21,
+      "title": "20 / Unsupported means unsupported",
+      "caption": "GUI, MCP, runtime action execution, view export and external network checks are not implemented. These are expected errors.",
+      "features": [
+        "unsupported_capability",
+        "gui",
+        "mcp",
+        "actions run",
+        "templates export",
+        "check-external"
+      ],
+      "assertions": [
+        "gui explicitly unsupported",
+        "mcp explicitly unsupported",
+        "actions run prompts/discuss.md explicitly unsupported",
+        "templates export --kind view explicitly unsupported",
+        "validate --check-external explicitly unsupported"
+      ],
+      "executed_at": "2026-10-27T23:35:10.940Z",
+      "start_seconds": 359.46,
+      "end_seconds": 384.884,
+      "commands": [
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 gui --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 mcp --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 actions run prompts/discuss.md --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 templates export --kind view --json",
+        "factoryctl --path /tmp/factoryctl-review-a6aekG/S1 validate --check-external --json"
+      ]
+    },
+    {
+      "id": 22,
+      "title": "21 / Fresh regression evidence",
+      "caption": "Current source is tested on this macOS host. Regression tests cover parser hazards, templates, races, processes and all collection scenarios.",
+      "features": [
+        "go test",
+        "race",
+        "vet"
+      ],
+      "assertions": [
+        "go test -count=1 ./... passed",
+        "go test -race -count=1 ./... passed",
+        "go vet ./... passed"
+      ],
+      "executed_at": "2026-10-27T23:35:10.962Z",
+      "start_seconds": 384.884,
+      "end_seconds": 401.224,
+      "commands": [
+        "go test -count=1 ./...",
+        "go test -race -count=1 ./...",
+        "go vet ./..."
+      ]
+    },
+    {
+      "id": 23,
+      "title": "22 / Review complete • bounded milestone",
+      "caption": "All recorded results come from real CLI executions. No product GUI, runtime, MCP or full release qualification is claimed.",
+      "features": [
+        "summary"
+      ],
+      "assertions": [
+        "Every scene passed its assertions"
+      ],
+      "executed_at": "2026-10-27T23:35:18.436Z",
+      "start_seconds": 401.224,
+      "end_seconds": 417.267,
+      "commands": []
+    }
+  ]
+}

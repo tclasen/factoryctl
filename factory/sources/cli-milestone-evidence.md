@@ -51,3 +51,7 @@ Native Codex integration and its runtime spike, MCP/HTTP servers, GUI, browser e
 ## Delivery
 
 Implementation and the proposed milestone closure are on [PR 8](https://github.com/tclasen/factoryctl/pull/8). Closure becomes effective only when the independent repair recheck passes, normal PR requirements are satisfied, the reviewed content merges, and remote main containment/content is verified. The PR records that exact-candidate review and delivery outcome; before those gates this record is a proposal, not a delivered-completion claim. The project main ruleset requires PR delivery and resolved review threads, forbids force updates/deletion, and exposes no required CI contexts. No protections will be bypassed. No released version or tag is created by this milestone.
+
+## Review artifact omission and correction
+
+The initial milestone handoff omitted the Playwright review video. The operator requested it immediately afterward. [The review-video task](../tasks/cli-review-video.md) records the correction and its fresh evidence; treating the implementation as an unreleased milestone did not satisfy the operator’s review expectation. The first CLI source delivery remains historical implementation evidence, separate from video acceptance.
