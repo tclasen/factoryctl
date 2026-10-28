@@ -1,5 +1,11 @@
 # factoryctl work instructions
 
+## Operator scope boundary: standard application engineering
+
+The operator explicitly rejected the portability compatibility expansion. Do not write, generate, embed or adapt shellcode or raw assembly, including inline assembly. Do not author shell scripts as a portability workaround, fork or patch a language runtime/standard library/toolchain, add custom syscall/ABI bridges, modify executable loader metadata, or patch binary formats. This ban applies to research probes and generated code as well as shipping sources. Ordinary use of existing build tools and terminal commands is not a request to implement low-level code; existing upstream toolchain internals need no rewrite.
+
+Custom old-OS backports, the Darwin overlay/converter and the legacy-browser compilation/polyfill/frame-transport expansion are removed from active scope. Do not resume or ship the paused experiments under the earlier completion instruction. Use standard supported tools and platform interfaces. If those cannot satisfy the requested OS baseline, record the gap; do not create a compatibility project to eliminate it. Product implementation remains paused. The current authorized work is documentation-only scope correction; see `factory/tasks/remove-compatibility-scope.md` and the current plan.
+
 Read `factory/factory.md` for the current product state and `factory/sources/operator-brief.md` plus the specifications relevant to the assigned task. Preserve the minimal-interface boundary: document structure and safe access belong in factoryctl; factory workflow interpretation belongs in the external harness.
 
 ## Mandatory milestone demo gate

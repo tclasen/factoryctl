@@ -51,7 +51,7 @@ The requirements below are synthesized from [operator statements](../sources/ope
 
 ## Operation and collaboration
 
-- **R16 — Portable executable.** Deliver a single static executable with embedded UI/defaults for macOS, Linux and Windows, ARM64/x86-64, suitable for desktop, server and CI.
+- **R16 — Portable executable.** Deliver a single compiled executable with embedded UI/defaults for macOS, Linux and Windows, ARM64/x86-64, suitable for desktop, server and CI. Ordinary OS components are allowed; users must not need developer dependencies or manual shared-library management. Use standard supported application tools only, under the [scope correction](../sources/operator-brief.md#compatibility-scope-correction--2026-10-28). The 2016 OS baseline remains desired but unqualified where tooling does not support it; no custom runtime/assembly/ABI/loader compatibility work is admitted. Product work remains paused.
 - **R17 — Distributed collaboration.** Different users run against their own checkouts and exchange Git changes. One trusted user per served instance; authentication and shared-user infrastructure are external.
 - **R18 — Automation boundary.** Agents own scheduling, workflow policy, task dispatch and recursive factory loops. Factoryctl may start a conversation that asks an agent to run such a loop; it is not a workflow engine.
 - **R19 — Dogfooding.** Build and manage factoryctl using its own record format. Ship optional software-development definitions/templates; maintain living specs and one authoritative current task state.

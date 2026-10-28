@@ -23,6 +23,8 @@ sources:
 
 # Current project completion evidence
 
+**Current scope correction:** product implementation is paused. The [operator correction](operator-brief.md#compatibility-scope-correction--2026-10-28) removes the custom runtime/assembly/ABI/loader and legacy-browser compatibility expansion from active scope. Ordinary OS libraries are permitted; the requested 2016 OS coverage remains unqualified where standard tools cannot provide it. Earlier static-interpretation and implementation-admission statements below are historical where superseded. No product completion or baseline compliance is claimed. Only the documentation scope correction is active.
+
 **Full qualification is incomplete.** U045 is blocked: Linux binaries have no dynamic-library dependencies, while Darwin and Windows retain platform system libraries. The requested operator clarification remains unanswered; no exception or requirement change is inferred. This is a review package for implemented work, not a release, project-completion declaration or permission to publish artifacts. Independent visual/semantic evidence review supports the bounded implemented scope; final exact-candidate approval and remote-main delivery remain pending at this checkpoint. The review-requested custom drag/drop and GUI Initialize journeys now pass against the same frozen binary; the final matrix includes those observations.
 
 ## Source and verification identity
