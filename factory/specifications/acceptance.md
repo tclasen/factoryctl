@@ -118,3 +118,8 @@ For every release, verify a Playwright recording covering the complete implement
 ## A20 Continuing requirements traceability
 
 Verify every operator requirement has an atomic row in the [matrix](requirements-traceability.md), an implementation/acceptance mapping and current release evidence or an explicit unfulfilled disposition. Check no previous result is silently reused as a current pass, no required feature disappears, and release artifacts/versions/revisions/timestamps are verifiable. Failed/blocked mandatory requirements prevent acceptance absent an explicit operator exception. Keep design-only evidence distinct from implemented behavior.
+
+
+## A21 Delivery-status visibility and local-only projects — planned
+
+For R36/R37, demonstrate all scenarios in [delivery status](../designs/delivery-status.md#qualification-scenarios): post-integration verification without recursive closure commits; local branch/working-tree delivery without a remote; no inherited PR policy; explicit undefined criteria; revision changes and late observations; missing/stale evidence; consistent web ticket/current-plan display. Verify acceptance interpretation remains project/harness-owned and a merge alone cannot pass unmet criteria. Optional CLI presentation, if implemented, must share semantics. No implementation or execution pass is claimed.

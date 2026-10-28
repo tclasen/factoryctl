@@ -32,11 +32,15 @@ The operator authorized implementing the working-method proposals and asked for 
 | Work | Status and authority | User-visible result / boundary |
 | --- | --- | --- |
 | [Intent and tangible review](../decisions/intent-and-review.md) | Accepted method; current task applies it | Requests, agent choices and execution authorization remain separate; demos precede long completion prose |
-| [Read-only browser explorer](../tasks/visible-intent.md) | In progress; assistant-selected reversible means under the current implementation request | Navigate real documents and recorded provenance without editing or submitting acceptance |
+| [Read-only browser explorer](../tasks/visible-intent.md) | Implemented in [PR #11](https://github.com/tclasen/factoryctl/pull/11); assistant-selected reversible means (historical delivery observation, not a live status) | Navigate real documents and recorded provenance without editing or submitting acceptance |
 | [Existing document services](../tasks/first-cli-milestone.md) | Implemented bounded CLI work; sequence was assistant-selected | Reuse discovery, parsing, validation and safe storage; no further CLI feature milestone selected |
 | [Native runtime qualification](../tasks/00-runtime-spike.md) and [MCP Apps/questions](../tasks/13-user-interaction.md) | Required direction to explore; exact next implementation scope is proposed | Generated view/question → actual response → correlated tool result → same-conversation follow-up; installed host support remains unverified |
 | [Shared transports](../tasks/06-transports.md) and [full GUI](../tasks/08-gui.md) | Remaining capability scope; implement only the services needed by an admitted vertical slice | Editing, board and conversation interfaces remain outstanding; reading documents does not require completed runtime integration |
 | [Extensions](../tasks/12-extension-contract.md), [custom views](../tasks/09-custom-views.md), [non-software use](../tasks/10-knowledge-work.md), [release qualification](../tasks/11-release-qualification.md) | Planned and unqualified | Existing requirements remain; no full product/release acceptance is claimed |
+
+## Delivery-status design follow-up
+
+[Project-specific delivery status](delivery-status.md) records the accepted separation of ticket claims and delivery evidence, required web presentation and local-only support. Exact labels, observation storage and resolver/adapters remain proposals. No managed project inherits this repository's PR requirement. Implementation is not yet admitted and does not silently replace the MCP Apps exploration direction. Once implemented, ticket and plan views will share observed delivery state instead of manually maintained status summaries.
 
 ## Superseded ordering
 

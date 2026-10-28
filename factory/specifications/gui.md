@@ -62,3 +62,8 @@ Render installed type definitions and namespaced actions through the [extension 
 Use the same shell, All projects selector, overview, lists, detail/backlink panels and conversation controls in all [three layouts](project-scenarios.md). Keep that shell for a single-project collection. Repository topology is location metadata, not a separate navigation mode. Monorepo project selection must not collapse to a repository selection.
 
 Render [agent questions](user-interaction.md) in their originating conversation with project identity, free-text input or labeled choices and an optional custom answer. Subsequent user messages and agent follow-ups remain in that thread. Rich web views may be generated during conversation; the MCP Apps prototype qualifies rendering and reply routing before claiming support. The plain question form remains usable when rich rendering fails or is unavailable. Interactive CLI retirement requires the recorded evidence and explicit decision specified there.
+
+
+## Delivery evidence alongside recorded state
+
+R36/R37 require ticket detail and the current-plan view to display the same project-specific delivery observations, target, evidence and verification freshness, separately from recorded work state and intent labels. Local-only projects require no GitHub/PR controls. Undefined criteria, missing/stale observations and changes since verification must be explicit; a merge or an author-written done field alone cannot establish delivery. CLI parity is optional. See [delivery status](../designs/delivery-status.md) for proposed states and qualification scenarios. The current explorer does not implement this read-model yet.
