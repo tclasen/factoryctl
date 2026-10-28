@@ -48,3 +48,13 @@ test('final tail must match actual exported duration',t=>{const dir=fixture(t);c
 test('final annotation start remains strict despite the export tail',t=>{const dir=fixture(t);change(dir,'annotations.json',m=>{m.annotations.at(-1).start_seconds+=1.5;});const r=run(dir);assert.equal(r.status,1);assert.match(r.stdout,/Annotation timing differs from actual scene 2/);});
 
 test('embedded browser asset changes invalidate old capture',t=>{const dir=fixture(t);change(dir,'toolchain.json',m=>{m.product_files.find(f=>f.path==='internal/web/assets/app.js').sha256='0'.repeat(64);});const r=run(dir);assert.equal(r.status,1);assert.match(r.stdout,/Stale product evidence: internal\/web\/assets\/app.js/);});
+
+function qualification(dir) {
+ const files=[];function walk(p){for(const e of fs.readdirSync(p,{withFileTypes:true})){const f=path.join(p,e.name);if(e.isDirectory())walk(f);else if(e.name.endsWith('.go'))files.push({path:path.relative(root,f),sha256:hash(fs.readFileSync(f))});}}walk(path.join(root,'scripts/qualification'));
+ change(dir,'toolchain.json',m=>{m.qualification_files=files;});
+ const events=fs.readFileSync(path.join(dir,'test-events.jsonl'),'utf8')+'{"Action":"pass","Test":"TestSyntheticKnowledgeWorkCorpus"}\n';fs.writeFileSync(path.join(dir,'test-events.jsonl'),events);change(dir,'test-run.json',m=>{m.events_sha256=hash(events);});
+ change(dir,'requirements-coverage.json',m=>{m.rows[0].tests=['TestSyntheticKnowledgeWorkCorpus'];});
+}
+test('qualification tests need source binding and actual passing events',t=>{const dir=fixture(t);qualification(dir);const r=run(dir);assert.equal(r.status,0,r.stdout+r.stderr);change(dir,'toolchain.json',m=>{delete m.qualification_files;});const absent=run(dir);assert.equal(absent.status,1);assert.match(absent.stdout,/Unknown named test TestSyntheticKnowledgeWorkCorpus/);});
+test('qualification source changes invalidate its test evidence',t=>{const dir=fixture(t);qualification(dir);change(dir,'toolchain.json',m=>{m.qualification_files[0].sha256='0'.repeat(64);});const r=run(dir);assert.equal(r.status,1);assert.match(r.stdout,/Stale qualification evidence/);});
+test('qualification source inventories must be complete',t=>{const dir=fixture(t);qualification(dir);change(dir,'toolchain.json',m=>{m.qualification_files.pop();});const r=run(dir);assert.equal(r.status,1);assert.match(r.stdout,/Qualification source inventory changed/);});

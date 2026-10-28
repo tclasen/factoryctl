@@ -15,7 +15,7 @@ sources:
     resource: "../sources/operator-brief.md"
     title: "Operator requirements and scope"
     author: "human:operator"
-task_state: "planned"
+task_state: done
 priority: "normal"
 owner: "unassigned"
 depends_on:
@@ -37,11 +37,11 @@ requirements:
 
 ## Outcome
 
-Implement MCP stdio tools and HTTP/SSE adapters around the same application services. Bind project scope, diagnostics, revision tokens and in-memory event routing.
+Implement MCP stdio tools and local HTTP adapters around the same application services. The current concrete transport contract uses polling where specified; the original proposed SSE mechanism is superseded. Bind project scope, diagnostics, revision tokens and in-memory event routing.
 
 ## Scope and handoff
 
-Implement the relevant modules in the [architecture](../designs/architecture.md), following the linked specifications in frontmatter. Read [operator authority](../sources/operator-brief.md) before any external effects. Shared MCP document tools and scoped question/view attachment are implemented, with protocol, revision-conflict and capability-separation tests. Browser conversation routes are implemented; general browser document mutation, extension dispatch and full transport parity remain outstanding. See [capability evidence](../sources/interaction-capabilities.md). The [implementation plan](../designs/implementation-plan.md) establishes build order and shared contracts.
+Implement the relevant modules in the [architecture](../designs/architecture.md), following the linked specifications in frontmatter. Read [operator authority](../sources/operator-brief.md) before any external effects. Shared MCP document tools and scoped question/view attachment are implemented, with protocol, revision-conflict and capability-separation tests. At that earlier checkpoint browser conversation routes were implemented while general document mutation, extension dispatch and transport parity remained outstanding; the current outcome is reconciled below. See [capability evidence](../sources/interaction-capabilities.md). The [implementation plan](../designs/implementation-plan.md) establishes build order and shared contracts.
 
 ## Verification and done criteria
 
@@ -60,3 +60,13 @@ Register namespaced tools and shared CLI/HTTP operation dispatch from the [exten
 ## Collection, interaction and continuing evidence
 
 Expose the question tools, pending-result/wait semantics, scoped host answer routes and events from [user interaction](../specifications/user-interaction.md). Exercise S1–S3 transport parity and routing, including separate monorepo project identities. Use fake-broker tests here; task 13 qualifies runtime/Apps integration. Record A16/A17 evidence.
+
+## Completion revision 2 reconciliation
+
+Current product candidate: `a7c22ba847d58e8f4ece6a22ee9bb73302a64c02`. The explicit instruction to implement the remaining project tasks and its bounds are recorded in the [completion task](project-completion.md); the original authorization and historical checkpoints above remain distinct.
+
+CLI, MCP and local HTTP share document/extension services with current scope, pagination, validation, revision and Host/Origin/nonce checks. General browser mutation, namespaced dispatch and request-time definition reload are implemented. Current transport contracts use polling where specified; earlier proposed SSE behavior is not a delivered capability. Native question/generated-view routing remains separate from external Apps interoperability (A07/A14/A16/A17).
+
+Current command, named-test, native/browser, scene and artifact identities are consolidated in [completion milestone evidence](../sources/completion-milestone-evidence.md), with the independent [code review](../sources/completion-code-review.md) and [acceptance review](../sources/completion-acceptance-review.md). The proposed matrix accounts for 105 passing rows and blocked U045; that proposal is not a full-product acceptance or release claim. Final combined evidence and independent review remain separate gates.
+
+Conditional closure proposal: the bounded work described here is implemented or reconciled and ready for reviewed delivery. The proposed `done` state becomes effective ONLY after this PR is independently reviewed, merged normally and verified on owning-remote main. Before those gates this is a closure proposal, not a delivered result. The final independent reviewer must assess this task's evidence basis. Coordinator retains delivery/reconciliation ownership; no earlier PR/main result is invented by this update. Task 11 and the root completion task retain the unresolved static-linkage/full-qualification boundary.

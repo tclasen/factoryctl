@@ -7,7 +7,7 @@ const models=[{id:'a',model:'model-a',display_name:'Model A',is_default:true,def
 let global=null,projects={},revision=0,conflict=false,storeError='',conversations=[],starts=[],turns=[],saves=[];
 const settings=project=>({models,native_default:pair('model-b','medium'),global,project:projects[project]||null,effective:projects[project]||global||pair(),source:projects[project]?'project':global?'global':'native',revision:String(revision),config_path:'/isolated-home/.factoryctl/chat-settings.json',settings_error:storeError});
 const json=(res,data,status=200)=>{res.writeHead(status,{'Content-Type':'application/json'});res.end(JSON.stringify(data));};
-const server=http.createServer(async(req,res)=>{const url=new URL(req.url,'http://localhost');let body='';for await(const c of req)body+=c;const input=body?JSON.parse(body):{};
+const server=http.createServer(async(req,res)=>{const url=new URL(req.url,'http://localhost');let body='';for await(const c of req)body+=c;const input=body?JSON.parse(body):{};if(url.pathname==='/api/v1/session')return json(res,{nonce:'document-fixture'});if(url.pathname==='/api/v1/actions')return json(res,[]);if(url.pathname==='/api/v1/custom')return json(res,{error:{code:'not_found',message:'No custom fixture'}},404);
  if(url.pathname==='/api/documents')return json(res,{documents:[],snapshot:'Fixture',diagnostics:0});
  if(url.pathname.startsWith('/api/')){
   assert.equal(req.headers['x-factory-host'],'fixture-host');

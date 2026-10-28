@@ -21,6 +21,19 @@ sources:
 
 These are version-1 target contracts. The [product requirements](product.md) establish the interfaces. The first document CLI implements the subset described by the repository README and [CLI evidence](../sources/cli-milestone-evidence.md); runtime, GUI, MCP and other explicitly pending commands are not yet implemented. Implemented document commands use one application service layer and [validator](validation.md).
 
+
+## Implemented initial transport contract — completion revision 2
+
+The original version-1 tables below are assistant-designed target mechanisms, not operator-selected command spellings. Completion revision 2 selects the concrete contract in this section. It supersedes their SSE/event transport, arbitrary scalar-filter and paginated-backlink proposals for the initial implementation; those are not claimed as delivered capabilities. Existing operator outcomes remain: navigable project collections, standardized scoped document operations, live diagnostics, conversations and actual answers.
+
+The CLI implements `projects list`, `init`, `records list/show/create/update/replace/delete`, `validate`, `templates diff/export`, `actions list/render/run`, `extensions list/call`, `doctor`, `web`/`gui`, `chat` and `mcp`. Lists filter by type and literal case-insensitive query and use snapshot/filter/scope-bound cursors. Structured writes accept optional `--expected-definition`; all writes validate fresh structure inside the bundle lock. Prompt rendering is a preview; explicit interactive action launch uses the selected harness. Network link checking is not selected; citations remain explicitly unchecked.
+
+HTTP exposes `/api/v1/session`, `/projects`, `/definitions`, `/nodes`, `/node`, `/links`, `/validate`, `/actions`, `/actions/render`, `/extensions`, `/extensions/call`, `/init`, `/custom`, `/custom/trust`, `/custom/request`, `/delivery` under the `/api/v1` prefix, alongside the existing `/api/documents` and `/api/document` explorer reads. Mutation bodies use `ref`, revision and definition tokens with exactly scoped data. The actual custom endpoint operation spellings follow the implementation and current tests; no arbitrary root is accepted. Mutations require the process nonce independently of optional runtime conversations.
+
+MCP exposes the core document/question/generated-view tools plus `factory_extensions_list`, `factory_prompt_render` and runtime-discovered namespaced tools. Node listing accepts `type`, `query`, `limit` and `cursor`; continuation pins project, filters and current snapshot. Generic and specialized writers require `expected_definition`, with document revision for updates/deletes. Definition discovery reports the unknown-type hash too. Reads retain full bounded loaded backlinks/outgoing links; no backlink cursor is advertised. Structural diagnostics never establish acceptance or workflow readiness.
+
+Browser document refresh uses nonoverlapping polling and content-based cached snapshots; conversations use their existing scoped polling endpoints. SSE is not implemented or required to obtain the bidirectional behavior demonstrated by current browser/native tests. Rendering uses fixed-size pages, preserves drafts, revalidates external changes and keeps native/custom frames distinct. No persistent browser database or project index is introduced. Errors and unsupported native variants remain explicit; this section does not claim exhaustive parity with the superseded target DTOs below.
+
 ## CLI grammar
 
 Global flags: `--path DIR` (default CWD), `--project ID` (required for ambiguous writes), `--json`, `--non-interactive`. Flags may appear before or after subcommands. Human output is default; JSON is stdout-only structured output. Diagnostics/progress go to stderr. Do not persist CLI output automatically.

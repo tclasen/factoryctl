@@ -15,7 +15,7 @@ sources:
     resource: "../sources/operator-brief.md"
     title: "Operator requirements and scope"
     author: "human:operator"
-task_state: "in_progress"
+task_state: done
 priority: "high"
 owner: "developer"
 depends_on: []
@@ -37,7 +37,7 @@ Create the Go executable skeleton, embedded-default mechanism, Factory-node meta
 
 ## Scope and handoff
 
-Implement the relevant modules in the [architecture](../designs/architecture.md), following the linked specifications in frontmatter. Read [operator authority](../sources/operator-brief.md) before any external effects. The document portion of this task is in progress under the [first CLI milestone](first-cli-milestone.md). Source and test evidence is recorded in [CLI evidence](../sources/cli-milestone-evidence.md); uncovered criteria remain pending. The [implementation plan](../designs/implementation-plan.md) establishes build order and shared contracts.
+Implement the relevant modules in the [architecture](../designs/architecture.md), following the linked specifications in frontmatter. Read [operator authority](../sources/operator-brief.md) before any external effects. Historical CLI checkpoint: the document portion was in progress under the [first CLI milestone](first-cli-milestone.md), with then-uncovered criteria recorded in [CLI evidence](../sources/cli-milestone-evidence.md). The current implemented outcome is reconciled below. The [implementation plan](../designs/implementation-plan.md) establishes build order and shared contracts.
 
 ## Verification and done criteria
 
@@ -52,3 +52,13 @@ Acceptance coverage: A01, A12 in [release acceptance](../specifications/acceptan
 ## Collection, interaction and continuing evidence
 
 Create and execute S1–S3 discovery fixtures from the [project matrix](../specifications/project-scenarios.md). Separate project root from Git root, include monorepo bundles without child .git markers, retain depth 1 and verify a one-project collection. Cover A16 as well as A01.
+
+## Completion revision 2 reconciliation
+
+Current product candidate: `a7c22ba847d58e8f4ece6a22ee9bb73302a64c02`. The explicit instruction to implement the remaining project tasks and its bounds are recorded in the [completion task](project-completion.md); the original authorization and historical checkpoints above remain distinct.
+
+The Go executable, embedded defaults and filesystem-only project discovery are implemented. Current checks cover depth-one inclusion/exclusion, explicit selection, Git worktree metadata and S1–S3 project collections without a required project configuration file or factoryctl Git subprocess. Six-target builds are packaging evidence; the strict static-linkage boundary belongs to task 11, not a blanket foundation completion claim (A01/A16).
+
+Current command, named-test, native/browser, scene and artifact identities are consolidated in [completion milestone evidence](../sources/completion-milestone-evidence.md), with the independent [code review](../sources/completion-code-review.md) and [acceptance review](../sources/completion-acceptance-review.md). The proposed matrix accounts for 105 passing rows and blocked U045; that proposal is not a full-product acceptance or release claim. Final combined evidence and independent review remain separate gates.
+
+Conditional closure proposal: the bounded work described here is implemented or reconciled and ready for reviewed delivery. The proposed `done` state becomes effective ONLY after this PR is independently reviewed, merged normally and verified on owning-remote main. Before those gates this is a closure proposal, not a delivered result. The final independent reviewer must assess this task's evidence basis. Coordinator retains delivery/reconciliation ownership; no earlier PR/main result is invented by this update. Task 11 and the root completion task retain the unresolved static-linkage/full-qualification boundary.

@@ -63,3 +63,12 @@ Use the existing sandboxed iframe, nonce/schema checks, per-process trust and as
 MCP controls operations routed through factoryctl. A harness with direct file access can bypass that path; report access restrictions as verified, advisory or unavailable. Do not claim prompts force tool usage. Agent Git operations may replace documents, so external changes must be revalidated. No silent harness-wide permission/configuration changes are implied.
 
 [Task 12](../tasks/12-extension-contract.md) qualifies declarative definitions and shared core operations with fixtures. Downstream transports, harness and custom UI tasks qualify the complete [A14](acceptance.md#a14-runtime-document-extensions) journey. Add a third definition while the binary runs, exercise a custom drag/drop board and a prompt-backed agent action, and demonstrate that no backend extension code can be registered or executed.
+
+
+## Concrete version-1 binding schema
+
+Completion revision 2 selects `extension: {version: 1, namespace, tools}`. Namespace is a single lowercase alphanumeric identifier starting with a letter, excluding `factory`; underscores are allowed in local tool names, not namespaces, avoiding ambiguous full names. `tools` maps each local name to `operation` (read/create/update/delete), `description`, optional `inputs` using existing field schemas, and `fields`. Each field mapping is exactly `{input: declared_name}` or `{literal: value}`. No executable handler, expression or workflow declaration is accepted.
+
+The envelope reserves `path`, `slug`, `expected_revision`, `expected_definition` and `inputs`. Bindings cannot override these selectors or target unrelated types. Definition hashes include instructions and effective structural identity. Checked creation also pins template/include graph and asset revisions inside the writer lock. Invalid structural definitions block affected writes; invalid/duplicate extension namespaces disable specialized tools/actions without suppressing generic schema-valid inspection/edits. Disabled types suppress creation and specialized interfaces while retaining generic reads and structural checks.
+
+`ExtensionCatalog` and `CallExtension` are the shared application operations behind CLI/HTTP/MCP. Tool listing reloads definitions on request; clients that cache tool lists must reconnect (`reconnect_required: true`). No unsupported live notification or external MCP Apps interoperability is claimed. See [the source-bound implementation evidence](../sources/completion-extensions-brief.md).

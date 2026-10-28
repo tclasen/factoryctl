@@ -210,3 +210,14 @@ The operator then emphasized prevention over just repairing records:
 > Even more important than fixing this is to prevent it from happening again, what is wrong with the system as a whole that let this happen?
 
 The [audit](feature-intent-audit.md#why-the-workflow-allowed-this) distinguishes the systemic interpretation/review failure from traceability and delivery checks. This question does not authorize building an enforcement service or changing product behavior.
+
+
+## Complete the remaining project tasks — explicit implementation instruction
+
+The current operator message is:
+
+> Please implement the remaining tasks for this project until it is complete.
+
+This is an agent-maintained excerpt from the current session, without an available message permalink. It authorizes implementation of the existing remaining project scope after planning reconciliation in [completion plan revision 2](../designs/implementation-plan.md#completion-plan-revision-2--authorized-implementation). It does not retroactively authorize earlier feature work, add unrelated scope, publish a release or permit artifact uploads. The source → requirement → plan → explicit build instruction chain remains distinct from implementation and acceptance.
+
+The assistant asked whether the single-static-binary requirement permits normal OS-provided libraries on macOS/Windows. No answer has been received at this checkpoint. Neither normal Go platform behavior nor successful cross-builds resolves this operator-owned interpretation. U045 and full qualification remain blocked pending that clarification; all other authorized work and ordinary reviewed repository delivery continue.

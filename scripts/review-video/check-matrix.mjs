@@ -38,6 +38,16 @@ try {
   for(const f of toolchain.product_files)demand(fs.existsSync(path.join(root,f.path)) && crypto.createHash('sha256').update(fs.readFileSync(path.join(root,f.path))).digest('hex')===f.sha256,'Stale product evidence: '+f.path);
   const scan = p => { for (const e of fs.readdirSync(p, {withFileTypes:true})) { const f=path.join(p,e.name); if(e.isDirectory())scan(f); else if(e.name.endsWith('_test.go')) for(const m of fs.readFileSync(f,'utf8').matchAll(/^func (Test\w+)\(/gm))testNames.add(m[1]); }};
   scan(path.join(root,'cmd')); scan(path.join(root,'internal'));
+  // Qualification packages execute in the same named Go run but are tooling,
+  // not product code. Discover them only with a complete, fresh source binding.
+  if(toolchain.qualification_files) {
+    const qualificationPaths=[];
+    const collect=p=>{for(const e of fs.readdirSync(p,{withFileTypes:true})){const f=path.join(p,e.name);if(e.isDirectory())collect(f);else if(e.name.endsWith('.go'))qualificationPaths.push(path.relative(root,f));}};
+    collect(path.join(root,'scripts/qualification'));
+    demand(JSON.stringify(qualificationPaths.sort())===JSON.stringify(toolchain.qualification_files.map(f=>f.path).sort()),'Qualification source inventory changed since execution');
+    for(const f of toolchain.qualification_files)demand(qualificationPaths.includes(f.path) && fs.existsSync(path.join(root,f.path)) && crypto.createHash('sha256').update(fs.readFileSync(path.join(root,f.path))).digest('hex')===f.sha256,'Stale qualification evidence: '+f.path);
+    scan(path.join(root,'scripts/qualification'));
+  }
   const annotations=JSON.parse(fs.readFileSync(path.join(dir,matrix.annotations),'utf8'));
   const stable=path.resolve(dir,matrix.stable_video);
   const canonical='/Users/Shared/factoryctl/artifacts/demo/latest.mp4';
