@@ -5,6 +5,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"reflect"
 	"strings"
 
 	"github.com/tclasen/factoryctl/internal/defaults"
@@ -15,6 +16,10 @@ import (
 )
 
 func Create(projects []project.Project, p project.Project, typ, slug string, inputs map[string]any) (*knowledge.Document, error) {
+	return CreateChecked(projects, p, typ, slug, inputs, "")
+}
+
+func CreateChecked(projects []project.Project, p project.Project, typ, slug string, inputs map[string]any, expectedDefinition string) (*knowledge.Document, error) {
 	if !slugPattern.MatchString(slug) {
 		return nil, Fail("invalid_path", "slug must use lowercase kebab-case")
 	}
@@ -23,7 +28,14 @@ func Create(projects []project.Project, p project.Project, typ, slug string, inp
 		return nil, e
 	}
 	b := snap.Bundle(p.Checkout)
+	if b == nil {
+		return nil, Fail("not_found", "selected bundle is unavailable")
+	}
 	def, known := b.Definitions[typ]
+	identity := DefinitionHash(def)
+	if expectedDefinition != "" && expectedDefinition != identity {
+		return nil, Fail("stale_definition", "effective definition changed; refresh")
+	}
 	if known && (def.Invalid || !def.Enabled) {
 		return nil, Fail("schema_conflict", "type definition is invalid, duplicated or disabled")
 	}
@@ -36,6 +48,7 @@ func Create(projects []project.Project, p project.Project, typ, slug string, inp
 		dest = path.Join(directory, def.Filename)
 	}
 	var raw []byte
+	var assets map[string]string
 	if templatePath := knowledge.String(def.Raw, "template"); known && templatePath != "" {
 		tp := path.Clean(path.Join(path.Dir(def.Path), templatePath))
 		if b.Docs[def.Path] != nil && b.Docs[tp] == nil {
@@ -49,7 +62,17 @@ func Create(projects []project.Project, p project.Project, typ, slug string, inp
 			docs[key] = d
 		}
 		context := map[string]any{"Project": map[string]any{"ID": p.ID, "Name": p.Name}, "Selection": []string{}, "Links": []any{}}
+		assets, e = templates.DependencyVersions(p.Root, docs, tp)
+		if e != nil {
+			return nil, Fail("invalid_document", e.Error())
+		}
 		raw, e = templates.Render(p.Root, docs, tp, context, inputs)
+		if e == nil {
+			after, err := templates.DependencyVersions(p.Root, docs, tp)
+			if err != nil || !reflect.DeepEqual(assets, after) {
+				return nil, Fail("stale_revision", "template dependencies changed during rendering; refresh")
+			}
+		}
 	} else {
 		m := map[string]any{"type": typ, "status": "draft", "factory": map[string]any{"format": 1}}
 		allowed := map[string]bool{"title": true, "summary": true}
@@ -76,7 +99,7 @@ func Create(projects []project.Project, p project.Project, typ, slug string, inp
 	if e != nil {
 		return nil, Fail("invalid_document", e.Error())
 	}
-	return Mutate(projects, p, Mutation{Kind: "create", Path: dest, Document: raw})
+	return Mutate(projects, p, Mutation{Kind: "create", Path: dest, Document: raw, ExpectedDefinition: identity, DefinitionType: typ, ExpectedSnapshot: snap.Revision, ExpectedAssets: assets})
 }
 
 type InitResult struct {

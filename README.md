@@ -42,7 +42,7 @@ Start the browser with an explicit runtime selection:
 /tmp/factoryctl --path . web --runtime codex --listen 127.0.0.1:8080
 ```
 
-Open the **Conversation access** URL printed by the process. Its fragment grants access to the trusted conversation controls; keep that URL private. Select a project, optionally include the selected document, and send a message. Questions accept text or choices with custom answers; follow-up messages keep the same native thread. Stop turn interrupts the runtime. Generated views require an explicit trust action and retain a plain-text fallback. A view can draft an answer, but you review and submit it through the trusted host controls. Browser document editing remains unimplemented. Starting `web` without `--runtime` or `--preferences` only enables document browsing and does not read runtime preferences.
+Open the **Conversation access** URL printed by the process. Its fragment grants access to the trusted conversation controls; keep that URL private. Select a project, optionally include the selected document, and send a message. Questions accept text or choices with custom answers; follow-up messages keep the same native thread. Stop turn interrupts the runtime. Generated views require an explicit trust action and retain a plain-text fallback. A view can draft an answer, but you review and submit it through the trusted host controls. Browser document editing uses the shared revision-checked structural writer. Starting `web` without `--runtime` or `--preferences` enables browsing and document editing without reading runtime preferences.
 
 The chat composer includes **Model** and **Reasoning** selectors using the installed runtime's advertised capabilities. Choose before starting a chat or while an existing conversation is idle; the choice applies to the next message. Enter sends and Shift+Enter inserts a newline.
 
@@ -127,3 +127,28 @@ make build
 Open `http://127.0.0.1:8080`. Browse real Markdown documents, filter by type or recorded intent state, inspect sources and authorization scope, follow same-checkout local links and switch to raw Markdown. “Accepted” is a claim recorded in a document, not a decision made by the application. Missing provenance stays unresolved. The server is loopback-only. Its document explorer takes a read-only startup snapshot, so restart it after document changes.
 
 Browser document editing, qualified external MCP Apps interoperability, canonical cross-project URL navigation/backlinks and acceptance submission remain outside the implemented slice. Opt-in conversations are described above. Use [the current plan](factory/designs/implementation-plan.md) and [accepted working method](factory/decisions/intent-and-review.md) to distinguish current behavior from proposed continuation. Review videos and generated evidence remain local.
+
+
+## Web editing, boards and custom views
+
+Run `factoryctl --path . gui` (or `web`) to open the loopback browser interface. The same project collection supports a single project, monorepo project roots and sibling repositories. Use the project/type/intent filters, overview, linked documents and backlinks. The browser reflects external edits without restart; it retains an unsaved draft when a concurrent edit conflicts.
+
+**Edit fields** changes existing scalar fields through structural validation; **Edit Markdown** handles complete documents and complex metadata. Saves carry document and effective-definition hashes. New documents use the selected type's template and hash; deletion refuses referenced records. Enum boards support drag/drop and keyboard selection, including a diagnostic column for invalid/missing values. Show more exposes records beyond the initial page. These operations work without a runtime and never interpret workflow prose as approval.
+
+Definitions may provide `views.detail_template` and `views.assets` under `.factory/views/`. Enable a repository view explicitly to run its packaged HTML/CSS/JavaScript in an isolated frame. Trust binds the definition and transitive asset content; changes require trust again. The scoped bridge can request validated edits or preview declared prompt actions; sending a prompt to the harness remains an explicit host action. Missing or invalid assets retain the generic view. `templates export --kind record|prompt|view` materializes absent defaults and preserves existing customizations.
+
+## Declarative tools and actions
+
+`extensions list --json` discovers runtime-loaded namespaced document bindings. `extensions call NAME --input KEY=VALUE ... --json` invokes the same service as HTTP/MCP. Bindings support fixed read/create/update/delete operations; no backend code, executable handlers, expressions, state transitions or approval rules are registered. Read the exact schema and examples in [extensions](factory/specifications/extensions.md) and [implementation evidence](factory/sources/completion-extensions-brief.md).
+
+Use `actions list --record PATH`, `actions render PROMPT --record PATH`, or explicitly launch `actions run PROMPT --record PATH --runtime codex` in a terminal. Rendering never starts a runtime. MCP document writers require `expected_definition` in addition to document revision where applicable; obtain it from reads or definition discovery. Tool discovery reloads current definitions; clients caching the tool list must reconnect. MCP and CLI listings expose snapshot-bound continuation cursors. Legacy CLI writers accept optional `--expected-definition` and always validate the current graph inside the bundle lock.
+
+## Delivery observations
+
+Task/plan views show delivery separately from recorded work and intent. Project Markdown owns the explicit target, criteria and attributable acceptance assessment. A plan's `delivery_ref` points to the same task; both display the same result. Optional ignored `.factory/delivery/` observations bind those claims to a scoped content manifest, observer and verification time. A local content match does not authenticate assessor authority. Missing criteria, missing evidence and changed content remain explicit. Branch/remote target observations are externally recorded and remain unverified by factoryctl; no Git or hosting calls are made. See [the completion brief](factory/tasks/project-completion.md#delivery-observation-implementation-brief-and-reviewed-contract) for the exact version-1 schema.
+
+## Qualification and server use
+
+The binary includes its default browser assets and needs no application-side Node/Python installation. For a trusted server or Kubernetes pod, run the same loopback HTTP server behind an operator-configured authenticated proxy/sidecar; mount existing checkouts and optional personal runtime preferences outside project Git. Factoryctl does not deploy infrastructure or provide an accounts database. SIGTERM closes the server and owned conversations. CI uses noninteractive CLI commands.
+
+[Local qualification tools](scripts/qualification/README.md) produce versioned scale, platform packaging and release-policy evidence. Only the current Mac executes product tests; Linux/Windows binaries are cross-built and inspected, not executed. `make check`, `make repository-check`, and the current requirements/video gates remain required. Recordings and all generated artifacts remain local and ignored. No release has been published; the initial candidate version is 0.1.0.

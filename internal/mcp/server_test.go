@@ -50,7 +50,7 @@ func TestScopedDocumentToolsAndStaleWrite(t *testing.T) {
 		t.Fatal(e)
 	}
 	ctx := context.Background()
-	created, e := s.Call(ctx, "factory_node_create", raw(map[string]any{"type": "Task", "slug": "example", "inputs": map[string]any{"title": "Example", "summary": "A task"}}))
+	created, e := s.Call(ctx, "factory_node_create", raw(map[string]any{"type": "Task", "slug": "example", "expected_definition": taskHash(t, cfg), "inputs": map[string]any{"title": "Example", "summary": "A task"}}))
 	if e != nil {
 		t.Fatal(e)
 	}
@@ -62,13 +62,13 @@ func TestScopedDocumentToolsAndStaleWrite(t *testing.T) {
 	}
 	_, e = s.Call(ctx, "factory_node_read", raw(map[string]any{"ref": map[string]any{"path": doc.Ref.Path, "project_id": "other"}}))
 	code(t, e, "invalid_path")
-	_, e = s.Call(ctx, "factory_node_update", raw(map[string]any{"ref": ref, "expected_revision": "stale", "set": map[string]any{"title": "Lost update"}}))
+	_, e = s.Call(ctx, "factory_node_update", raw(map[string]any{"ref": ref, "expected_definition": taskHash(t, cfg), "expected_revision": "stale", "set": map[string]any{"title": "Lost update"}}))
 	code(t, e, "stale_revision")
-	updated, e := s.Call(ctx, "factory_node_update", raw(map[string]any{"ref": ref, "expected_revision": doc.Revision, "set": map[string]any{"title": "Updated"}}))
+	updated, e := s.Call(ctx, "factory_node_update", raw(map[string]any{"ref": ref, "expected_definition": taskHash(t, cfg), "expected_revision": doc.Revision, "set": map[string]any{"title": "Updated"}}))
 	if e != nil || updated.(*knowledge.Document).Title != "Updated" {
 		t.Fatal("update", e)
 	}
-	if _, e = s.Call(ctx, "factory_node_update", raw(map[string]any{"ref": ref, "expected_revision": doc.Revision, "set": map[string]any{"title": "Again"}})); e == nil {
+	if _, e = s.Call(ctx, "factory_node_update", raw(map[string]any{"ref": ref, "expected_definition": taskHash(t, cfg), "expected_revision": doc.Revision, "set": map[string]any{"title": "Again"}})); e == nil {
 		t.Fatal("old revision reused")
 	}
 	for _, name := range []string{"factory_projects_list", "factory_nodes_list", "factory_definitions_list", "factory_validate"} {
@@ -316,5 +316,102 @@ func TestMCPToolCallAcceptsMetadataWithoutForwardingIt(t *testing.T) {
 	inW.Close()
 	if e := <-done; e != nil {
 		t.Fatal(e)
+	}
+}
+
+func taskHash(t *testing.T, cfg Config) string {
+	t.Helper()
+	snap, e := app.Load(cfg.Projects)
+	if e != nil {
+		t.Fatal(e)
+	}
+	return app.DefinitionHash(snap.Bundle(cfg.Selected.Checkout).Definitions["Task"])
+}
+
+func TestDynamicExtensionToolsAndDefinitionPinnedTransport(t *testing.T) {
+	cfg := fixture(t)
+	def := `---
+type: Record Definition
+title: Sample
+defines: Sample
+directory: samples
+fields:
+  state: {kind: enum, required: true, values: [new, done]}
+extension:
+  version: 1
+  namespace: samples
+  tools:
+    inspect: {operation: read}
+    create:
+      operation: create
+      inputs:
+        title: {kind: string, required: true}
+      fields:
+        title: {input: title}
+        state: {literal: new}
+---
+# Instructions
+The harness interprets this prose.
+`
+	file := filepath.Join(cfg.Selected.Root, "factory/definitions/sample.md")
+	if e := os.WriteFile(file, []byte(def), 0644); e != nil {
+		t.Fatal(e)
+	}
+	s, e := New(cfg)
+	if e != nil {
+		t.Fatal(e)
+	}
+	has := func(name string) bool {
+		ts, e := s.Tools()
+		if e != nil {
+			t.Fatal(e)
+		}
+		for _, v := range ts {
+			if v["name"] == name {
+				return true
+			}
+		}
+		return false
+	}
+	if !has("samples_create") {
+		t.Fatal("runtime tool absent")
+	}
+	registry, e := app.ExtensionCatalog(cfg.Projects, cfg.Selected)
+	if e != nil {
+		t.Fatal(e)
+	}
+	hash := ""
+	for _, v := range registry.Tools {
+		if v.Name == "samples_create" {
+			hash = v.DefinitionHash
+		}
+	}
+	result, e := s.Call(context.Background(), "samples_create", raw(map[string]any{"slug": "one", "expected_definition": hash, "inputs": map[string]any{"title": "One"}}))
+	if e != nil {
+		t.Fatal(e)
+	}
+	d := result.(*knowledge.Document)
+	_, e = s.Call(context.Background(), "factory_node_update", raw(map[string]any{"ref": d.Ref, "expected_revision": d.Revision, "set": map[string]any{"state": "done"}}))
+	code(t, e, "invalid_arguments")
+	if e = os.WriteFile(file, []byte(def+"New instructions.\n"), 0644); e != nil {
+		t.Fatal(e)
+	}
+	_, e = s.Call(context.Background(), "factory_node_update", raw(map[string]any{"ref": d.Ref, "expected_revision": d.Revision, "expected_definition": hash, "set": map[string]any{"state": "done"}}))
+	code(t, e, "stale_definition")
+	updated := strings.Replace(def, "namespace: samples", "namespace: changed", 1)
+	if e = os.WriteFile(file, []byte(updated), 0644); e != nil {
+		t.Fatal(e)
+	}
+	if has("samples_create") || !has("changed_create") {
+		t.Fatal("same running server did not reload tool list")
+	}
+	if e = os.WriteFile(file, []byte(strings.Replace(updated, "fields:\n", "enabled: false\nfields:\n", 1)), 0644); e != nil {
+		t.Fatal(e)
+	}
+	if has("changed_create") {
+		t.Fatal("disabled type still advertised")
+	}
+	if _, e = s.Call(context.Background(), "factory_node_read", raw(map[string]any{"ref": d.Ref})); e != nil {
+		t.Fatal("generic disabled read failed", e)
 	}
 }

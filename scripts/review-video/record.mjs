@@ -59,8 +59,9 @@ scene('21 / Scoped MCP document tools','A real stdio client initializes MCP, rea
  await rpc('tools/list',{});
  const read=await tool('factory_node_read',{ref:{path:'tasks/launch.md'}});
  const revision=read.result.structuredContent.node.revision;
- await tool('factory_node_update',{ref:{path:'tasks/launch.md'},expected_revision:revision,set:{title:'MCP reviewed launch'}});
- await tool('factory_node_update',{ref:{path:'tasks/launch.md'},expected_revision:revision,set:{title:'Stale MCP edit'}});
+ const expected_definition=read.result.structuredContent.definition_hash;
+ await tool('factory_node_update',{ref:{path:'tasks/launch.md'},expected_revision:revision,expected_definition,set:{title:'MCP reviewed launch'}});
+ await tool('factory_node_update',{ref:{path:'tasks/launch.md'},expected_revision:revision,expected_definition,set:{title:'Stale MCP edit'}});
  await tool('factory_node_read',{ref:{path:'tasks/launch.md'}});
  await tool('factory_user_ask',{prompt:'No user surface is attached here.',kind:'text'});
  child.stdin.end();await new Promise((resolve,reject)=>child.on('close',code=>code===0?resolve():reject(Error('MCP exited '+code+' '+stderr))));
@@ -80,7 +81,13 @@ scene('21 / Scoped MCP document tools','A real stdio client initializes MCP, rea
  check('Readback confirms rejected write left current title intact',result(5).structuredContent.node.title==='MCP reviewed launch'&&result(5).structuredContent.source===fs.readFileSync(path.join(s1,'factory/tasks/launch.md'),'utf8'));
  check('Headless ask refuses without fabricating an answer',result(6).isError&&result(6).structuredContent.error.code==='interaction_unavailable');
 });
-scene('22 / Explicit capability boundaries','Web conversations are supported with opt-in Codex. Headless chat refuses; legacy gui, actions run, view export and network validation remain unsupported.',['unsupported_capability','gui','actions run','templates export','check-external','headless-chat'],()=>{for(const args of [['gui'],['actions','run','prompts/discuss.md'],['templates','export','--kind','view'],['validate','--check-external']]){const d=exec(cli(s1,...args),4);check(args.join(' ')+' explicitly unsupported',d.error.code==='unsupported_capability');}const d=exec(cli(s1,'chat','--runtime','codex','--prompt','Review this task','--non-interactive'),4);check('Headless chat refuses before runtime launch',d.error.code==='interaction_unavailable');});
+scene('22 / Explicit launch and customization boundaries','GUI launch is a browser server rather than JSON. Action previews never start a runtime; noninteractive action/chat launches refuse. View export preserves local customizations. External links remain unchecked.',['gui','actions render','templates export','headless-chat'],()=>{
+ const gui=exec(cli(s1,'gui'),2);check('GUI alias rejects JSON server mode',gui.error.code==='invalid_arguments');
+ const preview=exec(cli(s1,'actions','render','prompts/discuss.md','--record','tasks/launch.md'));check('Prompt preview includes record and never launches',preview.launched===false&&preview.prompt.includes('launch'));
+ const action=exec(cli(s1,'actions','run','prompts/discuss.md','--non-interactive'),4);check('Headless action refuses before runtime launch',action.error.code==='interaction_unavailable');
+ exec(cli(s1,'templates','export','--kind','view'));const exported=exec(cli(s1,'templates','export','--kind','view'));check('Existing view customization is preserved',exported.created.length===0&&exported.unchanged.length===1);
+ const d=exec(cli(s1,'chat','--runtime','codex','--prompt','Review this task','--non-interactive'),4);check('Headless chat refuses before runtime launch',d.error.code==='interaction_unavailable');
+});
 scene('23 / Fresh regression evidence','Current source is tested on this macOS host. Regression tests cover parser hazards, templates, races, processes and all collection scenarios.',['go test','race','vet'],()=>{for(const args of [['test','-count=1','./cmd/...','./internal/...'],['test','-race','-count=1','./cmd/...','./internal/...'],['vet','./cmd/...','./internal/...']]){const r=run('go',args);current.commands.push({command:'go '+args.join(' '),exit:r.status,expected:0,stdout:r.stdout,stderr:r.stderr});check('go '+args.join(' ')+' passed',r.status===0);}});
 scene('24 / Review complete • bounded milestone','Real CLI and MCP executions are shown here; the web conversation and generated-view journeys are recorded separately. External MCP Apps interoperability and full release qualification remain incomplete.',['summary'],()=>{check('Every scene passed its assertions',scenes.slice(0,-1).every(x=>x.assertions.length>0));});
 const revisionHash=run('git',['rev-parse','HEAD']).stdout.trim();

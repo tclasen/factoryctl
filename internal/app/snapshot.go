@@ -3,6 +3,9 @@
 package app
 
 import (
+	"crypto/sha256"
+	"fmt"
+	"io"
 	"io/fs"
 	"net/url"
 	"os"
@@ -59,10 +62,26 @@ type Validation struct {
 }
 
 func Load(projects []project.Project) (*Snapshot, error) {
+	return LoadCached(projects, nil)
+}
+
+// LoadCached reuses immutable parsed documents after comparing current bytes.
+// It never trusts timestamps, persists a cache, or skips structural revalidation.
+func LoadCached(projects []project.Project, previous *Snapshot) (*Snapshot, error) {
 	s := &Snapshot{}
+	hashBuffer := make([]byte, 32<<10)
 	for _, p := range projects {
 		b := &Bundle{Project: p, Docs: map[string]*knowledge.Document{}}
 		root := filepath.Join(p.Root, "factory")
+		if st, e := os.Lstat(root); e == nil && st.Mode()&os.ModeSymlink != 0 {
+			b.Diagnostics = append(b.Diagnostics, diag(p.ID, ".", "invalid_path", "symlink bundle root is forbidden"))
+			s.Bundles = append(s.Bundles, b)
+			continue
+		}
+		scoped, e := os.OpenRoot(root)
+		if e != nil {
+			return nil, e
+		}
 		err := filepath.WalkDir(root, func(file string, entry fs.DirEntry, walkErr error) error {
 			rel, _ := filepath.Rel(root, file)
 			rel = filepath.ToSlash(rel)
@@ -84,17 +103,48 @@ func Load(projects []project.Project) (*Snapshot, error) {
 				b.Diagnostics = append(b.Diagnostics, diag(p.ID, rel, "invalid_location", "only .md concept files belong in factory/"))
 				return nil
 			}
-			data, err := ReadBounded(file)
-			if err != nil {
-				b.Diagnostics = append(b.Diagnostics, diag(p.ID, rel, "io_error", err.Error()))
-				return nil
+			var old *knowledge.Document
+			if previous != nil {
+				if prior := previous.Bundle(p.Checkout); prior != nil {
+					old = prior.Docs[rel]
+				}
 			}
-			d := knowledge.Parse(rel, data)
+			var d *knowledge.Document
+			if old != nil {
+				f, e := safeio.OpenRegularRoot(scoped, rel, os.O_RDONLY)
+				if e != nil {
+					b.Diagnostics = append(b.Diagnostics, diag(p.ID, rel, "io_error", e.Error()))
+					return nil
+				}
+				hasher := sha256.New()
+				n, e := io.CopyBuffer(hasher, io.LimitReader(f, knowledge.MaxDocument+1), hashBuffer)
+				ce := f.Close()
+				if e == nil {
+					e = ce
+				}
+				if e != nil {
+					b.Diagnostics = append(b.Diagnostics, diag(p.ID, rel, "io_error", e.Error()))
+					return nil
+				}
+				if n <= knowledge.MaxDocument && old.Revision == fmt.Sprintf("%x", hasher.Sum(nil)) {
+					copy := *old
+					d = &copy
+				}
+			}
+			if d == nil {
+				data, err := safeio.ReadRoot(scoped, rel, knowledge.MaxDocument)
+				if err != nil {
+					b.Diagnostics = append(b.Diagnostics, diag(p.ID, rel, "io_error", err.Error()))
+					return nil
+				}
+				d = knowledge.Parse(rel, data)
+			}
 			d.Ref.ProjectID = p.ID
 			d.Ref.Checkout = p.Checkout
 			b.Docs[rel] = d
 			return nil
 		})
+		scoped.Close()
 		if err != nil {
 			return nil, err
 		}
@@ -143,9 +193,30 @@ func (s *Snapshot) Validate(level string) Validation {
 				b.Definitions[def.Type] = def
 			}
 		}
+		namespaces := map[string][]string{}
+		for typ, def := range b.Definitions {
+			if !def.Enabled {
+				continue
+			}
+			if ext, err := knowledge.ParseExtension(def.Raw["extension"], def.Fields); err == nil {
+				namespaces[ext.Namespace] = append(namespaces[ext.Namespace], typ)
+			}
+		}
+		for ns, types := range namespaces {
+			if len(types) < 2 {
+				continue
+			}
+			for _, typ := range types {
+				def := b.Definitions[typ]
+				def.ExtensionInvalid = true
+				b.Definitions[typ] = def
+				s.Diagnostics = append(s.Diagnostics, diag(b.Project.ID, def.Path, "schema_conflict", "duplicate extension namespace: "+ns))
+			}
+		}
 		cases := map[string]string{}
 		for _, p := range sortedPaths(b.Docs) {
 			d := b.Docs[p]
+			d.Schema = "unavailable"
 			if d.YAML == nil {
 				continue
 			}

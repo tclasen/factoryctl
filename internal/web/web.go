@@ -8,6 +8,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/tclasen/factoryctl/internal/knowledge"
 	"io"
 	"net"
 	"net/http"
@@ -17,6 +18,7 @@ import (
 	"path"
 	"sort"
 	"strings"
+	"sync"
 	"syscall"
 	"time"
 
@@ -38,24 +40,37 @@ type Source struct {
 	ID       string `json:"id,omitempty"`
 }
 type Document struct {
-	ID                  string   `json:"id"`
-	Path                string   `json:"path"`
-	Title               string   `json:"title"`
-	Type                string   `json:"type"`
-	Project             string   `json:"project"`
-	IntentState         string   `json:"intent_state"`
-	IntentBasis         string   `json:"intent_basis"`
-	IntentOwner         string   `json:"intent_owner"`
-	IntentSource        string   `json:"intent_source"`
-	IntentAuthorization string   `json:"intent_authorization"`
-	Revision            string   `json:"revision"`
-	Sources             []Source `json:"sources"`
-	Links               []Source `json:"links"`
-	HTML                string   `json:"rendered_html,omitempty"`
-	Raw                 string   `json:"raw,omitempty"`
+	Ref                 knowledge.Ref          `json:"ref"`
+	Frontmatter         map[string]any         `json:"frontmatter,omitempty"`
+	Definition          any                    `json:"definition,omitempty"`
+	DefinitionHash      string                 `json:"definition_hash"`
+	Backlinks           []Source               `json:"backlinks"`
+	Diagnostics         []knowledge.Diagnostic `json:"diagnostics"`
+	Delivery            any                    `json:"delivery,omitempty"`
+	ID                  string                 `json:"id"`
+	Path                string                 `json:"path"`
+	Title               string                 `json:"title"`
+	Type                string                 `json:"type"`
+	Project             string                 `json:"project"`
+	IntentState         string                 `json:"intent_state"`
+	IntentBasis         string                 `json:"intent_basis"`
+	IntentOwner         string                 `json:"intent_owner"`
+	IntentSource        string                 `json:"intent_source"`
+	IntentAuthorization string                 `json:"intent_authorization"`
+	Revision            string                 `json:"revision"`
+	Sources             []Source               `json:"sources"`
+	Links               []Source               `json:"links"`
+	HTML                string                 `json:"rendered_html,omitempty"`
+	Raw                 string                 `json:"raw,omitempty"`
 }
 
 type Handler struct {
+	docMu       sync.RWMutex
+	nonce       string
+	customMu    sync.Mutex
+	grants      map[string]customGrant
+	snapshot    string
+	cached      *app.Snapshot
 	projects    []project.Project
 	chat        *conversationHost
 	documents   []Document
@@ -88,18 +103,46 @@ func IntentState(m map[string]any) (string, string) {
 }
 
 func New(projects []project.Project) (*Handler, error) {
+	h, e := buildHandler(projects)
+	if e == nil {
+		h.nonce = randomToken()
+		h.grants = map[string]customGrant{}
+	}
+	return h, e
+}
+func buildHandler(projects []project.Project) (*Handler, error) {
 	snap, err := app.Load(projects)
 	if err != nil {
 		return nil, err
 	}
-	h := &Handler{projects: projects, documents: []Document{}, details: map[string]Document{}, diagnostics: len(snap.Diagnostics)}
+	return renderHandler(projects, snap)
+}
+func renderHandler(projects []project.Project, snap *app.Snapshot) (*Handler, error) {
+	h := &Handler{projects: projects, documents: []Document{}, details: map[string]Document{}, diagnostics: len(snap.Diagnostics), snapshot: snapshotIdentity(snap), cached: snap}
 	byPath := map[string]string{}
 	for _, b := range snap.Bundles {
 		for p := range b.Docs {
 			byPath[b.Project.Checkout+"\x00"+p] = documentID(b.Project.Checkout, p)
 		}
 	}
+	resolvedLinks := map[string]string{}
+	incoming := map[string][]Source{}
+	diagnosticsByPath := map[string][]knowledge.Diagnostic{}
+	for _, link := range snap.Links {
+		if link.Resolved != nil && link.Status == "valid" {
+			id := byPath[link.Resolved.Checkout+"\x00"+link.Resolved.Path]
+			resolvedLinks[link.Source.Checkout+"\x00"+link.Source.Path+"\x00"+link.Target] = id
+			incoming[id] = append(incoming[id], Source{Label: link.Source.Path, Resource: link.Source.Path, ID: documentID(link.Source.Checkout, link.Source.Path)})
+		}
+	}
+	for _, dg := range snap.Diagnostics {
+		key := documentID(dg.Checkout, dg.Path)
+		diagnosticsByPath[key] = append(diagnosticsByPath[key], dg)
+	}
 	resolve := func(checkout, from, target string) string {
+		if id := resolvedLinks[checkout+"\x00"+from+"\x00"+target]; id != "" {
+			return id
+		}
 		u, e := url.Parse(target)
 		if e != nil || u.IsAbs() || u.Host != "" || u.RawQuery != "" {
 			return ""
@@ -122,6 +165,17 @@ func New(projects []project.Project) (*Handler, error) {
 		for p, d := range b.Docs {
 			state, basis := IntentState(d.Frontmatter)
 			doc := Document{ID: documentID(b.Project.Checkout, p), Path: p, Title: d.Title, Type: d.Type, Project: b.Project.ID, IntentState: state, IntentBasis: basis, IntentOwner: value(d.Frontmatter, "intent_owner"), IntentSource: value(d.Frontmatter, "intent_source"), IntentAuthorization: value(d.Frontmatter, "intent_authorization"), Revision: d.Revision, Sources: []Source{}, Links: []Source{}, Raw: string(d.Raw)}
+			doc.Ref = d.Ref
+			doc.Frontmatter = d.Frontmatter
+			doc.Definition = b.Definitions[d.Type]
+			doc.DefinitionHash = app.DefinitionHash(b.Definitions[d.Type])
+			doc.Backlinks = []Source{}
+			doc.Diagnostics = []knowledge.Diagnostic{}
+			doc.Backlinks = append(doc.Backlinks, incoming[doc.ID]...)
+			doc.Diagnostics = append(doc.Diagnostics, diagnosticsByPath[doc.ID]...)
+			if d.Frontmatter["delivery"] != nil || d.Frontmatter["delivery_ref"] != nil {
+				doc.Delivery = h.documentDelivery(doc)
+			}
 			if doc.Title == "" {
 				doc.Title = p
 			}
@@ -202,6 +256,15 @@ func New(projects []project.Project) (*Handler, error) {
 			h.details[doc.ID] = doc
 			doc.HTML = ""
 			doc.Raw = ""
+			fields := map[string]any{}
+			for k, v := range doc.Frontmatter {
+				switch v.(type) {
+				case string, bool, int, int64, float64:
+					fields[k] = v
+				}
+			}
+			doc.Frontmatter = fields
+			doc.Definition = nil
 			h.documents = append(h.documents, doc)
 		}
 	}
@@ -230,7 +293,7 @@ func localHost(hostport string) bool {
 	return ip != nil && ip.IsLoopback()
 }
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Security-Policy", "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'")
+	w.Header().Set("Content-Security-Policy", "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'none'; frame-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'")
 	w.Header().Set("X-Content-Type-Options", "nosniff")
 	w.Header().Set("Referrer-Policy", "no-referrer")
 	w.Header().Set("Cache-Control", "no-store")
@@ -248,6 +311,22 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.Header.Get("Sec-Fetch-Site") == "cross-site" {
 		http.Error(w, "Cross-site access refused", http.StatusForbidden)
 		return
+	}
+	if strings.HasPrefix(r.URL.Path, "/custom/") {
+		h.customFrame(w, r)
+		return
+	}
+	if strings.HasPrefix(r.URL.Path, "/api/v1/") {
+		h.documentHTTP(w, r)
+		return
+	}
+	if r.URL.Path == "/api/documents" || r.URL.Path == "/api/document" {
+		if e := h.refresh(); e != nil {
+			documentError(w, e)
+			return
+		}
+		h.docMu.RLock()
+		defer h.docMu.RUnlock()
 	}
 	if strings.HasPrefix(r.URL.Path, "/view/") {
 		h.viewHTTP(w, r)
@@ -278,15 +357,18 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	switch r.URL.Path {
 	case "/api/documents":
-		writeJSON(map[string]any{"documents": h.documents, "diagnostics": h.diagnostics, "read_only": true, "snapshot": "Loaded at launch; restart to refresh"})
+		writeJSON(map[string]any{"documents": h.documents, "diagnostics": h.diagnostics, "read_only": false, "snapshot": h.snapshot, "projects": h.projects})
 	case "/api/document":
 		d, ok := h.details[r.URL.Query().Get("id")]
 		if !ok {
 			http.NotFound(w, r)
 			return
 		}
+		if d.Frontmatter["delivery"] != nil || d.Frontmatter["delivery_ref"] != nil {
+			d.Delivery = h.documentDelivery(d)
+		}
 		writeJSON(d)
-	case "/", "/app.js", "/style.css":
+	case "/", "/app.js", "/editor.js", "/style.css":
 		name := strings.TrimPrefix(r.URL.Path, "/")
 		if name == "" {
 			name = "index.html"
@@ -296,7 +378,7 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			http.NotFound(w, r)
 			return
 		}
-		content := map[string]string{"index.html": "text/html; charset=utf-8", "app.js": "text/javascript; charset=utf-8", "style.css": "text/css; charset=utf-8"}
+		content := map[string]string{"index.html": "text/html; charset=utf-8", "app.js": "text/javascript; charset=utf-8", "editor.js": "text/javascript; charset=utf-8", "style.css": "text/css; charset=utf-8"}
 		w.Header().Set("Content-Type", content[name])
 		if r.Method != "HEAD" {
 			_, _ = w.Write(b)
@@ -339,7 +421,7 @@ func ServeWithRuntime(projects []project.Project, address string, out io.Writer,
 		h.EnableConversations(*cfg)
 		h.chat.base = "http://" + listener.Addr().String()
 	}
-	if _, e = fmt.Fprintf(out, "factoryctl document explorer: http://%s\nRead-only local snapshot; Ctrl-C stops the server.\n", listener.Addr()); e != nil {
+	if _, e = fmt.Fprintf(out, "factoryctl document explorer: http://%s\nLocal document editor; Ctrl-C stops the server.\n", listener.Addr()); e != nil {
 		return e
 	}
 	if h.chat != nil {

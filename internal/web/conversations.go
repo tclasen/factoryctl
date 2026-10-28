@@ -272,7 +272,9 @@ func (h *Handler) conversationHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		if v.DocumentID != "" {
+			h.docMu.RLock()
 			d, ok := h.details[v.DocumentID]
+			h.docMu.RUnlock()
 			if !ok || documentID(selected.Checkout, d.Path) != v.DocumentID {
 				apiError(w, 400, fmt.Errorf("Document must belong to the selected project"))
 				return
