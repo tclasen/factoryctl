@@ -40,7 +40,7 @@ try {
   scan(path.join(root,'cmd')); scan(path.join(root,'internal'));
   const annotations=JSON.parse(fs.readFileSync(path.join(dir,matrix.annotations),'utf8'));
   const stable=path.resolve(dir,matrix.stable_video);
-  const canonical='https://raw.githubusercontent.com/tclasen/factoryctl/main/artifacts/demo/latest.mp4';
+  const canonical='/Users/Shared/factoryctl/artifacts/demo/latest.mp4';
   demand(matrix.stable_url===canonical && annotations.stable_link===canonical,'Canonical demo link changed');
   demand(matrix.stable_video==='../../demo/latest.mp4','Canonical demo file path changed');
   demand(fs.existsSync(stable),'Canonical latest demo is absent');
