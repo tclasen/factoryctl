@@ -5,6 +5,7 @@ description: Document the accepted delivery direction and distinguish implementa
 status: draft
 task_state: in_review
 owner: coordinator
+priority: high
 requirements: [R36, R37]
 factory:
   format: 1
