@@ -55,7 +55,11 @@ func ChatTerminal(projects []project.Project, cfg RuntimeConfig, prompt string, 
 	if e != nil {
 		return e
 	}
-	chat := &conversation{ID: randomToken(), Project: projects[0].ID, Title: prompt, Status: "starting", Messages: []chatMessage{{Role: "user", Text: prompt}}, Native: []nativeRequest{}, scope: scope, token: token, root: projects[0].Root}
+	chosen, e := h.chat.selectedDefaults(projects[0].Root, nil)
+	if e != nil {
+		return e
+	}
+	chat := &conversation{Selection: chosen, ID: randomToken(), Project: projects[0].ID, Checkout: projects[0].Checkout, Title: prompt, Status: "starting", Messages: []chatMessage{{Role: "user", Text: prompt}}, Native: []nativeRequest{}, scope: scope, token: token, root: projects[0].Root}
 	h.chat.mu.Lock()
 	h.chat.conversations[chat.ID] = chat
 	h.chat.mu.Unlock()

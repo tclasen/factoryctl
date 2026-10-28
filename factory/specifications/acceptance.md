@@ -123,3 +123,8 @@ Verify every operator requirement has an atomic row in the [matrix](requirements
 ## A21 Delivery-status visibility and local-only projects — planned
 
 For R36/R37, demonstrate all scenarios in [delivery status](../designs/delivery-status.md#qualification-scenarios): post-integration verification without recursive closure commits; local branch/working-tree delivery without a remote; no inherited PR policy; explicit undefined criteria; revision changes and late observations; missing/stale evidence; consistent web ticket/current-plan display. Verify acceptance interpretation remains project/harness-owned and a merge alone cannot pass unmet criteria. Optional CLI presentation, if implemented, must share semantics. No implementation or execution pass is claimed.
+
+
+## A22 Model/reasoning selection and personal defaults
+
+For R38, demonstrate advertised model/reasoning selectors, new and same-thread follow-up selection, and explicit reset to native defaults. Verify native requests carry the resolved pair, including model switch and return. Save distinct global/project defaults, restart/reload to recover them, reset project inheritance, and prove unrelated canonical project roots (including duplicate IDs) remain isolated. Exercise precedence, unsupported pairs, malformed/missing/null stored values, stale revisions and competing process saves, private atomic persistence, symlink rejection and storage failures. Choosing or sending alone must not save. Existing chat choices and document browsing survive malformed saved settings. Future interfaces reuse the shared contract; unimplemented future surfaces are not presented as qualified. Preserve keyboard submission and existing conversation scope boundaries.

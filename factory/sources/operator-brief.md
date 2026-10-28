@@ -170,3 +170,12 @@ Direct operator responses:
 Accepted direction: distinguish recorded planning state from evidenced delivery; require web visibility, with CLI presentation optional; support local-only projects without a remote, GitHub, issues or PRs. Factoryctl's own development PR rules do not become product defaults for managed projects. This request authorizes documentation reconciliation, not implementation of a status service, new network polling or a change to repository protections.
 
 The assistant's proposed delivery targets, labels, ignored evidence-store location and resolver mechanics are detailed in [delivery status](../designs/delivery-status.md). They remain implementation proposals under this accepted direction, subject to the minimal-interface boundary and qualification. No remote is required; existing Git-working-tree discovery remains unchanged.
+
+
+## Model and reasoning selectors with personal project defaults
+
+Direct operator request after the agent-interaction and keyboard-submit work:
+
+> Please give me a selector for the model and reasoning level for both this chat interface and future planned chat capabilities (configuration stored in home directory in a config file on a global and per-project basis).
+
+The assistant interprets the interface as FactoryCTL's browser chat in this project context. The requested outcome is model/reasoning choice and persistent personal global/project configuration reused by future chat capabilities. Exact JSON filename, canonical-root project keys, catalog transport and precedence are assistant-selected mechanisms specified in [personal runtime preferences](../specifications/personal-runtime.md). This does not authorize changing the hosting Codex application's UI or writing its configuration.

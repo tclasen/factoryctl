@@ -63,3 +63,8 @@ At review, lead with a working demo and local annotated video, then the decision
 The [requirements matrix](../specifications/requirements-traceability.md) is the detailed evidence map. A readable document or recorded “accepted” label is not proof that all of its claims were accepted. Unknown authority remains unresolved. The application displays source and authorization claims; it does not implement a policy or approval engine.
 
 Current risks: actual Codex/MCP Apps capability, generated-view isolation, runtime answer routing, full safe-edit integration, portability/performance and complete matrix qualification. Preserve S1–S3 project collection requirements. Full-product completion still requires [acceptance](../specifications/acceptance.md); a partial browser slice and successful tests do not establish it. Changes to the active plan must identify superseded choices and affected dependencies instead of appending a competing roadmap.
+
+
+## Current requested follow-up: personal model selection
+
+The operator requested model/reasoning selectors for current and future FactoryCTL chats with home-directory global/project configuration. [The selector task](../tasks/chat-model-settings.md) owns this bounded follow-up, explicitly superseding the earlier launch-only settings surface. It reuses native catalog discovery and adds a shared personal store/resolver; it does not reopen unrelated full-GUI work or implement future chat surfaces. Delivery-status implementation remains separate. Historical milestone media stays pinned to its earlier source, with U103–U104 tracked separately until current qualification.
