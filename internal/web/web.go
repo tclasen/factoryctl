@@ -3,6 +3,7 @@ package web
 
 import (
 	"bytes"
+	"context"
 	"embed"
 	"encoding/base64"
 	"encoding/json"
@@ -11,9 +12,12 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"os"
+	"os/signal"
 	"path"
 	"sort"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/tclasen/factoryctl/internal/app"
@@ -52,6 +56,8 @@ type Document struct {
 }
 
 type Handler struct {
+	projects    []project.Project
+	chat        *conversationHost
 	documents   []Document
 	details     map[string]Document
 	diagnostics int
@@ -86,7 +92,7 @@ func New(projects []project.Project) (*Handler, error) {
 	if err != nil {
 		return nil, err
 	}
-	h := &Handler{documents: []Document{}, details: map[string]Document{}, diagnostics: len(snap.Diagnostics)}
+	h := &Handler{projects: projects, documents: []Document{}, details: map[string]Document{}, diagnostics: len(snap.Diagnostics)}
 	byPath := map[string]string{}
 	for _, b := range snap.Bundles {
 		for p := range b.Docs {
@@ -243,6 +249,17 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Cross-site access refused", http.StatusForbidden)
 		return
 	}
+	if strings.HasPrefix(r.URL.Path, "/view/") {
+		h.viewHTTP(w, r)
+		return
+	}
+	if strings.HasPrefix(r.URL.Path, "/api/conversations") || r.URL.Path == "/internal/tool" {
+		h.conversationHTTP(w, r)
+		return
+	}
+	if h.chat != nil {
+		w.Header().Set("Content-Security-Policy", "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'none'; frame-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'")
+	}
 	if r.Method != "GET" && r.Method != "HEAD" {
 		w.Header().Set("Allow", "GET, HEAD")
 		http.Error(w, "Read-only document view", http.StatusMethodNotAllowed)
@@ -305,6 +322,9 @@ func Listen(address string) (net.Listener, error) {
 	return net.Listen("tcp", net.JoinHostPort(host, port))
 }
 func Serve(projects []project.Project, address string, out io.Writer) error {
+	return ServeWithRuntime(projects, address, out, nil)
+}
+func ServeWithRuntime(projects []project.Project, address string, out io.Writer, cfg *RuntimeConfig) error {
 	h, e := New(projects)
 	if e != nil {
 		return e
@@ -314,9 +334,26 @@ func Serve(projects []project.Project, address string, out io.Writer) error {
 		return e
 	}
 	defer listener.Close()
+	defer h.Close()
+	if cfg != nil {
+		h.EnableConversations(*cfg)
+		h.chat.base = "http://" + listener.Addr().String()
+	}
 	if _, e = fmt.Fprintf(out, "factoryctl document explorer: http://%s\nRead-only local snapshot; Ctrl-C stops the server.\n", listener.Addr()); e != nil {
 		return e
 	}
-	server := &http.Server{Handler: h, ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 10 * time.Second, WriteTimeout: 15 * time.Second, IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
-	return server.Serve(listener)
+	if h.chat != nil {
+		if _, e = fmt.Fprintf(out, "Conversation access: http://%s/#host=%s\n", listener.Addr(), h.chat.secret); e != nil {
+			return e
+		}
+	}
+	server := &http.Server{Handler: h, ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 10 * time.Second, WriteTimeout: 45 * time.Second, IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+	go func() { <-ctx.Done(); h.Close(); _ = server.Close() }()
+	err := server.Serve(listener)
+	if err == http.ErrServerClosed {
+		return nil
+	}
+	return err
 }

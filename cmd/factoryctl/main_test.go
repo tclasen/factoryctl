@@ -196,11 +196,12 @@ func TestCLIPaginationExpiresAfterExternalEdit(t *testing.T) {
 
 func TestCLIArgumentsAndUnsupportedCapabilities(t *testing.T) {
 	root := initialized(t)
+	wantError(t, cli(t, root, "", "mcp"), 2, "invalid_arguments")
 	wantError(t, cli(t, root, "", "records", "create", "--type", "Task", "--slug", "missing-input"), 1, "invalid_document")
 	wantError(t, cli(t, root, "", "records", "list", "--limit", "0"), 2, "invalid_arguments")
 	wantError(t, cli(t, root, "", "records", "show", "../factory.md"), 2, "invalid_path")
 	wantError(t, cli(t, root, "", "records", "list", "--unknown"), 2, "invalid_arguments")
-	for _, args := range [][]string{{"gui"}, {"mcp"}, {"actions", "run", "prompts/discuss.md"}, {"templates", "export", "--kind", "view"}, {"validate", "--check-external"}} {
+	for _, args := range [][]string{{"gui"}, {"actions", "run", "prompts/discuss.md"}, {"templates", "export", "--kind", "view"}, {"validate", "--check-external"}} {
 		wantError(t, cli(t, root, "", args...), 4, "unsupported_capability")
 	}
 	r := invoke(t, "", "--path", root, "records", "list", "--limit", "0")
