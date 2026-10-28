@@ -25,7 +25,7 @@ factory:
 
 ## Admission and plan revision 1
 
-Original request: build the next milestone described as a working CLI reading and validating this repository's Markdown bundle. The operator authorized implementation on 2026-10-27. Baseline: 1d6d0d4. Preserve untracked Finder files. No deployment, published release, organization changes, harness configuration changes or external messaging is included.
+Source request: “What is the next milestone on factoryctl?” followed by “please build it now.” The assistant selected and presented the CLI milestone; the operator authorized that bounded implementation on 2026-10-27. CLI-first sequencing was an assistant proposal, not an original operator instruction. The [current plan](../designs/implementation-plan.md) supersedes that ordering. Baseline: 1d6d0d4. Preserve untracked Finder files. No deployment, published release, organization changes, harness configuration changes or external messaging is included.
 
 Required sources: [operator brief](../sources/operator-brief.md), [architecture](../designs/architecture.md), [implementation plan](../designs/implementation-plan.md), [minimal interface](../decisions/minimal-interface.md), specifications for project discovery, knowledge format, validation, templates, interfaces, project scenarios and acceptance, and tasks 01–05. Existing reviewed design supplies the architecture; fresh readiness review checks the bounded implementation plan before coding. A CLI milestone does not claim MCP, GUI, conversation integration or full release acceptance.
 

@@ -1,8 +1,8 @@
 # factoryctl
 
-A small document CLI for Git-backed Markdown knowledge bundles. It discovers projects, reads and validates their `factory/` documents, and makes revision-checked edits. Factoryctl never runs Git, a shell, an agent, or workflow instructions.
+A local document explorer for Git-backed Markdown knowledge bundles, with reusable document services and automation commands. It discovers projects, reads and validates their `factory/` documents, and makes revision-checked edits. Factoryctl never runs Git, a shell, an agent, or workflow instructions.
 
-This is the first CLI milestone, not a complete product release. The living [specifications](factory/specifications/product.md) describe the larger intended product.
+This is a partial product with document services and a read-only browser explorer, not a complete product release. The living [specifications](factory/specifications/product.md) describe the larger intended product.
 
 ## Build and try it
 
@@ -10,10 +10,10 @@ Requires Go 1.27 or later to build. The executable needs no Go installation, net
 
 ```sh
 CGO_ENABLED=0 go build -o /tmp/factoryctl ./cmd/factoryctl
-/tmp/factoryctl --path . projects list
-/tmp/factoryctl --path . records list --type Task
-/tmp/factoryctl --path . validate --json
+/tmp/factoryctl --path . web --listen 127.0.0.1:8080
 ```
+
+Open `http://127.0.0.1:8080` to explore the planning bundle. The browser is read-only; document automation commands remain available below.
 
 Discovery scans the selected directory and its immediate children only. A monorepo's projects remain separate even when they share one Git root. `--project ID` selects a project; duplicate identities additionally require the `--checkout` token reported by `projects list`. CWD within a source subtree can fall back to its nearest ancestor project; explicit `--path` never does.
 
@@ -48,9 +48,9 @@ Limits: 1 MiB per document, 256 KiB frontmatter, YAML nesting 32, template inclu
 
 ## Remaining work
 
-GUI, MCP, runtime launch/conversations/questions, watcher refresh, external network link checks, custom view export, extension tool registration and release qualification are unimplemented. Related CLI entry points return `unsupported_capability`. Reads/commands reload disk; there is no persistent index or background process.
+GUI editing/boards/conversations, MCP, runtime launch/questions, watcher refresh, external network link checks, custom view export, extension tool registration and release qualification are unimplemented. Related CLI entry points return `unsupported_capability`. Reads/commands reload disk; there is no persistent index or background process.
 
-Additional bounded gaps: full Git wildmatch/global ignore configuration; complete optional OKF provenance/footnote semantics; dependency-cycle reporting; precise source coordinates for every structural diagnostic; registry-based identification of absent cross-project checkouts; interactive input collection. Templates reject dynamic include paths and inline `define`/`template` constructs; use literal `include` instead. Factory identity changes should be made externally and followed by rediscovery. Software starter defaults are opt-in; no browser assets are supplied. No throughput, full release, Windows/Linux execution, or GUI demonstration claim is made.
+Additional bounded gaps: full Git wildmatch/global ignore configuration; complete optional OKF provenance/footnote semantics; dependency-cycle reporting; precise source coordinates for every structural diagnostic; registry-based identification of absent cross-project checkouts; interactive input collection. Templates reject dynamic include paths and inline `define`/`template` constructs; use literal `include` instead. Factory identity changes should be made externally and followed by rediscovery. Software starter defaults are opt-in. The read-only browser assets are embedded. No throughput, full release, Windows/Linux execution, or full-GUI qualification claim is made.
 
 ## Checks
 
@@ -65,8 +65,19 @@ Tests cover S1–S3 collections, independent definitions, mapped cross-project l
 
 ## Milestone review gate
 
-Every milestone delivery requires a current Playwright walkthrough reconciled against the complete [requirements matrix](factory/specifications/requirements-traceability.md). Follow [the project instructions](AGENTS.md) and [demonstration contract](factory/specifications/release-evidence.md). `make review-check` checks row accounting and evidence freshness; `make review-gate` additionally requires every row to pass end to end. The current CLI-only product has unmet GUI/MCP/runtime and other requirements, so full-matrix qualification remains incomplete even when its review artifacts are valid.
+Every milestone delivery requires a current Playwright walkthrough reconciled against the complete [requirements matrix](factory/specifications/requirements-traceability.md). Follow [the project instructions](AGENTS.md) and [demonstration contract](factory/specifications/release-evidence.md). `make review-check` checks row accounting and evidence freshness; `make review-gate` additionally requires every row to pass end to end. The current partial product has unmet full-GUI/MCP/runtime and other requirements, so full-matrix qualification remains incomplete even when its review artifacts are valid.
 
 Review the [milestone demo](/Users/Shared/factoryctl/artifacts/demo/latest.mp4): one continuous CLI walkthrough with requirement IDs and outcome explanations on the actual scenes. This same link is updated at every milestone. The [row-by-row index](artifacts/cli-review/848b4ec/MATRIX.md) documents remaining gaps; full-matrix qualification is incomplete.
 
 Generated `artifacts/` content and videos stay local and are not included in Git history. After cloning, run `make install-hooks` to enable the commit/push guards. `make repository-check` validates the index and guard tests; CI also checks full history. Generate local evidence before running `make review-check` or recorder evidence tests.
+
+## Explore the current plan in your browser
+
+```sh
+make build
+./bin/factoryctl --path . web --listen 127.0.0.1:8080
+```
+
+Open `http://127.0.0.1:8080`. Browse real Markdown documents, filter by type or recorded intent state, inspect sources and authorization scope, follow local links and switch to raw Markdown. “Accepted” is a claim recorded in a document, not a decision made by the application. Missing provenance stays unresolved. The server is loopback-only and read-only; it takes a startup snapshot, so restart it after document changes.
+
+This slice does not implement document editing, conversations, MCP Apps or acceptance submission. Use [the current plan](factory/designs/implementation-plan.md) and [accepted working method](factory/decisions/intent-and-review.md) to distinguish current behavior from proposed continuation. Review videos and generated evidence remain local.

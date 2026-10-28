@@ -20,7 +20,7 @@ sources:
 
 # CLI review video evidence
 
-[Watch the milestone demo](/Users/Shared/factoryctl/artifacts/demo/latest.mp4). This is the single canonical link for milestone handoffs, updated with each milestone. Requirement IDs and concrete outcome explanations appear atop the actual CLI scenes. The complete row/gap matrix remains supporting documentation, not a separate requirements presentation.
+The stable local demo file is `/Users/Shared/factoryctl/artifacts/demo/latest.mp4`. This is the single canonical link for milestone handoffs, updated with each milestone. Requirement IDs and concrete outcome explanations appear atop the actual CLI scenes. The complete row/gap matrix remains supporting documentation, not a separate requirements presentation.
 
 This package corrects the omitted video after the first CLI delivery and implements the [every-milestone gate](../specifications/release-evidence.md#milestone-review-delivery). It is a partial product review package, **not full end-to-end qualification**. All 95 atomic rows are accounted for: 8 mapped end-to-end passes, 61 partial/unverified, 26 planned. Unsupported GUI/MCP/runtime refusals do not pass those capabilities.
 

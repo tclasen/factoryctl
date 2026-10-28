@@ -20,6 +20,10 @@ sources:
     resource: ../sources/operator-brief.md
     title: Operator requirements and scope
     author: human:operator
+intent_state: proposed
+intent_owner: assistant
+intent_source: ../sources/operator-brief.md#project-collections-and-user-interaction
+intent_authorization: MCP Apps exploration is requested; this exact protocol and implementation sequence remain proposals requiring qualification.
 ---
 
 # Qualify user questions and generative web views
