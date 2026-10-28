@@ -1,4 +1,4 @@
-# CLI review recording
+# Local milestone review recording
 
 `record.mjs` builds the current document CLI, creates temporary synthetic Git projects, executes real commands and assertions, runs fresh Go test/race/vet checks, and records a browser replay of those results with Playwright `recordVideo`. The browser is explicitly labeled **CLI review harness**, not a product GUI. No commands are executed by browser clicks. Displayed output uses labeled summaries/excerpts; `results.json` retains full stdout/stderr, expected/actual exit codes and assertion labels. Commands stop the run on unexpected results.
 
@@ -25,7 +25,7 @@ The first run exposed incorrect harness expectations (identical init is idempote
 
 The 23 chapters cover all supported command families, help/version, both validation levels, type/query/pagination/cursor expiry, exact source/revision, scalar preservation, stdin/file replacement, incoming reference protection and deletion, explicit input errors, stale/existing conflicts, containment/anchor protection, software initialization, templates and prompt discovery, duplicate checkout selection, CWD versus explicit scope, S1 single repository, S2 monorepo, S3 sibling repositories, custom definitions/templates, cross-project links/backlinks and isolated state. Fresh test/race/vet output supplies grouped backend regression evidence for parsing, include bounds, special files, concurrency and atomic-write behavior; these backend cases are not each individual visual scenes. No claim is made that this is a full release traceability matrix.
 
-GUI, MCP, runtime launches, external network validation and view export are exercised as explicitly unsupported errors. No release or unsupported-platform qualification is implied. Assertions establish observed structural behavior, not task approval or workflow completion.
+The legacy `gui` entry point, MCP, runtime launches, external network validation and view export are exercised as explicitly unsupported errors. No release or unsupported-platform qualification is implied. Assertions establish observed structural behavior, not task approval or workflow completion.
 
 `coverage.json` gives recording-relative scene start/end seconds; screenshots are taken near each chapter's opening. Per-command focus scrolls smoothly and pauses 4.5 seconds; short chapters pause at least 16 seconds. The full exported video is continuous, without acceleration or removed failures.
 
@@ -42,8 +42,21 @@ The original artifact directory includes hashes, an extracted poster/contact she
 
 ## Complete matrix accounting and gate
 
-Run `annotate.mjs` after converting the continuous capture to MP4. It adds requirement IDs and concrete result explanations to every actual scene, preserving duration and command output. It writes the immutable `demo.mp4`, `annotations.json`, and an identical `artifacts/demo/latest.mp4`. It refuses to overwrite an archived demo. The only final demo link is /Users/Shared/factoryctl/artifacts/demo/latest.mp4. Raw source captures remain local intermediates; their hashes are recorded in annotation provenance.
+Run `annotate.mjs` after converting the continuous capture to MP4. It adds requirement IDs and concrete result explanations to every actual scene, preserving duration and command output. It writes the immutable `demo.mp4`, `annotations.json`, and an identical `artifacts/demo/latest.mp4`. It refuses to overwrite an archived demo. The only final demo link is /Users/Shared/factoryctl/artifacts/demo/latest.mp4. Set `REVIEW_SKIP_ALIAS=1` when preparing a segment for a combined demo; update the stable alias only after reviewing the combined export. Raw source captures remain local intermediates; their hashes are recorded in annotation provenance.
 
-The all-row matrix is supporting documentation, not a separate film. The current package accounts for U001–U095 but is not fully qualified. Run `make review-check` for structural reconciliation and `make review-gate` for mandatory full end-to-end qualification. The latter intentionally fails on partial/unimplemented requirements. `node --test scripts/review-video/check-matrix.test.mjs` checks missing/stale/overstated evidence, scene annotations and stable-link integrity. Independent semantic and exported-video review remain required.
+The all-row matrix is supporting documentation, not a separate film. The combined browser/CLI package accounts for U001–U100 but is not fully qualified. Run `make review-check` for structural reconciliation and `make review-gate` for mandatory full end-to-end qualification. The latter intentionally fails on partial/unimplemented requirements. `node --test scripts/review-video/check-matrix.test.mjs` checks missing/stale/overstated evidence, scene annotations and stable-link integrity. Independent semantic and exported-video review remain required.
 
 The checker also requires `ffprobe` on PATH to verify the actual exported closing-hold endpoint. All scene starts/intermediate ends retain strict timing checks; the final capture-clock tail is bounded to two seconds and must match the real media endpoint.
+
+
+## Actual browser product capture
+
+`visible-intent.mjs` builds its own temporary executable, starts its own loopback server and records seven actual browser journeys against the real planning bundle. It records binary identity, Go build information and matching source manifests before/after capture, including embedded browser assets. It rejects an externally supplied server URL and refuses to overwrite completed or failed captures. No source changes, page errors or external requests are permitted during recording.
+
+```sh
+REVIEW_OUTPUT_DIR=artifacts/intent-review/FRESH_ID node scripts/review-video/visible-intent.mjs
+```
+
+The milestone demo places this browser segment first, followed by the freshly captured and annotated CLI regression segment. Preserve both full durations without cuts or acceleration; pad different frame heights without covering content. Offset CLI scene IDs/timestamps in the combined evidence, retain both binary/source manifests, and independently review all row dispositions against current results. Historical mappings may help locate scenarios but cannot establish a current pass. The archive and stable alias must match before `make review-check`; full qualification remains a separate gate.
+
+Checker unit tests create synthetic metadata and fake media with a test-only probe. They require no private local artifacts and do not qualify a real recording. Actual delivery uses real FFprobe, full decode and exported-frame inspection.

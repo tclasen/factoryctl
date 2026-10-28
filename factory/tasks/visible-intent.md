@@ -3,7 +3,7 @@ type: Task
 title: Make intent visible and deliver a small browser review slice
 description: Preserve request, proposal and authorization provenance and demonstrate it with the current planning documents.
 status: draft
-task_state: in_progress
+task_state: in_review
 priority: high
 owner: coordinator
 requirements: [R07, R10, R31, R32, R33]
@@ -55,3 +55,8 @@ A user can inspect the current plan and related documents, distinguish a proposa
 ## Intent-fit review checkpoint
 
 Independent Reviewer assessed the source request, current plan and scope before implementation acceptance: proceed, no blocking outcome/authority finding. This is readiness only. Final review must verify mixed documents do not imply blanket acceptance, and source/authorization details remain directly inspectable.
+
+
+## Current review package and conditional closure
+
+The [browser and CLI evidence](../sources/visible-intent-evidence.md) records the current local combined demo, assertions, source provenance and remaining gaps. The operating-method changes and bounded explorer are implemented. Independent approval and verified PR/main delivery remain the closure gate; no blanket full-matrix qualification or future-behavior guarantee is asserted. The reusable organization protocol has separately completed its reviewed delivery.

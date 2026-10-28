@@ -67,9 +67,9 @@ Tests cover S1–S3 collections, independent definitions, mapped cross-project l
 
 Every milestone delivery requires a current Playwright walkthrough reconciled against the complete [requirements matrix](factory/specifications/requirements-traceability.md). Follow [the project instructions](AGENTS.md) and [demonstration contract](factory/specifications/release-evidence.md). `make review-check` checks row accounting and evidence freshness; `make review-gate` additionally requires every row to pass end to end. The current partial product has unmet full-GUI/MCP/runtime and other requirements, so full-matrix qualification remains incomplete even when its review artifacts are valid.
 
-Review the [milestone demo](/Users/Shared/factoryctl/artifacts/demo/latest.mp4): one continuous CLI walkthrough with requirement IDs and outcome explanations on the actual scenes. This same link is updated at every milestone. The [row-by-row index](artifacts/cli-review/848b4ec/MATRIX.md) documents remaining gaps; full-matrix qualification is incomplete.
+Review the [milestone demo](/Users/Shared/factoryctl/artifacts/demo/latest.mp4): one browser walkthrough followed by fresh CLI regression scenes, with requirement IDs and outcome explanations on the actual scenes. This same link is updated at every milestone. The [row-by-row index](artifacts/milestone-review/20261028/MATRIX.md) documents remaining gaps; full-matrix qualification is incomplete.
 
-Generated `artifacts/` content and videos stay local and are not included in Git history. After cloning, run `make install-hooks` to enable the commit/push guards. `make repository-check` validates the index and guard tests; CI also checks full history. Generate local evidence before running `make review-check` or recorder evidence tests.
+Generated `artifacts/` content and videos stay local and are not included in Git history. After cloning, run `make install-hooks` to enable the commit/push guards. `make repository-check` validates the index and guard tests; CI also checks full history. Generate local evidence before running `make review-check`. Checker unit tests use self-contained synthetic fixtures.
 
 ## Explore the current plan in your browser
 
@@ -78,6 +78,6 @@ make build
 ./bin/factoryctl --path . web --listen 127.0.0.1:8080
 ```
 
-Open `http://127.0.0.1:8080`. Browse real Markdown documents, filter by type or recorded intent state, inspect sources and authorization scope, follow local links and switch to raw Markdown. “Accepted” is a claim recorded in a document, not a decision made by the application. Missing provenance stays unresolved. The server is loopback-only and read-only; it takes a startup snapshot, so restart it after document changes.
+Open `http://127.0.0.1:8080`. Browse real Markdown documents, filter by type or recorded intent state, inspect sources and authorization scope, follow same-checkout local links and switch to raw Markdown. “Accepted” is a claim recorded in a document, not a decision made by the application. Missing provenance stays unresolved. The server is loopback-only and read-only; it takes a startup snapshot, so restart it after document changes.
 
-This slice does not implement document editing, conversations, MCP Apps or acceptance submission. Use [the current plan](factory/designs/implementation-plan.md) and [accepted working method](factory/decisions/intent-and-review.md) to distinguish current behavior from proposed continuation. Review videos and generated evidence remain local.
+This slice does not implement document editing, conversations, MCP Apps, canonical cross-project URL navigation/backlinks or acceptance submission. Use [the current plan](factory/designs/implementation-plan.md) and [accepted working method](factory/decisions/intent-and-review.md) to distinguish current behavior from proposed continuation. Review videos and generated evidence remain local.
