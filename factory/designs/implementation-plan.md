@@ -1,13 +1,13 @@
 ---
 type: "Design"
-title: "Implementation sequence and requirements coverage"
+title: "Current implementation plan"
 description: "Implementation sequence and requirements coverage."
 status: "draft"
 factory:
   format: 1
   assertion:
     frame: "desired"
-    certainty: "proposal"
+    certainty: "mixed"
     basis: "llm-inference"
 sources:
   -
@@ -17,61 +17,41 @@ sources:
     author: "human:operator"
 ---
 
-# Implementation sequence and requirements coverage
+# Current implementation plan
 
-This is a proposed build plan for the [confirmed product scope](../specifications/product.md). The [first CLI milestone](../tasks/first-cli-milestone.md) is implementing the document slice of tasks 01–05; downstream runtime and UI tasks remain planned. The design task prepares the package; it does not implement these tasks. Agent execution follows repository instructions and user authority. No scheduler or approval engine is encoded in this plan.
+This is the single current build plan. It separates accepted working-method changes, observed implementation and assistant-selected next-step proposals. The [operator source](../sources/operator-brief.md#working-method-correction-and-tangible-review) records the actual instruction and its context. A source attribution does not make every sentence in this plan operator-authored.
 
-## Buildable slices
+## Current tangible slice
 
-| Task | Prerequisites | Requirement coverage | Acceptance |
-| --- | --- | --- | --- |
-| [Qualify the native Codex integration](../tasks/00-runtime-spike.md) | None | R11, R12, R13, R14, R24 | A08 |
-| [Build the executable foundation and project discovery](../tasks/01-project-foundation.md) | None | R01, R02, R04, R16, R17 | A01, A12 |
-| [Implement OKF reading and safe file storage](../tasks/02-knowledge-store.md) | 01-project-foundation | R03, R05, R07, R08, R22 | A02, A06 |
-| [Implement definitions and live structural validation](../tasks/03-definition-validation.md) | 02-knowledge-store | R06, R07, R08, R24, R25 | A03, A04 |
-| [Qualify runtime document extensions](../tasks/12-extension-contract.md) | 03-definition-validation | R06, R13, R16, R26, R27, R28, R29 | A14, A15 core fixtures |
-| [Implement deterministic record and prompt templates](../tasks/04-templates.md) | 03-definition-validation | R06, R11, R14, R15, R19, R25 | A05 |
-| [Deliver the human and CI command interface](../tasks/05-cli.md) | 04-templates | R09, R18, R22, R24, R25 | A06, A12 |
-| [Expose shared MCP and local HTTP services](../tasks/06-transports.md) | 05-cli, 12-extension-contract | R13, R17, R22, R23, R24, R25 | A07 |
-| [Qualify user questions and generative web views](../tasks/13-user-interaction.md) | 00-runtime-spike, 06-transports | R30, R31 | A17, A18 prototype |
-| [Implement native Codex conversation integration](../tasks/07-codex-adapter.md) | 00-runtime-spike, 06-transports, 13-user-interaction | R11, R12, R13, R14, R18, R24 | A08 |
-| [Deliver the default project, record, board and conversation GUI](../tasks/08-gui.md) | 07-codex-adapter | R07, R08, R10, R11, R17, R22, R24, R25 | A09 |
-| [Support optional trusted custom presentation](../tasks/09-custom-views.md) | 08-gui | R02, R15, R23, R26, R28 | A10, A14 browser integration |
-| [Qualify dogfooding and non-software workflows](../tasks/10-knowledge-work.md) | 09-custom-views | R06, R08, R19, R20, R25 | A11 |
-| [Qualify performance, portability and complete release behavior](../tasks/11-release-qualification.md) | 10-knowledge-work | R01, R03, R04, R16, R17, R21, R22, R24, R25 | A12, A13, A14, A15 complete integration |
+[Visible intent](../tasks/visible-intent.md) applies the accepted working-method correction and delivers a small read-only browser explorer of the real planning bundle. You can find a document, inspect its recorded intent state, open source/authorization details and linked documents, and inspect the underlying Markdown. The demo uses actual product interactions and remains at one stable local video path.
 
-The runtime spike and project foundation can be investigated independently. Storage, definitions and structural validation establish the common contracts before transport/UI code. The first useful slice is a CLI that reads and validates this very bundle. The next adds MCP and native conversations; the GUI follows shared service contracts. Custom views and non-software examples prove extensibility before release qualification.
+The operator authorized implementing the working-method proposals and asked for something tangible. The assistant chose this bounded browser slice as the implementation approach. Layout, launch syntax and data representation are engineering choices. The slice does not silently accept future MCP/GUI designs or retire all terminal launch/automation commands.
 
-## Rules for implementers
+## Current work and proposed continuation
 
-Keep one authoritative status in each task; this document deliberately does not duplicate it. Follow links for current progress. Read the applicable specification and decision before coding. Proposals are identified in frontmatter/prose; if empirical evidence invalidates a proposal, update the living spec/design and explain the decision in a decision record. Git retains prior revisions.
+| Work | Status and authority | User-visible result / boundary |
+| --- | --- | --- |
+| [Intent and tangible review](../decisions/intent-and-review.md) | Accepted method; current task applies it | Requests, agent choices and execution authorization remain separate; demos precede long completion prose |
+| [Read-only browser explorer](../tasks/visible-intent.md) | In progress; assistant-selected reversible means under the current implementation request | Navigate real documents and recorded provenance without editing or submitting acceptance |
+| [Existing document services](../tasks/first-cli-milestone.md) | Implemented bounded CLI work; sequence was assistant-selected | Reuse discovery, parsing, validation and safe storage; no further CLI feature milestone selected |
+| [Native runtime qualification](../tasks/00-runtime-spike.md) and [MCP Apps/questions](../tasks/13-user-interaction.md) | Required direction to explore; exact next implementation scope is proposed | Generated view/question → actual response → correlated tool result → same-conversation follow-up; installed host support remains unverified |
+| [Shared transports](../tasks/06-transports.md) and [full GUI](../tasks/08-gui.md) | Remaining capability scope; implement only the services needed by an admitted vertical slice | Editing, board and conversation interfaces remain outstanding; reading documents does not require completed runtime integration |
+| [Extensions](../tasks/12-extension-contract.md), [custom views](../tasks/09-custom-views.md), [non-software use](../tasks/10-knowledge-work.md), [release qualification](../tasks/11-release-qualification.md) | Planned and unqualified | Existing requirements remain; no full product/release acceptance is claimed |
 
-Tests belong to the task that introduces the behavior. A final release task verifies integration and packaging; it does not defer basic field/link validation or failure handling until the end. Use real temporary Git repositories for storage/discovery tests, fake protocol servers for failure determinism and a bounded live Codex exercise for runtime qualification. Initial executable tests run on the current Mac only.
+## Superseded ordering
 
-## Open technical risks and owners
+The original plan said “The first useful slice is a CLI” and made transports depend on completing that command interface. That was an LLM proposal, not an operator requirement. This ordering is superseded by user-visible vertical slices. Historical rationale and implementation remain in Git and [the prior sequence record](../decisions/cli-first-sequence.md); completed CLI work is not retroactively unauthorized or undone.
 
-- Runtime spike: exact current app-server capability/override behavior; owned by task 00, prerequisite to task 07.
-- Storage: portable lock/replacement semantics and external-editor race limits; owned by task 02.
-- Extensions: arbitrary JS isolation and message-bridge behavior; owned by task 09.
-- Portability: single-binary interpretation and unexecuted non-Mac targets; owned by task 11 and the [portability decision](../decisions/portable-binary.md).
-- Performance thresholds are engineering proposals; task 11 measures them and records any justified revision. The confirmed scale target is 100 repositories/10,000 nodes.
+The later paragraph describing a “revised first vertical slice” did not reconcile the older table. It is replaced by this current plan. Shared storage and document contracts can be reused without making completion of every CLI or conversation feature a prerequisite for a read-only browser. Full runtime questions and MCP Apps still require real transport/host qualification.
 
-These risks have explicit acceptance work; they are not hidden claims of compatibility. No unresolved business decision is delegated to a library choice. Framework/library versions are bounded implementation choices, selected and pinned when their task begins.
+## Checkpoint and review
 
-## Completion and handoff
+Before each admitted slice, state the outcome, why it is next, and any unresolved consequential choice in one to three sentences. If the request clearly authorizes a small reversible local prototype, build it without asking again about routine details. If alternatives materially change product scope, exposure, cost or irreversible effects and the user's short assent does not resolve them, ask only that blocking question; detail belongs behind the short checkpoint.
 
-Completion requires A01–A20 in [acceptance](../specifications/acceptance.md), with failures and permitted platform exclusions explicit. Document actual capability in [the factory overview](../factory.md) as it ships. Keep intended behavior in specifications and observed verification in task/evidence records. Git operations are performed by the agent/user under the repository's delivery workflow, never by factoryctl itself.
+At review, lead with a working demo and local annotated video, then the decision that experience informs. Keep raw Markdown, source references, accessible text and full matrix gaps available. A prototype approval applies to the demonstrated scope; it does not accept unread options or future behavior. Each reviewer checks outcome fit and authority from source instructions before implementation correctness.
 
-## Revised first vertical slice
+## Acceptance and remaining uncertainty
 
-Qualify declarative definition and tool registration with two types and a third runtime installation before finalizing GUI/MCP consumers. Then demonstrate rendered Markdown → explicit GUI action → selected harness connected to MCP → type-aware read/update → validated atomic persistence → refreshed view. Existing foundation/storage/validation work remains prerequisite; implementation and release checks must cover R26–R28/A14. The extension contract and harness permissions/tool refresh are empirical risks, not capabilities implied by Markdown specifications.
+The [requirements matrix](../specifications/requirements-traceability.md) is the detailed evidence map. A readable document or recorded “accepted” label is not proof that all of its claims were accepted. Unknown authority remains unresolved. The application displays source and authorization claims; it does not implement a policy or approval engine.
 
-## Minimal implementation scope
-
-[The minimal-interface decision](../decisions/minimal-interface.md) supersedes core lifecycle enforcement. Task 12 extends existing definition/validation services only for structure and thin document-tool bindings; it must not become a workflow or policy subsystem. Tasks 06–09 expose Markdown instructions, custom UI and harness prompts. Task 11 verifies R29/A15. New domain workflows are content changes for the agent to interpret, not new backend branches.
-
-## Cross-cutting acceptance and traceability
-
-Exercise [S1–S3](../specifications/project-scenarios.md) in tasks 01–09 as their behavior becomes available, then rerun all at release (A16). Task 13 prototypes the [question/Apps contract](../specifications/user-interaction.md) after task 06 and the runtime spike; tasks 05–06 provide CLI/transport primitives and fake-broker checks without depending on downstream integration. Tasks 07–09 integrate actual harness/web behavior. R30 maps to tasks 05–08/13 and A17; R31 maps to tasks 09/13/11 and A18. CLI retirement remains conditional, not an implemented scope reduction.
-
-R32/R33 map to task 11 and A19/A20. Every implementation task supplies introducing code/tests and updates its [atomic requirement mappings](../specifications/requirements-traceability.md). Every release delivers fresh regression results and a human-paced, annotated Playwright video of all supported features under the [release evidence contract](../specifications/release-evidence.md). The matrix and release evidence supersede this table as the detailed requirement-level evidence source; table coverage alone is not implementation proof.
+Current risks: actual Codex/MCP Apps capability, generated-view isolation, runtime answer routing, full safe-edit integration, portability/performance and complete matrix qualification. Preserve S1–S3 project collection requirements. Full-product completion still requires [acceptance](../specifications/acceptance.md); a partial browser slice and successful tests do not establish it. Changes to the active plan must identify superseded choices and affected dependencies instead of appending a competing roadmap.

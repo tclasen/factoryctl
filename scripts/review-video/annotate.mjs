@@ -11,6 +11,7 @@ const dir=path.resolve(process.env.REVIEW_OUTPUT_DIR||path.join(root,'artifacts/
 const source=path.join(dir,'cli-review.mp4');
 const target=path.join(dir,'demo.mp4');
 const alias=path.join(root,'artifacts/demo/latest.mp4');
+const skipAlias=process.env.REVIEW_SKIP_ALIAS==='1';
 assert.ok(!fs.existsSync(target),'Archived demo already exists; select a new output directory');
 const hash=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 const sourceHash=hash(source);
@@ -22,11 +23,11 @@ const matrix=JSON.parse(fs.readFileSync(path.join(dir,'requirements-coverage.jso
 const rows=new Map(matrix.rows.map(r=>[r.id,r]));
 // Each explanation is intentionally limited to the actual command scene.
 const descriptions=[
- [['U045','U048','U084'],'CLI PORTION / CURRENT MAC','Build, version and doctor run locally; portability and a product GUI are not demonstrated.'],
+ [['U045','U048','U084'],'CLI PORTION / CURRENT MAC','Build, version and doctor run locally; portability is unqualified; the read-only web view is shown separately.'],
  [['U004','U008','U050'],'DEMONSTRATED CLI SCOPE','Initialize one explicit Git project with software defaults; repeated init preserves existing files.'],
  [['U004','U015','U050'],'DEMONSTRATED CLI SCOPE','Discover one project and create a real Markdown Task from its starter template.'],
  [['U058','U030'],'PARTIAL / CLI WRITE SAFETY','Missing template input and an existing destination fail safely; no GUI editing is shown.'],
- [['U026','U027'],'PARTIAL / CLI LISTING','Filter and paginate CLI records; interactive concept and collection views remain unverified.'],
+ [['U026','U027'],'PARTIAL / CLI LISTING','Filter and paginate CLI records; the separate read-only web review covers its own interactions.'],
  [['U015','U026','U029'],'PARTIAL / CLI READ MODEL','Read exact Markdown, revision and link metadata; this is CLI output, not a product detail view.'],
  [['U015','U030','U059'],'PARTIAL / CLI EDITING','Update a valid state and preserve unrelated bytes; structural validity does not grant approval.'],
  [['U058','U030'],'PARTIAL / CLI WRITE SAFETY','Reject stale revisions and invalid states without changing bytes; reject an expired list cursor.'],
@@ -38,23 +39,25 @@ const descriptions=[
  [['U005','U029','U024'],'S2 DEMONSTRATED / OTHER ROWS PARTIAL','Two projects share one Git root; CLI links and backlinks resolve across independent local definitions.'],
  [['U005','U024','U058'],'S2 DEMONSTRATED / OTHER ROWS PARTIAL','Select alpha, enforce its local enum and prove beta stays byte-identical after accepted/rejected edits.'],
  [['U005','U022','U058'],'CUSTOM TYPES DEMONSTRATED / VALIDATION PARTIAL','Create a custom Widget from its template; reject removal of a heading referenced by another record.'],
- [['U006','U029','U026'],'S3 DEMONSTRATED / OTHER ROWS PARTIAL','Discover sibling Git repositories; CLI cross-project links and backlinks resolve without a GUI.'],
+ [['U006','U029','U026'],'S3 DEMONSTRATED / OTHER ROWS PARTIAL','Discover sibling Git repositories; CLI cross-project links and backlinks resolve independently of the read-only web view.'],
  [['U006','U024','U058'],'S3 DEMONSTRATED / OTHER ROWS PARTIAL','Choose one sibling project, enforce its schema and preserve the other project unchanged.'],
  [['U006','U022','U058'],'CUSTOM TYPES DEMONSTRATED / VALIDATION PARTIAL','Create a new type without rebuilding; preserve the target heading when proposed replacement is invalid.'],
  [['U004','U008','U030'],'PATH SCOPE DEMONSTRATED / EDITING PARTIAL','Select a duplicate checkout; replace complex YAML explicitly and verify CWD versus explicit-path scope.'],
- [['U001','U031','U067'],'UNSUPPORTED / NOT PASSING CAPABILITIES','GUI, conversations and MCP are absent; these commands demonstrate explicit refusals, not functionality.'],
+ [['U001','U031','U067'],'UNSUPPORTED / NOT PASSING CAPABILITIES','Legacy gui, conversations and MCP are unsupported; a separate read-only web view exists.'],
  [['U048','U058','U092'],'CURRENT MAC TESTS / FULL QUALIFICATION INCOMPLETE','Fresh tests, race tests and vet pass on macOS; backend results do not establish full end-to-end coverage.'],
- [['U084','U088','U094'],'BOUNDED CLI DEMO / FULL MATRIX INCOMPLETE','Requirement IDs explain the scenes shown here; unmet GUI, runtime and MCP requirements are not passed.']
+ [['U084','U088','U094'],'BOUNDED CLI DEMO / FULL MATRIX INCOMPLETE','Requirement IDs explain the scenes shown here; full GUI integration, runtime and MCP requirements remain unmet.']
 ];
 assert.equal(descriptions.length,coverage.scenes.length);
 // Detect actual title changes in the exported source, then verify them against the scene clock.
 const detection=run(['-hide_banner','-i',source,'-vf',"crop=1320:60:40:120,select='gt(scene,0.08)',showinfo",'-an','-f','null','-']);
-const starts=[0,...[...detection.stderr.matchAll(/pts_time:([0-9.]+)/g)].map(m=>Number(m[1]))];
+// The initial blank-to-title paint can create a transition within the first 200ms.
+// Scene one already starts at zero; retain every subsequent detected title change.
+const starts=[0,...[...detection.stderr.matchAll(/pts_time:([0-9.]+)/g)].map(m=>Number(m[1])).filter(t=>t>0.2)];
 assert.equal(starts.length,coverage.scenes.length,'Every source title transition must be identified');
 const annotations=coverage.scenes.map((s,i)=>{
  assert.ok(Math.abs(starts[i]-s.start_seconds)<0.2,'Source title timing diverges from executed scene');
  const [ids,label,explanation]=descriptions[i];
- return {scene_id:s.id,start_seconds:starts[i],end_seconds:starts[i+1]??duration,requirement_ids:ids,label,explanation,coverage:i===20?'boundary':([1,2].includes(i)?'full':'partial'),original_caption:s.caption,requirements:ids.map(id=>{assert.ok(rows.has(id),id+' missing from matrix');const r=rows.get(id);return {id,requirement:r.requirement,matrix_status:r.status,remaining_gap:r.remaining_gap};})};
+ return {scene_id:s.id,start_seconds:starts[i],end_seconds:starts[i+1]??duration,requirement_ids:ids,label,explanation,coverage:i===20?'boundary':([1,2].includes(i)?'full':'partial'),original_caption:s.caption,requirements:ids.map(id=>{assert.ok(rows.has(id),id+' missing from matrix');const r=rows.get(id);return {id,requirement:r.requirement,matrix_status:matrix.product_revision===coverage.revision?r.status:'not-currently-qualified',reference_matrix_status:r.status,remaining_gap:r.remaining_gap};})};
 });
 const assets=path.join(dir,'annotation-bands');fs.mkdirSync(assets,{recursive:true});
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
@@ -73,6 +76,6 @@ const concat=['ffconcat version 1.0'];for(const a of annotations){concat.push(`f
 run(['-hide_banner','-loglevel','error','-n','-i',source,'-f','concat','-safe','0','-i',path.join(assets,'bands.ffconcat'),'-filter_complex','[0:v][1:v]overlay=0:0:eof_action=repeat[v]','-map','[v]','-t',String(duration),'-c:v','libx264','-preset','slow','-crf','24','-pix_fmt','yuv420p','-movflags','+faststart','-an',target]);
 run(['-v','error','-i',target,'-f','null','-']);
 const targetProbe=probe(target);assert.equal(targetProbe.format.duration,sourceProbe.format.duration,'No cuts or timing changes');assert.equal(targetProbe.streams[0].nb_frames,sourceProbe.streams[0].nb_frames,'Frame count must be preserved');assert.equal(hash(source),sourceHash,'Source capture must remain immutable');
-fs.mkdirSync(path.dirname(alias),{recursive:true});const tempAlias=alias+'.tmp';fs.copyFileSync(target,tempAlias);fs.renameSync(tempAlias,alias);assert.equal(hash(alias),hash(target),'Stable alias must be byte-identical');
-fs.writeFileSync(path.join(dir,'annotations.json'),JSON.stringify({schema_version:1,product_revision:coverage.revision,source:'cli-review.mp4',source_sha256:sourceHash,source_video_hash:sourceHash,output:'demo.mp4',output_sha256:hash(target),outputhash:hash(target),stable_alias:'artifacts/demo/latest.mp4',stable_alias_sha256:hash(alias),stable_link:'/Users/Shared/factoryctl/artifacts/demo/latest.mp4',duration_seconds:duration,frames:targetProbe.streams[0].nb_frames,annotation_region:{x:0,y:0,width:1440,height:100},timing:'Actual exported title transitions; original frames and pacing preserved',scope:'Scene-specific requirement evidence; partial and unmet rows are not promoted to pass',annotations},null,2)+'\n');
+if(!skipAlias){fs.mkdirSync(path.dirname(alias),{recursive:true});const tempAlias=alias+'.tmp';fs.copyFileSync(target,tempAlias);fs.renameSync(tempAlias,alias);assert.equal(hash(alias),hash(target),'Stable alias must be byte-identical');}
+fs.writeFileSync(path.join(dir,'annotations.json'),JSON.stringify({schema_version:1,product_revision:coverage.revision,source:'cli-review.mp4',source_sha256:sourceHash,source_video_hash:sourceHash,output:'demo.mp4',output_sha256:hash(target),outputhash:hash(target),stable_alias:skipAlias?null:'artifacts/demo/latest.mp4',stable_alias_sha256:skipAlias?null:hash(alias),stable_link:skipAlias?null:'/Users/Shared/factoryctl/artifacts/demo/latest.mp4',alias_updated:!skipAlias,requirements_reference_revision:matrix.product_revision,requirements_reference_scope:matrix.product_revision===coverage.revision?'current mapping':'historical text reference only; current row qualification not claimed',duration_seconds:duration,frames:targetProbe.streams[0].nb_frames,annotation_region:{x:0,y:0,width:1440,height:100},timing:'Actual exported title transitions; original frames and pacing preserved',scope:'Scene-specific requirement evidence; partial and unmet rows are not promoted to pass',annotations},null,2)+'\n');
 console.log(JSON.stringify({target,alias,sha256:hash(target),probe:targetProbe},null,2));

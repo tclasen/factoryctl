@@ -17,6 +17,7 @@ import (
 	"github.com/tclasen/factoryctl/internal/defaults"
 	"github.com/tclasen/factoryctl/internal/knowledge"
 	"github.com/tclasen/factoryctl/internal/project"
+	"github.com/tclasen/factoryctl/internal/web"
 )
 
 const version = "0.1.0-dev"
@@ -26,6 +27,7 @@ Global flags (before or after commands):
   --path DIR --project ID --checkout TOKEN --json --non-interactive
 
 Commands:
+  web [--listen 127.0.0.1:8080]  (read-only browser document explorer)
   projects list
   init --project-id ID [--starter software]
   records list [--type TYPE] [--query TEXT] [--limit N] [--cursor C]
@@ -40,7 +42,7 @@ Commands:
   doctor
 
 All input is explicit; this milestone never prompts or starts an agent.
-GUI, MCP, agent actions, network link checks and asset export are unsupported.
+The web explorer is read-only. Editing GUI, MCP, agent actions, network link checks and asset export are unsupported.
 Example: factoryctl --path . records list --type Task --json
 `
 
@@ -53,7 +55,7 @@ func parse(args []string) (options, error) {
 	o := options{flags: map[string][]string{}}
 	bools := map[string]bool{"json": true, "non-interactive": true, "help": true, "version": true, "require-complete-links": true, "check-external": true}
 	allowed := map[string]bool{}
-	for _, k := range strings.Fields("path project checkout project-id starter type query limit cursor input slug expected-revision set file level kind record") {
+	for _, k := range strings.Fields("path project checkout project-id starter type query limit cursor input slug expected-revision set file level kind record listen") {
 		allowed[k] = true
 	}
 	for i := 0; i < len(args); i++ {
@@ -202,6 +204,9 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 	extra := ""
 	expected := 2
 	switch cmd {
+	case "web":
+		extra = "listen"
+		expected = 1
 	case "init":
 		extra = "project-id starter"
 		expected = 1
@@ -303,6 +308,19 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 	}
 	if len(projects) == 0 {
 		return fail(app.Fail("ambiguous_project", "no initialized project in this scope; use init --project-id ID"))
+	}
+	if cmd == "web" {
+		if jsonMode {
+			return fail(app.Fail("invalid_arguments", "web is a local browser server, not a JSON command"))
+		}
+		address := o.get("listen")
+		if address == "" {
+			address = "127.0.0.1:8080"
+		}
+		if err := web.Serve(projects, address, out); err != nil {
+			return fail(err)
+		}
+		return 0
 	}
 	snap, e := app.Load(collection.Projects)
 	if e != nil {

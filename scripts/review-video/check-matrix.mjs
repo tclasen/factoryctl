@@ -6,7 +6,7 @@ import {spawnSync} from 'node:child_process';
 const root = path.resolve(import.meta.dirname, '../..');
 const args = process.argv.slice(2);
 const qualify = args.includes('--qualify');
-const input = args.find(a => !a.startsWith('--')) || 'artifacts/cli-review/848b4ec/requirements-coverage.json';
+const input = args.find(a => !a.startsWith('--')) || 'artifacts/milestone-review/20261028/requirements-coverage.json';
 const file = path.resolve(root, input);
 const dir = path.dirname(file);
 const failures = [];
@@ -32,7 +32,7 @@ try {
   demand(testRun.events_sha256===crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,'test-events.jsonl'))).digest('hex'),'Named-test event digest mismatch');
   const toolchain=JSON.parse(fs.readFileSync(path.join(dir,'toolchain.json'),'utf8'));
   const productPaths=[];
-  const inventory=p=>{for(const e of fs.readdirSync(p,{withFileTypes:true})){const f=path.join(p,e.name);if(e.isDirectory())inventory(f);else if(e.name.endsWith('.go'))productPaths.push(path.relative(root,f));}};
+  const inventory=p=>{for(const e of fs.readdirSync(p,{withFileTypes:true})){const f=path.join(p,e.name);if(e.isDirectory())inventory(f);else if(/\.(go|html|css|js)$/.test(e.name))productPaths.push(path.relative(root,f));}};
   inventory(path.join(root,'cmd'));inventory(path.join(root,'internal'));productPaths.push('go.mod','go.sum');
   demand(JSON.stringify(productPaths.sort())===JSON.stringify(toolchain.product_files.map(f=>f.path).sort()),'Product source inventory changed since capture');
   for(const f of toolchain.product_files)demand(fs.existsSync(path.join(root,f.path)) && crypto.createHash('sha256').update(fs.readFileSync(path.join(root,f.path))).digest('hex')===f.sha256,'Stale product evidence: '+f.path);

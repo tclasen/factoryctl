@@ -57,3 +57,7 @@ Acceptance coverage: A09 in [release acceptance](../specifications/acceptance.md
 ## Collection, interaction and continuing evidence
 
 Exercise the identical collection shell and complete common journeys in S1–S3, including the one-project collection. Integrate question cards, actual replies, follow-up and the qualified rich-view bridge/fallback. Record A16/A17 and applicable A18 evidence, with video-ready deterministic fixtures.
+
+## Current slice boundary
+
+The [visible-intent task](visible-intent.md) delivers a read-only browser slice independently of completed conversation integration. The dependencies above apply to this full GUI task's conversation/editing acceptance, not to every useful browser interaction. Use the [current plan](../designs/implementation-plan.md) rather than the superseded CLI-first order.

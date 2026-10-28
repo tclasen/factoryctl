@@ -31,7 +31,7 @@ The [product specification](specifications/product.md) defines the accepted scop
 
 ## Current state — observed
 
-This repository now contains a Go document CLI alongside the design package. The [first CLI milestone](tasks/first-cli-milestone.md) implements project discovery, record reading/search, structural validation, initialization, templates and revision-checked document editing. Build and usage instructions are in the repository README. [CLI evidence](sources/cli-milestone-evidence.md) distinguishes executed checks from pending acceptance. No released executable, GUI, MCP server or native agent integration is claimed. [Design validation](sources/design-validation.md) remains historical document evidence.
+This repository contains Go document services and a CLI alongside the planning bundle. The current [visible-intent slice](tasks/visible-intent.md) adds read-only browser exploration; see [one current plan](designs/implementation-plan.md) for observed work versus proposed continuation. The [first CLI milestone](tasks/first-cli-milestone.md) implements project discovery, record reading/search, structural validation, initialization, templates and revision-checked document editing. Build and usage instructions are in the repository README. [CLI evidence](sources/cli-milestone-evidence.md) distinguishes executed checks from pending acceptance. No released executable, full GUI, MCP server or native agent integration is claimed; the read-only browser slice is tracked separately. [Design validation](sources/design-validation.md) remains historical document evidence.
 
 ## Understanding the design
 
@@ -62,3 +62,7 @@ The [requirements traceability matrix](specifications/requirements-traceability.
 ## Milestone demo
 
 The [CLI review package](sources/cli-review-video-evidence.md) contains one scene-annotated CLI demo at a stable link, with complete matrix gap accounting in supporting documents. Full-matrix end-to-end qualification remains incomplete. Every future milestone delivery must follow the [mandatory demonstration gate](specifications/release-evidence.md#milestone-review-delivery), including current evidence for old and new implemented features.
+
+## Current planning authority
+
+The [accepted working-method correction](decisions/intent-and-review.md) separates requests, agent proposals and execution authorization. The [CLI-first order](decisions/cli-first-sequence.md) is historical and superseded; it was never an original operator sequencing instruction. A read-only browser slice makes the planning documents inspectable while full GUI/editing, conversations and MCP Apps remain unqualified.

@@ -123,3 +123,31 @@ Deliver one actual feature-demonstration video. Each scene identifies the releva
 ## Local-only video correction
 
 The operator explicitly instructed: “Don’t upload the videos to github, keep them local. Please remove that from github, I didn’t authorize that.” Videos remain local, including archives and the stable latest demo. General repository delivery authorization does not permit publishing recordings.
+
+## Working-method correction and tangible review
+
+Direct operator correction:
+
+> I never told you to make the CLI before the Web UI, even before Web MCP was brought up later.
+
+Direct statement of the needed experience:
+
+> Ironically, this is why I need factoryctl to exist, so I can easilly visualize and explore all these different planning documents that were created as we explored and expanded out this project together.
+
+The assistant proposed five changes: separate exact requests from agent interpretations and execution authority; retain proposal status until acceptance has evidence; reconcile one current plan and expose consequential changes; review intended outcome fit before implementation correctness; reassess the framing after repeated corrections. The assistant also proposed displaying requested/proposed/accepted/superseded/unresolved states with sources and relationships. These were proposals when made, not earlier operator requirements.
+
+Relevant verbatim excerpts from the operator’s reply (intervening text omitted):
+
+> I like what you are proposing.
+
+> When I said "build it now", I didn't fully read everything you sent me
+
+> just wanted something tangible rather than to read.
+
+> which is also why I want videos of demos, not text summary of what you did
+
+> But otherwise, please implement all of that.
+
+This authorizes implementing those working-method changes and making the evolving planning knowledge inspectable. The assistant selected a small read-only browser explorer as a reversible tangible slice. That selection is an engineering interpretation of this request, not evidence of an earlier operator mandate for a specific architecture. The user's short assent to the previously described CLI authorized that bounded work, not authorship of the CLI-first sequence. Seeing a demo, silence or a preselected choice does not accept future proposals. A request for a stable demo link grants no publication authority.
+
+The current plan is [implementation sequence](../designs/implementation-plan.md), and the adopted working method is [intent and tangible review](../decisions/intent-and-review.md). Videos and all generated artifacts remain local under the explicit subsequent storage directive.
