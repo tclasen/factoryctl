@@ -9,11 +9,12 @@
         {
             "codec_name": "h264",
             "width": 1440,
-            "height": 900
+            "height": 900,
+            "nb_frames": "10471"
         }
     ],
     "format": {
         "duration": "418.840000",
-        "size": "5990970"
+        "size": "7958457"
     }
 }

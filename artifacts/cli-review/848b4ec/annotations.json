@@ -1,0 +1,758 @@
+{
+  "schema_version": 1,
+  "product_revision": "848b4ec072755aafa8d6ba9a93a878170b1bf315",
+  "source": "cli-review.mp4",
+  "source_sha256": "b8666d3feddc555143590a194d1276e1ba22b6800f91fa341ab0a6b3420f077f",
+  "output": "demo.mp4",
+  "output_sha256": "23fde6a71da2c4451c0ef061e9d73d88fda399e6259013c5c56ea0291b4af2fe",
+  "stable_alias": "artifacts/demo/latest.mp4",
+  "stable_alias_sha256": "23fde6a71da2c4451c0ef061e9d73d88fda399e6259013c5c56ea0291b4af2fe",
+  "stable_link": "https://raw.githubusercontent.com/tclasen/factoryctl/main/artifacts/demo/latest.mp4",
+  "duration_seconds": 418.84,
+  "frames": "10471",
+  "annotation_region": {
+    "x": 0,
+    "y": 0,
+    "width": 1440,
+    "height": 100
+  },
+  "timing": "Actual exported title transitions; original frames and pacing preserved",
+  "scope": "Scene-specific requirement evidence; partial and unmet rows are not promoted to pass",
+  "annotations": [
+    {
+      "scene_id": 1,
+      "start_seconds": 0,
+      "end_seconds": 16.44,
+      "requirement_ids": [
+        "U045",
+        "U048",
+        "U084"
+      ],
+      "label": "CLI PORTION / CURRENT MAC",
+      "explanation": "Build, version and doctor run locally; portability and a product GUI are not demonstrated.",
+      "original_caption": "Real command execution in synthetic Git projects. This browser is a CLI review harness, not a product GUI.",
+      "requirements": [
+        {
+          "id": "U045",
+          "requirement": "Deliver a single portable static compiled binary with embedded defaults/UI.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "Current-host CLI build/tests pass; embedded product UI, server operation and full multi-platform execution qualification are absent. Cross-compilation is not execution."
+        },
+        {
+          "id": "U048",
+          "requirement": "Execute initial platform tests only on the current Mac and distinguish built from execution-tested platforms.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U084",
+          "requirement": "Provide a Playwright demonstration video for every milestone delivery and release.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "The current Playwright walkthrough supplies review-video evidence; complete-matrix end-to-end satisfaction and continuing milestone compliance remain unfulfilled."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 2,
+      "start_seconds": 16.44,
+      "end_seconds": 32.48,
+      "requirement_ids": [
+        "U004",
+        "U008",
+        "U050"
+      ],
+      "label": "DEMONSTRATED CLI SCOPE",
+      "explanation": "Initialize one explicit Git project with software defaults; repeated init preserves existing files.",
+      "original_caption": "Initialize explicit software defaults; repeated identical initialization leaves existing defaults unchanged.",
+      "requirements": [
+        {
+          "id": "U004",
+          "requirement": "Launch inside one Git project.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U008",
+          "requirement": "Support explicit path selection.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U050",
+          "requirement": "Provide an optional software-development starter set.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        }
+      ],
+      "coverage": "full"
+    },
+    {
+      "scene_id": 3,
+      "start_seconds": 32.48,
+      "end_seconds": 48.56,
+      "requirement_ids": [
+        "U004",
+        "U015",
+        "U050"
+      ],
+      "label": "DEMONSTRATED CLI SCOPE",
+      "explanation": "Discover one project and create a real Markdown Task from its starter template.",
+      "original_caption": "Discovery reports project identity. Explicit template inputs create a Task and revision.",
+      "requirements": [
+        {
+          "id": "U004",
+          "requirement": "Launch inside one Git project.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U015",
+          "requirement": "Persist durable factory knowledge as human-readable Markdown files.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U050",
+          "requirement": "Provide an optional software-development starter set.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        }
+      ],
+      "coverage": "full"
+    },
+    {
+      "scene_id": 4,
+      "start_seconds": 48.56,
+      "end_seconds": 64.6,
+      "requirement_ids": [
+        "U058",
+        "U030"
+      ],
+      "label": "PARTIAL / CLI WRITE SAFETY",
+      "explanation": "Missing template input and an existing destination fail safely; no GUI editing is shown.",
+      "original_caption": "Missing input never prompts. An existing destination is protected.",
+      "requirements": [
+        {
+          "id": "U058",
+          "requirement": "Validate document syntax, required fields, types, links and placement as records are written.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI save validation is exercised; complete optional provenance/footnote checks, all diagnostic locations and live watcher/editor behavior remain gaps."
+        },
+        {
+          "id": "U030",
+          "requirement": "Allow direct field and Markdown editing.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 5,
+      "start_seconds": 64.6,
+      "end_seconds": 80.64,
+      "requirement_ids": [
+        "U026",
+        "U027"
+      ],
+      "label": "PARTIAL / CLI LISTING",
+      "explanation": "Filter and paginate CLI records; interactive concept and collection views remain unverified.",
+      "original_caption": "Lists support type, case-insensitive search, bounded pages and snapshot cursors.",
+      "requirements": [
+        {
+          "id": "U026",
+          "requirement": "Give every concept list and detail views.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented."
+        },
+        {
+          "id": "U027",
+          "requirement": "Provide project overview and all-project views.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 6,
+      "start_seconds": 80.64,
+      "end_seconds": 96.68,
+      "requirement_ids": [
+        "U015",
+        "U026",
+        "U029"
+      ],
+      "label": "PARTIAL / CLI READ MODEL",
+      "explanation": "Read exact Markdown, revision and link metadata; this is CLI output, not a product detail view.",
+      "original_caption": "Read includes exact Markdown, parsed metadata, links, backlinks and the SHA-256 revision.",
+      "requirements": [
+        {
+          "id": "U015",
+          "requirement": "Persist durable factory knowledge as human-readable Markdown files.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U026",
+          "requirement": "Give every concept list and detail views.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented."
+        },
+        {
+          "id": "U029",
+          "requirement": "Show backlinks, including cross-project links in monorepo and sibling-repository layouts.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 7,
+      "start_seconds": 96.68,
+      "end_seconds": 112.72,
+      "requirement_ids": [
+        "U015",
+        "U030",
+        "U059"
+      ],
+      "label": "PARTIAL / CLI EDITING",
+      "explanation": "Update a valid state and preserve unrelated bytes; structural validity does not grant approval.",
+      "original_caption": "A valid enum update preserves unrelated source bytes. Structural validity is not workflow approval.",
+      "requirements": [
+        {
+          "id": "U015",
+          "requirement": "Persist durable factory knowledge as human-readable Markdown files.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U030",
+          "requirement": "Allow direct field and Markdown editing.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented."
+        },
+        {
+          "id": "U059",
+          "requirement": "Distinguish structural validation from agent-owned workflow policy.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "A valid CLI state edit and dedicated backend workflow-boundary test pass; full agent-interpreted workflow journey remains unimplemented."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 8,
+      "start_seconds": 112.72,
+      "end_seconds": 128.72,
+      "requirement_ids": [
+        "U058",
+        "U030"
+      ],
+      "label": "PARTIAL / CLI WRITE SAFETY",
+      "explanation": "Reject stale revisions and invalid states without changing bytes; reject an expired list cursor.",
+      "original_caption": "Stale revision, invalid enum and expired cursor produce explicit errors; rejected writes preserve bytes.",
+      "requirements": [
+        {
+          "id": "U058",
+          "requirement": "Validate document syntax, required fields, types, links and placement as records are written.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI save validation is exercised; complete optional provenance/footnote checks, all diagnostic locations and live watcher/editor behavior remain gaps."
+        },
+        {
+          "id": "U030",
+          "requirement": "Allow direct field and Markdown editing.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 9,
+      "start_seconds": 128.72,
+      "end_seconds": 144.76,
+      "requirement_ids": [
+        "U015",
+        "U030"
+      ],
+      "label": "PARTIAL / CLI REPLACEMENT",
+      "explanation": "Replace the complete Markdown document from stdin using the current revision; GUI editing is absent.",
+      "original_caption": "Replace from stdin supports deliberate body edits using the latest revision.",
+      "requirements": [
+        {
+          "id": "U015",
+          "requirement": "Persist durable factory knowledge as human-readable Markdown files.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U030",
+          "requirement": "Allow direct field and Markdown editing.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 10,
+      "start_seconds": 144.76,
+      "end_seconds": 165.72,
+      "requirement_ids": [
+        "U029",
+        "U058"
+      ],
+      "label": "PARTIAL / LINKS AND SAFE DELETION",
+      "explanation": "Resolve a backlink, reject referenced-record deletion, then delete the incoming record safely.",
+      "original_caption": "A dependent Task creates a backlink. Deletion is refused until the incoming record is removed.",
+      "requirements": [
+        {
+          "id": "U029",
+          "requirement": "Show backlinks, including cross-project links in monorepo and sibling-repository layouts.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented."
+        },
+        {
+          "id": "U058",
+          "requirement": "Validate document syntax, required fields, types, links and placement as records are written.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI save validation is exercised; complete optional provenance/footnote checks, all diagnostic locations and live watcher/editor behavior remain gaps."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 11,
+      "start_seconds": 165.72,
+      "end_seconds": 181.72,
+      "requirement_ids": [
+        "U050",
+        "U021",
+        "U032"
+      ],
+      "label": "PARTIAL / TEMPLATES AND PROMPTS",
+      "explanation": "Inspect starter templates and applicable prompts; GUI actions and runtime execution remain absent.",
+      "original_caption": "Inspect local defaults and discover prompt applicability without launching an agent.",
+      "requirements": [
+        {
+          "id": "U050",
+          "requirement": "Provide an optional software-development starter set.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U021",
+          "requirement": "Supply initial agent-profile, task and decision types.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "Default types parse and Task creation is demonstrated; each supplied profile/decision type lacks its own complete visual lifecycle."
+        },
+        {
+          "id": "U032",
+          "requirement": "Let prompt templates define GUI actions and compose templates.",
+          "matrix_status": "planned",
+          "remaining_gap": "Requested GUI/runtime/conversation integration is unimplemented. Explicit unsupported responses do not satisfy this capability."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 12,
+      "start_seconds": 181.72,
+      "end_seconds": 202.48,
+      "requirement_ids": [
+        "U025",
+        "U058"
+      ],
+      "label": "PARTIAL / STRUCTURAL VALIDATION",
+      "explanation": "Run both validation levels; external links remain unchecked and strict completeness fails honestly.",
+      "original_caption": "Factory and OKF levels validate structure. External links remain unchecked; strict completeness returns exit 5.",
+      "requirements": [
+        {
+          "id": "U025",
+          "requirement": "Make every bundle document a valid OKF concept without index files.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "Default corpus validation passes; exhaustive optional OKF semantics and every legal imported concept form remain bounded gaps."
+        },
+        {
+          "id": "U058",
+          "requirement": "Validate document syntax, required fields, types, links and placement as records are written.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI save validation is exercised; complete optional provenance/footnote checks, all diagnostic locations and live watcher/editor behavior remain gaps."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 13,
+      "start_seconds": 202.48,
+      "end_seconds": 218.48,
+      "requirement_ids": [
+        "U058",
+        "U030"
+      ],
+      "label": "PARTIAL / CLI WRITE BOUNDARIES",
+      "explanation": "Reject traversal and coordination-anchor deletion; the protected file remains on disk.",
+      "original_caption": "Traversal and editing the coordination anchor are rejected. Existing files remain intact.",
+      "requirements": [
+        {
+          "id": "U058",
+          "requirement": "Validate document syntax, required fields, types, links and placement as records are written.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI save validation is exercised; complete optional provenance/footnote checks, all diagnostic locations and live watcher/editor behavior remain gaps."
+        },
+        {
+          "id": "U030",
+          "requirement": "Allow direct field and Markdown editing.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 14,
+      "start_seconds": 218.48,
+      "end_seconds": 234.56,
+      "requirement_ids": [
+        "U005",
+        "U029",
+        "U024"
+      ],
+      "label": "S2 DEMONSTRATED / OTHER ROWS PARTIAL",
+      "explanation": "Two projects share one Git root; CLI links and backlinks resolve across independent local definitions.",
+      "original_caption": "Identical record paths and type names remain separate. Canonical bundle URLs resolve across loaded projects.",
+      "requirements": [
+        {
+          "id": "U005",
+          "requirement": "Launch inside a monorepo with independent project factories/state.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U029",
+          "requirement": "Show backlinks, including cross-project links in monorepo and sibling-repository layouts.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented."
+        },
+        {
+          "id": "U024",
+          "requirement": "Definitions describe fields, validation, relationships and views.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "Structural fields/enums/references are exercised; product view rendering is not implemented."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 15,
+      "start_seconds": 234.56,
+      "end_seconds": 250.76,
+      "requirement_ids": [
+        "U005",
+        "U024",
+        "U058"
+      ],
+      "label": "S2 DEMONSTRATED / OTHER ROWS PARTIAL",
+      "explanation": "Select alpha, enforce its local enum and prove beta stays byte-identical after accepted/rejected edits.",
+      "original_caption": "Alpha accepts its own enum and rejects beta\u2019s value. A selected write cannot change beta\u2019s same-named record.",
+      "requirements": [
+        {
+          "id": "U005",
+          "requirement": "Launch inside a monorepo with independent project factories/state.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U024",
+          "requirement": "Definitions describe fields, validation, relationships and views.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "Structural fields/enums/references are exercised; product view rendering is not implemented."
+        },
+        {
+          "id": "U058",
+          "requirement": "Validate document syntax, required fields, types, links and placement as records are written.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI save validation is exercised; complete optional provenance/footnote checks, all diagnostic locations and live watcher/editor behavior remain gaps."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 16,
+      "start_seconds": 250.76,
+      "end_seconds": 266.8,
+      "requirement_ids": [
+        "U005",
+        "U022",
+        "U058"
+      ],
+      "label": "CUSTOM TYPES DEMONSTRATED / VALIDATION PARTIAL",
+      "explanation": "Create a custom Widget from its template; reject removal of a heading referenced by another record.",
+      "original_caption": "Create a custom Widget using typed template input; incoming heading references protect whole-document edits.",
+      "requirements": [
+        {
+          "id": "U005",
+          "requirement": "Launch inside a monorepo with independent project factories/state.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U022",
+          "requirement": "Allow users to define entirely new types.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U058",
+          "requirement": "Validate document syntax, required fields, types, links and placement as records are written.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI save validation is exercised; complete optional provenance/footnote checks, all diagnostic locations and live watcher/editor behavior remain gaps."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 17,
+      "start_seconds": 266.8,
+      "end_seconds": 282.84,
+      "requirement_ids": [
+        "U006",
+        "U029",
+        "U026"
+      ],
+      "label": "S3 DEMONSTRATED / OTHER ROWS PARTIAL",
+      "explanation": "Discover sibling Git repositories; CLI cross-project links and backlinks resolve without a GUI.",
+      "original_caption": "Identical record paths and type names remain separate. Canonical bundle URLs resolve across loaded projects.",
+      "requirements": [
+        {
+          "id": "U006",
+          "requirement": "Launch from a folder containing separate Git project repositories.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U029",
+          "requirement": "Show backlinks, including cross-project links in monorepo and sibling-repository layouts.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented."
+        },
+        {
+          "id": "U026",
+          "requirement": "Give every concept list and detail views.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 18,
+      "start_seconds": 282.84,
+      "end_seconds": 299.04,
+      "requirement_ids": [
+        "U006",
+        "U024",
+        "U058"
+      ],
+      "label": "S3 DEMONSTRATED / OTHER ROWS PARTIAL",
+      "explanation": "Choose one sibling project, enforce its schema and preserve the other project unchanged.",
+      "original_caption": "Alpha accepts its own enum and rejects beta\u2019s value. A selected write cannot change beta\u2019s same-named record.",
+      "requirements": [
+        {
+          "id": "U006",
+          "requirement": "Launch from a folder containing separate Git project repositories.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U024",
+          "requirement": "Definitions describe fields, validation, relationships and views.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "Structural fields/enums/references are exercised; product view rendering is not implemented."
+        },
+        {
+          "id": "U058",
+          "requirement": "Validate document syntax, required fields, types, links and placement as records are written.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI save validation is exercised; complete optional provenance/footnote checks, all diagnostic locations and live watcher/editor behavior remain gaps."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 19,
+      "start_seconds": 299.04,
+      "end_seconds": 315.08,
+      "requirement_ids": [
+        "U006",
+        "U022",
+        "U058"
+      ],
+      "label": "CUSTOM TYPES DEMONSTRATED / VALIDATION PARTIAL",
+      "explanation": "Create a new type without rebuilding; preserve the target heading when proposed replacement is invalid.",
+      "original_caption": "Create a custom Widget using typed template input; incoming heading references protect whole-document edits.",
+      "requirements": [
+        {
+          "id": "U006",
+          "requirement": "Launch from a folder containing separate Git project repositories.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U022",
+          "requirement": "Allow users to define entirely new types.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U058",
+          "requirement": "Validate document syntax, required fields, types, links and placement as records are written.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI save validation is exercised; complete optional provenance/footnote checks, all diagnostic locations and live watcher/editor behavior remain gaps."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 20,
+      "start_seconds": 315.08,
+      "end_seconds": 359.52,
+      "requirement_ids": [
+        "U004",
+        "U008",
+        "U030"
+      ],
+      "label": "PATH SCOPE DEMONSTRATED / EDITING PARTIAL",
+      "explanation": "Select a duplicate checkout; replace complex YAML explicitly and verify CWD versus explicit-path scope.",
+      "original_caption": "Duplicate IDs require a checkout token. Complex YAML edits use explicit whole-document replacement.",
+      "requirements": [
+        {
+          "id": "U004",
+          "requirement": "Launch inside one Git project.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U008",
+          "requirement": "Support explicit path selection.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U030",
+          "requirement": "Allow direct field and Markdown editing.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI list/detail/backlink/edit behavior is demonstrated; requested product GUI views/editing remain unimplemented."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 21,
+      "start_seconds": 359.52,
+      "end_seconds": 384.84,
+      "requirement_ids": [
+        "U001",
+        "U031",
+        "U067"
+      ],
+      "label": "UNSUPPORTED / NOT PASSING CAPABILITIES",
+      "explanation": "GUI, conversations and MCP are absent; these commands demonstrate explicit refusals, not functionality.",
+      "original_caption": "GUI, MCP, runtime action execution, view export and external network checks are not implemented. These are expected errors.",
+      "requirements": [
+        {
+          "id": "U001",
+          "requirement": "Provide a human CLI, local web GUI and MCP interface.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI document interface exists; product web GUI and MCP interfaces remain unimplemented."
+        },
+        {
+          "id": "U031",
+          "requirement": "Provide bidirectional agent conversations.",
+          "matrix_status": "planned",
+          "remaining_gap": "Requested GUI/runtime/conversation integration is unimplemented. Explicit unsupported responses do not satisfy this capability."
+        },
+        {
+          "id": "U067",
+          "requirement": "Expose controlled document read/write tools through MCP.",
+          "matrix_status": "planned",
+          "remaining_gap": "Harness launch and MCP document tools are unimplemented; refusal demonstrates only the current boundary."
+        }
+      ],
+      "coverage": "boundary"
+    },
+    {
+      "scene_id": 22,
+      "start_seconds": 384.84,
+      "end_seconds": 401.24,
+      "requirement_ids": [
+        "U048",
+        "U058",
+        "U092"
+      ],
+      "label": "CURRENT MAC TESTS / FULL QUALIFICATION INCOMPLETE",
+      "explanation": "Fresh tests, race tests and vet pass on macOS; backend results do not establish full end-to-end coverage.",
+      "original_caption": "Current source is tested on this macOS host. Regression tests cover parser hazards, templates, races, processes and all collection scenarios.",
+      "requirements": [
+        {
+          "id": "U048",
+          "requirement": "Execute initial platform tests only on the current Mac and distinguish built from execution-tested platforms.",
+          "matrix_status": "pass",
+          "remaining_gap": ""
+        },
+        {
+          "id": "U058",
+          "requirement": "Validate document syntax, required fields, types, links and placement as records are written.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "CLI save validation is exercised; complete optional provenance/footnote checks, all diagnostic locations and live watcher/editor behavior remain gaps."
+        },
+        {
+          "id": "U092",
+          "requirement": "Refresh regression evidence on every release to prove continued functionality.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "All current rows are accounted for in this package, but full-matrix end-to-end qualification is incomplete; missing capabilities require actual implementation and future fresh demonstration."
+        }
+      ],
+      "coverage": "partial"
+    },
+    {
+      "scene_id": 23,
+      "start_seconds": 401.24,
+      "end_seconds": 418.84,
+      "requirement_ids": [
+        "U084",
+        "U088",
+        "U094"
+      ],
+      "label": "BOUNDED CLI DEMO / FULL MATRIX INCOMPLETE",
+      "explanation": "Requirement IDs explain the scenes shown here; unmet GUI, runtime and MCP requirements are not passed.",
+      "original_caption": "All recorded results come from real CLI executions. No product GUI, runtime, MCP or full release qualification is claimed.",
+      "requirements": [
+        {
+          "id": "U084",
+          "requirement": "Provide a Playwright demonstration video for every milestone delivery and release.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "The current Playwright walkthrough supplies review-video evidence; complete-matrix end-to-end satisfaction and continuing milestone compliance remain unfulfilled."
+        },
+        {
+          "id": "U088",
+          "requirement": "Overlay what is being demonstrated/evaluated.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "The current Playwright walkthrough supplies review-video evidence; complete-matrix end-to-end satisfaction and continuing milestone compliance remain unfulfilled."
+        },
+        {
+          "id": "U094",
+          "requirement": "Exercise the complete requirements traceability matrix end to end at every milestone delivery; expose unmet rows without claiming full satisfaction.",
+          "matrix_status": "implemented-unverified",
+          "remaining_gap": "All current rows are accounted for in this package, but full-matrix end-to-end qualification is incomplete; missing capabilities require actual implementation and future fresh demonstration."
+        }
+      ],
+      "coverage": "partial"
+    }
+  ],
+  "source_video_hash": "b8666d3feddc555143590a194d1276e1ba22b6800f91fa341ab0a6b3420f077f",
+  "outputhash": "23fde6a71da2c4451c0ef061e9d73d88fda399e6259013c5c56ea0291b4af2fe"
+}

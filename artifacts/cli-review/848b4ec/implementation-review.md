@@ -1,4 +1,6 @@
-# CLI video implementation handoff
+# Original capture implementation handoff
+
+Historical source-capture handoff, superseded for delivery by `demo.mp4` and `annotations.json`. The only current demo link is https://raw.githubusercontent.com/tclasen/factoryctl/main/artifacts/demo/latest.mp4. Original media and matrix-addendum references below record prior work, not current deliverables; the current manifest covers the annotated package.
 
 Task: `factory/tasks/cli-review-video.md`; run `VIDEO-implementation`; role Developer; native task `/root/video_build`. Target/classification: factoryctl project. Scope: local main CLI recorder and its artifacts only. Checkpoint: 2026-10-27. Coordinator owns project documentation, matrix evidence/checker, Git/index and remote delivery; a separate worker owns the matrix addendum.
 

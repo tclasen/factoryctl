@@ -2,11 +2,11 @@
   "schema_version": 1,
   "product_revision": "848b4ec072755aafa8d6ba9a93a878170b1bf315",
   "requirements_source": "factory/specifications/requirements-traceability.md",
-  "main_video": "cli-review.mp4",
+  "main_video": "demo.mp4",
   "results": "results.json",
   "recording_coverage": "coverage.json",
   "full_matrix_qualification": "incomplete",
-  "note": "Complete row accounting is not complete requirement satisfaction. Backend tests and unsupported refusals are not substitutes for missing end-to-end capabilities. Matrix addendum timestamps are accounting, not functional evidence.",
+  "note": "Complete row accounting is supporting documentation, not complete satisfaction. One actual feature demo carries requirement IDs and explanations on its scenes; unmet capabilities remain gaps.",
   "rows": [
     {
       "id": "U001",
@@ -2882,6 +2882,30 @@
           "kind": "bounded-cli-and-or-backend"
         }
       ]
+    },
+    {
+      "id": "U095",
+      "requirement": "Deliver one actual demo video with requirement IDs and result explanations on each scene, using one stable latest-demo link at every milestone handoff.",
+      "status": "implemented-unverified",
+      "coverage": "delivery-process",
+      "scene_ids": [
+        23
+      ],
+      "evidence_kind": "artifact-and-delivery-verification",
+      "tests": [],
+      "observed": "A single annotated demo and byte-identical canonical latest file are prepared; remote-main link verification is part of delivery.",
+      "remaining_gap": "Continuing compliance at future milestones is not proved by this artifact; final remote delivery must be verified.",
+      "video_ranges": [
+        {
+          "scene_id": 23,
+          "start_seconds": 401.224,
+          "end_seconds": 417.267,
+          "kind": "artifact-and-delivery-verification"
+        }
+      ]
     }
-  ]
+  ],
+  "stable_video": "../../demo/latest.mp4",
+  "stable_url": "https://raw.githubusercontent.com/tclasen/factoryctl/main/artifacts/demo/latest.mp4",
+  "annotations": "annotations.json"
 }
