@@ -9,7 +9,7 @@ factory:
     frame: desired
     certainty: mixed
     basis: mixed
-task_state: in_progress
+task_state: in_review
 priority: high
 owner: coordinator
 depends_on: [00-runtime-spike.md, 06-transports.md]
@@ -23,14 +23,14 @@ sources:
 intent_state: proposed
 intent_owner: assistant
 intent_source: ../sources/operator-brief.md#project-collections-and-user-interaction
-intent_authorization: MCP Apps exploration is requested; this exact protocol and implementation sequence remain proposals requiring qualification.
+intent_authorization: The operator requested completion of the next milestone, authorizing this bounded build and qualification; exact external Apps protocol and future sequence remain proposals requiring qualification.
 ---
 
 # Qualify user questions and generative web views
 
 ## Outcome and authority
 
-Implement a bounded prototype of [user interaction](../specifications/user-interaction.md) after transports and the runtime spike. The operator requires question/answer tools and asks for an MCP Apps evaluation, potentially replacing the interactive CLI after qualification. The operator now requested completion of this next milestone; implementation and qualification are in progress, not yet delivered.
+Implement a bounded prototype of [user interaction](../specifications/user-interaction.md) after transports and the runtime spike. The operator requires question/answer tools and asks for an MCP Apps evaluation, potentially replacing the interactive CLI after qualification. The operator now requested completion of this next milestone; the bounded implementation and live qualification are ready for review. Full-product matrix qualification remains incomplete, and delivery requires the reviewed PR/main observation.
 
 ## Plan and verification
 
@@ -52,3 +52,12 @@ Claims/runs: Coordinator owns internal/web/, cmd/factoryctl/, project docs, inte
 Acceptance evidence separates deterministic fake-runtime tests, live runtime observations and actual browser interaction. Test free text, choices/custom text, follow-up, concurrent scope, duplicate/spoofed/stale answers, timeout, cancellation, disconnect/reconnect and restart. Demonstrate distinct generated form and chart/table views, sandbox failures and plain fallback; record capability/CLI disposition honestly. Refresh current feature regression, complete102-row accounting and one local scene-annotated demo; full-product gaps remain explicit. Independent final approval binds exact source and media before protected PR/main verification.
 
 Qualification follow-up allocation: runtime implementer now owns README.md and a new `factory/sources/interaction-capabilities.md` capability Reference only, using this task's existing run and inherited model. Reconcile observed runtime/PTY evidence, exact first-party view limits, invocation examples and CLI retain recommendation; no edits to implementation, current matrix or other documents. Coordinator retains those and the final evidence package. Recorder implementer owns only `scripts/review-video/record.mjs` and `annotate.mjs`; final capture waits for source freeze. Reviewer remains independent and read-only.
+
+
+## Current bounded outcome and remaining qualification
+
+[Interaction milestone evidence](../sources/interaction-milestone-evidence.md) records the frozen product source, current tests, actual browser form/chart and same-thread dialogue, real terminal dialogue, concurrent project isolation, multiple selections, refusal, restart loss and sandbox boundaries. [Capability evidence](../sources/interaction-capabilities.md) recommends retaining the CLI. Native browser approval/input have deterministic fixture coverage; external Apps interoperability is not qualified. General GUI editing/boards, type-derived extension registration and delivery-status implementation remain outside this slice.
+
+The local stable demo is `/Users/Shared/factoryctl/artifacts/demo/latest.mp4`; complete current row accounting accompanies it. Full-matrix qualification remains explicitly incomplete. `in_review` preserves this distinction rather than calling all product requirements done. The implementation delivery is tracked by [PR #14](https://github.com/tclasen/factoryctl/pull/14); a proposed delivery record becomes effective only after merge and remote-main verification.
+
+Final qualification allocations: runtime implementer owned only local live PTY/isolation probe artifacts after releasing runtime source; recorder implementer additionally owned `scripts/review-video/qualification.mjs` and its local capture. Coordinator owned browser/terminal recorders, combination and current evidence. Reviewer remained read-only and independent. Functional capture failures and capacity failures were retained; a subsequent visual-review revision added chart/form/draft dwell without changing product source. This was a readability revision, not a hidden replacement of a failing functional outcome. No artifacts were staged or uploaded.
