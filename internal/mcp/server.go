@@ -14,6 +14,7 @@ import (
 	"net/http"
 	"net/url"
 	"sort"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -127,10 +128,11 @@ func (s *Server) bridge(ctx context.Context, name string, args json.RawMessage) 
 }
 
 type nodeArgs struct {
-	Ref              knowledge.Ref  `json:"ref"`
-	ExpectedRevision string         `json:"expected_revision,omitempty"`
-	Set              map[string]any `json:"set,omitempty"`
-	Document         *string        `json:"document,omitempty"`
+	Ref                knowledge.Ref  `json:"ref"`
+	ExpectedRevision   string         `json:"expected_revision,omitempty"`
+	ExpectedDefinition string         `json:"expected_definition,omitempty"`
+	Set                map[string]any `json:"set,omitempty"`
+	Document           *string        `json:"document,omitempty"`
 }
 
 func (s *Server) selected(ref knowledge.Ref) (project.Project, error) {
@@ -159,11 +161,28 @@ func (s *Server) documentCall(name string, args json.RawMessage) (any, error) {
 		return nil, e
 	}
 	switch name {
+	case "factory_extensions_list":
+		var a struct{}
+		if e = strict(args, &a); e != nil {
+			return nil, e
+		}
+		return app.ExtensionCatalog(s.config.Projects, p)
+	case "factory_prompt_render":
+		var a struct {
+			Prompt string         `json:"prompt"`
+			Record string         `json:"record,omitempty"`
+			Inputs map[string]any `json:"inputs,omitempty"`
+		}
+		if e = strict(args, &a); e != nil {
+			return nil, e
+		}
+		return app.RenderPrompt(s.config.Projects, p, a.Prompt, a.Record, a.Inputs)
 	case "factory_nodes_list":
 		var a struct {
-			Type  string `json:"type,omitempty"`
-			Query string `json:"query,omitempty"`
-			Limit int    `json:"limit,omitempty"`
+			Type   string `json:"type,omitempty"`
+			Query  string `json:"query,omitempty"`
+			Limit  int    `json:"limit,omitempty"`
+			Cursor string `json:"cursor,omitempty"`
 		}
 		if e = strict(args, &a); e != nil {
 			return nil, e
@@ -183,18 +202,39 @@ func (s *Server) documentCall(name string, args json.RawMessage) (any, error) {
 			return nil, app.Fail("not_found", "project unavailable")
 		}
 		docs := []*knowledge.Document{}
+		matchesQuery := app.DocumentMatcher(a.Query)
 		for _, d := range b.Docs {
-			if a.Type != "" && d.Type != a.Type || a.Query != "" && !strings.Contains(strings.ToLower(d.Title+" "+d.Ref.Path), strings.ToLower(a.Query)) {
+			if a.Type != "" && d.Type != a.Type || !matchesQuery(d) {
 				continue
 			}
 			docs = append(docs, d)
 		}
-		sort.Slice(docs, func(i, j int) bool { return docs[i].Ref.Path < docs[j].Ref.Path })
+		sort.Slice(docs, func(i, j int) bool {
+			return docs[i].Type+"\x00"+docs[i].Title+"\x00"+docs[i].Ref.Path < docs[j].Type+"\x00"+docs[j].Title+"\x00"+docs[j].Ref.Path
+		})
 		total := len(docs)
-		if len(docs) > a.Limit {
-			docs = docs[:a.Limit]
+		identity := knowledge.Hash([]byte(snap.Revision + "\x00" + p.Checkout + "\x00" + a.Type + "\x00" + a.Query))
+		offset := 0
+		if a.Cursor != "" {
+			parts := strings.Split(a.Cursor, ":")
+			if len(parts) != 2 || parts[0] != identity {
+				return nil, app.Fail("cursor_expired", "snapshot or filters changed; restart listing")
+			}
+			var err error
+			offset, err = strconv.Atoi(parts[1])
+			if err != nil || offset < 0 || offset > total {
+				return nil, app.Fail("invalid_arguments", "invalid cursor")
+			}
 		}
-		return map[string]any{"nodes": docs, "total": total, "truncated": len(docs) < total, "snapshot_revision": snap.Revision}, nil
+		end := offset + a.Limit
+		if end > total {
+			end = total
+		}
+		next := ""
+		if end < total {
+			next = identity + ":" + strconv.Itoa(end)
+		}
+		return map[string]any{"nodes": docs[offset:end], "total": total, "truncated": end < total, "next_cursor": next, "snapshot_revision": snap.Revision}, nil
 	case "factory_definitions_list":
 		var a struct{}
 		if e = strict(args, &a); e != nil {
@@ -208,7 +248,11 @@ func (s *Server) documentCall(name string, args json.RawMessage) (any, error) {
 		if b == nil {
 			return nil, app.Fail("not_found", "project unavailable")
 		}
-		return map[string]any{"definitions": b.Definitions}, nil
+		hashes := map[string]string{}
+		for typ, def := range b.Definitions {
+			hashes[typ] = app.DefinitionHash(def)
+		}
+		return map[string]any{"definitions": b.Definitions, "definition_hashes": hashes, "unknown_definition_hash": app.DefinitionHash(knowledge.Definition{}), "reconnect_required": true}, nil
 	case "factory_validate":
 		var a struct {
 			Level string `json:"level,omitempty"`
@@ -229,14 +273,18 @@ func (s *Server) documentCall(name string, args json.RawMessage) (any, error) {
 		return snap.Validate(a.Level), nil
 	case "factory_node_create":
 		var a struct {
-			Type   string         `json:"type"`
-			Slug   string         `json:"slug"`
-			Inputs map[string]any `json:"inputs,omitempty"`
+			Type               string         `json:"type"`
+			Slug               string         `json:"slug"`
+			Inputs             map[string]any `json:"inputs,omitempty"`
+			ExpectedDefinition string         `json:"expected_definition"`
 		}
 		if e = strict(args, &a); e != nil {
 			return nil, e
 		}
-		return app.Create(s.config.Projects, p, a.Type, a.Slug, a.Inputs)
+		if a.ExpectedDefinition == "" {
+			return nil, app.Fail("invalid_arguments", "expected_definition is required; read definitions first")
+		}
+		return app.CreateChecked(s.config.Projects, p, a.Type, a.Slug, a.Inputs, a.ExpectedDefinition)
 	case "factory_node_read", "factory_node_links", "factory_node_update", "factory_node_delete":
 		var a nodeArgs
 		if e = strict(args, &a); e != nil {
@@ -249,11 +297,14 @@ func (s *Server) documentCall(name string, args json.RawMessage) (any, error) {
 		if a.Ref.Path == "" {
 			return nil, app.Fail("invalid_arguments", "ref.path is required")
 		}
+		if (name == "factory_node_update" || name == "factory_node_delete") && a.ExpectedDefinition == "" {
+			return nil, app.Fail("invalid_arguments", "expected_definition is required; read the record first")
+		}
 		if name == "factory_node_update" {
 			if (a.Set == nil) == (a.Document == nil) {
 				return nil, app.Fail("invalid_arguments", "supply either set or document")
 			}
-			m := app.Mutation{Kind: "update", Path: a.Ref.Path, ExpectedRevision: a.ExpectedRevision, Set: a.Set}
+			m := app.Mutation{Kind: "update", Path: a.Ref.Path, ExpectedRevision: a.ExpectedRevision, ExpectedDefinition: a.ExpectedDefinition, Set: a.Set}
 			if a.Document != nil {
 				m.Kind = "replace"
 				m.Document = []byte(*a.Document)
@@ -264,13 +315,13 @@ func (s *Server) documentCall(name string, args json.RawMessage) (any, error) {
 			if a.Set != nil || a.Document != nil {
 				return nil, app.Fail("invalid_arguments", "delete does not accept set or document")
 			}
-			_, e := app.Mutate(s.config.Projects, p, app.Mutation{Kind: "delete", Path: a.Ref.Path, ExpectedRevision: a.ExpectedRevision})
+			_, e := app.Mutate(s.config.Projects, p, app.Mutation{Kind: "delete", Path: a.Ref.Path, ExpectedRevision: a.ExpectedRevision, ExpectedDefinition: a.ExpectedDefinition})
 			if e != nil {
 				return nil, e
 			}
 			return map[string]any{"removed": a.Ref}, nil
 		}
-		if a.Set != nil || a.Document != nil || a.ExpectedRevision != "" {
+		if a.Set != nil || a.Document != nil || a.ExpectedRevision != "" || a.ExpectedDefinition != "" {
 			return nil, app.Fail("invalid_arguments", "read operation does not accept mutation fields")
 		}
 		snap, e := app.Load(s.config.Projects)
@@ -291,9 +342,23 @@ func (s *Server) documentCall(name string, args json.RawMessage) (any, error) {
 			}
 			return map[string]any{"links": links}, nil
 		}
-		return map[string]any{"node": d, "source": string(d.Raw)}, nil
+		r, e := app.ExtensionCatalog(s.config.Projects, p)
+		if e != nil {
+			return nil, e
+		}
+		result := app.RecordContext(b, d, r)
+		actions, e := app.Actions(s.config.Projects, p, d.Ref.Path)
+		if e != nil {
+			return nil, e
+		}
+		result["actions"] = actions
+		return result, nil
 	default:
-		return nil, app.Fail("unsupported_capability", "unknown tool")
+		a, e := app.DecodeExtensionArguments(args)
+		if e != nil {
+			return nil, e
+		}
+		return app.CallExtension(s.config.Projects, p, name, a)
 	}
 }
 
@@ -370,7 +435,7 @@ func Run(ctx context.Context, in io.Reader, out io.Writer, config Config) error 
 				continue
 			}
 			initialized = true
-			write(req.ID, map[string]any{"protocolVersion": "2025-11-25", "capabilities": map[string]any{"tools": map[string]any{}, "resources": map[string]any{}}, "serverInfo": map[string]any{"name": "factoryctl", "version": "0.1.0-dev"}, "instructions": "Document tools are project scoped. User answers come only from the attached trusted surface. Never synthesize answers; wait returns pending on timeout. Generated views require trusted host permission and have a plain-text fallback. External MCP Apps interoperability is unqualified."}, 0, "")
+			write(req.ID, map[string]any{"protocolVersion": "2025-11-25", "capabilities": map[string]any{"tools": map[string]any{}, "resources": map[string]any{}}, "serverInfo": map[string]any{"name": "factoryctl", "version": "0.1.0-dev"}, "instructions": "Tools are reloaded on tools/list; reconnect clients that cache tool lists after definition changes. Filesystem enforcement is advisory. Document tools are project scoped. User answers come only from the attached trusted surface. Never synthesize answers; wait returns pending on timeout. Generated views require trusted host permission and have a plain-text fallback. External MCP Apps interoperability is unqualified."}, 0, "")
 			continue
 		}
 		if !initialized {
@@ -381,7 +446,12 @@ func Run(ctx context.Context, in io.Reader, out io.Writer, config Config) error 
 		case "ping":
 			write(req.ID, map[string]any{}, 0, "")
 		case "tools/list":
-			write(req.ID, map[string]any{"tools": Tools()}, 0, "")
+			dynamic, err := s.Tools()
+			if err != nil {
+				write(req.ID, nil, -32603, err.Error())
+				continue
+			}
+			write(req.ID, map[string]any{"tools": dynamic}, 0, "")
 		case "resources/list":
 			write(req.ID, map[string]any{"resources": []any{}}, 0, "")
 		case "resources/templates/list":

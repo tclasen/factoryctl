@@ -26,7 +26,7 @@ func (s *Snapshot) validateLinks(b *Bundle, d *knowledge.Document) {
 				link.Status = "broken"
 			} else {
 				if fragment != "" {
-					_, anchors := knowledge.MarkdownInfo(td.Body)
+					_, anchors := td.BodyInfo()
 					if !anchors[fragment] {
 						link.Status = "broken"
 					}
@@ -52,7 +52,7 @@ func (s *Snapshot) validateLinks(b *Bundle, d *knowledge.Document) {
 		}
 		s.Links = append(s.Links, link)
 	}
-	links, _ := knowledge.MarkdownInfo(d.Body)
+	links, _ := d.BodyInfo()
 	for _, l := range links {
 		add(l.Target, "body", nil, false)
 	}

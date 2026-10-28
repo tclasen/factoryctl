@@ -4,6 +4,8 @@
 __pycache__/
 # Generated evidence and recordings stay local, never in Git.
 artifacts/
+# Optional disposable delivery observations; durable criteria stay in Markdown.
+.factory/delivery/
 *.mp4
 *.webm
 *.mov

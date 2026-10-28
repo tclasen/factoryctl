@@ -403,6 +403,26 @@ func validateValue(v any, f map[string]any, required bool) error {
 // for a particular input. Dynamic include names are deliberately unsupported so
 // a saved template cannot hide a broken dependency behind runtime control flow.
 func Validate(projectRoot string, docs map[string]*knowledge.Document, templatePath string) error {
+	return validateDependencies(projectRoot, docs, templatePath, nil)
+}
+
+// DependencyVersions captures the exact browser-independent template assets
+// inspected by validation, including inactive include branches.
+func DependencyVersions(projectRoot string, docs map[string]*knowledge.Document, templatePath string) (map[string]string, error) {
+	versions := map[string]string{}
+	err := validateDependencies(projectRoot, docs, templatePath, versions)
+	return versions, err
+}
+
+func AssetVersion(projectRoot, name string) (string, error) {
+	b, e := readAsset(projectRoot, name)
+	if e != nil {
+		return "", e
+	}
+	return knowledge.Hash(b), nil
+}
+
+func validateDependencies(projectRoot string, docs map[string]*knowledge.Document, templatePath string, versions map[string]string) error {
 	root := docs[templatePath]
 	if root == nil {
 		return fmt.Errorf("template not found: %s", templatePath)
@@ -436,6 +456,9 @@ func Validate(projectRoot string, docs map[string]*knowledge.Document, templateP
 				return e
 			}
 			source = string(b)
+			if versions != nil {
+				versions[name] = knowledge.Hash(b)
+			}
 		} else {
 			d := docs[name]
 			if d == nil {
@@ -458,6 +481,9 @@ func Validate(projectRoot string, docs map[string]*knowledge.Document, templateP
 					return e
 				}
 				source = string(b)
+				if versions != nil {
+					versions[asset] = knowledge.Hash(b)
+				}
 			}
 		}
 		dummy := func(...any) string { return "" }

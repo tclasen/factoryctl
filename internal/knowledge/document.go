@@ -36,6 +36,7 @@ type Ref struct {
 	Path      string `json:"path"`
 }
 type Document struct {
+	ASCII       bool           `json:"-"`
 	Schema      string         `json:"schema"`
 	Ref         Ref            `json:"ref"`
 	Revision    string         `json:"revision"`
@@ -48,6 +49,17 @@ type Document struct {
 	YAML        *yaml.Node     `json:"-"`
 	HeaderStart int            `json:"-"`
 	HeaderEnd   int            `json:"-"`
+	bodyLinks   []BodyLink
+	bodyAnchors map[string]bool
+}
+
+// BodyInfo reuses immutable parse results for link and anchor validation.
+// Documents returned by Parse are immutable snapshots; edits create new ones.
+func (d *Document) BodyInfo() ([]BodyLink, map[string]bool) {
+	if d.bodyAnchors != nil {
+		return d.bodyLinks, d.bodyAnchors
+	}
+	return MarkdownInfo(d.Body)
 }
 
 func Hash(b []byte) string { h := sha256.Sum256(b); return hex.EncodeToString(h[:]) }
@@ -60,12 +72,19 @@ func Parse(p string, b []byte) *Document {
 		fail("document exceeds 1 MiB")
 		return d
 	}
+	d.ASCII = true
+	for _, c := range b {
+		if c >= 128 {
+			d.ASCII = false
+			break
+		}
+	}
 	if !utf8.Valid(b) {
 		fail("document is not UTF-8")
 		return d
 	}
-	for _, line := range strings.Split(string(b), "\n") {
-		if strings.HasPrefix(line, "<<<<<<< ") || line == "=======" || strings.HasPrefix(line, ">>>>>>> ") {
+	for _, line := range bytes.Split(b, []byte("\n")) {
+		if bytes.HasPrefix(line, []byte("<<<<<<< ")) || bytes.Equal(line, []byte("=======")) || bytes.HasPrefix(line, []byte(">>>>>>> ")) {
 			fail("unresolved conflict markers")
 			return d
 		}
@@ -128,6 +147,7 @@ func Parse(p string, b []byte) *Document {
 	if strings.TrimSpace(d.Type) == "" {
 		fail("type must be a nonempty string")
 	}
+	d.bodyLinks, d.bodyAnchors = MarkdownInfo(d.Body)
 	return d
 }
 func checkYAML(n *yaml.Node, depth int) error {

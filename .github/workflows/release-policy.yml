@@ -1,0 +1,32 @@
+name: Release policy
+on:
+  push:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+permissions:
+  contents: read
+jobs:
+  release-policy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Test pre-1.0 release and commit guards
+        run: python3 -m unittest discover -s scripts/release -p 'test_*.py'
+      - name: Validate new commits and pull request title
+        env:
+          EVENT_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          EVENT_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+          EVENT_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          python3 - <<'PY'
+          import os, subprocess
+          command = ['python3', 'scripts/release/check_commits.py', '--head', os.environ['EVENT_HEAD']]
+          if os.environ.get('EVENT_BASE'):
+              command += ['--base', os.environ['EVENT_BASE']]
+          if os.environ.get('EVENT_TITLE'):
+              command += ['--title', os.environ['EVENT_TITLE']]
+          subprocess.run(command, check=True)
+          PY

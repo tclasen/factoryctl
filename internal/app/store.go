@@ -14,6 +14,7 @@ import (
 	"github.com/tclasen/factoryctl/internal/knowledge"
 	"github.com/tclasen/factoryctl/internal/project"
 	"github.com/tclasen/factoryctl/internal/safeio"
+	"github.com/tclasen/factoryctl/internal/templates"
 )
 
 var slugPattern = regexp.MustCompile(`^[a-z0-9]+(?:-[a-z0-9]+)*$`)
@@ -51,12 +52,20 @@ func SafePath(root, p string, create bool) error {
 }
 
 type Mutation struct {
-	Kind, Path, ExpectedRevision string
-	Document                     []byte
-	Set                          map[string]any
+	Kind, Path, ExpectedRevision       string
+	ExpectedDefinition, DefinitionType string
+	Document                           []byte
+	Set                                map[string]any
+	ExpectedSnapshot                   string
+	ExpectedAssets                     map[string]string
 }
 
 func Mutate(projects []project.Project, selected project.Project, m Mutation) (*knowledge.Document, error) {
+	switch m.Kind {
+	case "create", "update", "replace", "delete":
+	default:
+		return nil, Fail("invalid_arguments", "unsupported mutation operation")
+	}
 	rootPath := filepath.Join(selected.Root, "factory")
 	if e := SafePath(rootPath, m.Path, m.Kind == "create"); e != nil {
 		return nil, e
@@ -93,6 +102,21 @@ func Mutate(projects []project.Project, selected project.Project, m Mutation) (*
 	if e != nil {
 		return nil, e
 	}
+	if m.ExpectedSnapshot != "" && before.Revision != m.ExpectedSnapshot {
+		return nil, Fail("stale_revision", "template source graph changed during rendering; refresh")
+	}
+	checkAssets := func() error {
+		for name, expected := range m.ExpectedAssets {
+			actual, err := templates.AssetVersion(selected.Root, name)
+			if err != nil || actual != expected {
+				return Fail("stale_revision", "template asset changed during rendering; refresh")
+			}
+		}
+		return nil
+	}
+	if err := checkAssets(); err != nil {
+		return nil, err
+	}
 	bundle := before.Bundle(selected.Checkout)
 	if bundle == nil {
 		return nil, Fail("not_found", "selected bundle is unavailable")
@@ -111,6 +135,21 @@ func Mutate(projects []project.Project, selected project.Project, m Mutation) (*
 		if m.ExpectedRevision == "" || m.ExpectedRevision != old.Revision {
 			return nil, &Error{Code: "stale_revision", Message: "expected revision differs from disk", CurrentRevision: old.Revision}
 		}
+	}
+	typ := m.DefinitionType
+	if old != nil {
+		if typ != "" && old.Type != typ {
+			return nil, Fail("invalid_path", "record is outside the tool type scope")
+		}
+		typ = old.Type
+	} else if typ == "" {
+		typ = knowledge.Parse(m.Path, m.Document).Type
+	}
+	if m.ExpectedDefinition != "" && m.ExpectedDefinition != DefinitionHash(bundle.Definitions[typ]) {
+		return nil, Fail("stale_definition", "effective definition changed; refresh")
+	}
+	if def, known := bundle.Definitions[typ]; known && def.Invalid {
+		return nil, Fail("schema_conflict", "type definition is invalid, duplicated or disabled")
 	}
 	data := m.Document
 	if m.Kind == "update" {
@@ -143,6 +182,12 @@ func Mutate(projects []project.Project, selected project.Project, m Mutation) (*
 		delete(bundle.Docs, m.Path)
 	} else {
 		candidate = knowledge.Parse(m.Path, data)
+		if m.DefinitionType != "" && candidate.Type != m.DefinitionType {
+			return nil, Fail("invalid_path", "record is outside the tool type scope")
+		}
+		if def, known := bundle.Definitions[candidate.Type]; known && def.Invalid {
+			return nil, Fail("schema_conflict", "proposed type definition is invalid or disabled")
+		}
 		candidate.Ref = knowledge.Ref{ProjectID: selected.ID, Checkout: selected.Checkout, Path: m.Path}
 		if old != nil && old.Type == "Factory" && (knowledge.String(old.Frontmatter, "project_id") != knowledge.String(candidate.Frontmatter, "project_id") || knowledge.String(old.Frontmatter, "bundle_uri") != knowledge.String(candidate.Frontmatter, "bundle_uri")) {
 			return nil, Fail("unsupported_capability", "identity changes require an external edit followed by project rediscovery")
@@ -196,6 +241,9 @@ func Mutate(projects []project.Project, selected project.Project, m Mutation) (*
 	}
 	if e := SafePath(rootPath, m.Path, m.Kind == "create"); e != nil {
 		return nil, e
+	}
+	if err := checkAssets(); err != nil {
+		return nil, err
 	}
 	currentLock, e = root.Stat("control/write-coordination.md")
 	if e != nil || !os.SameFile(lockInfo, currentLock) {

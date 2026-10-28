@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"path"
 	"path/filepath"
 	"sort"
 	"strconv"
@@ -30,7 +29,7 @@ Global flags (before or after commands):
   --path DIR --project ID --checkout TOKEN --json --non-interactive
 
 Commands:
-  web [--listen 127.0.0.1:8080] [--runtime codex]  (documents and opt-in conversations)
+  gui | web [--listen 127.0.0.1:8080] [--runtime codex]  (documents and opt-in conversations)
   chat --runtime codex --prompt TEXT  (interactive terminal conversation)
   mcp  (scoped stdio document and question tools)
   projects list
@@ -43,12 +42,17 @@ Commands:
   records delete PATH --expected-revision HASH
   validate [--level okf|factory] [--require-complete-links]
   templates diff
+  templates export --kind record|prompt|view
   actions list --record PATH
+  actions render PROMPT --record PATH [--input KEY=VALUE ...]
+  actions run PROMPT --record PATH --runtime codex
+  extensions list
+  extensions call NAME --input KEY=VALUE ...
   doctor
 
 Document commands never prompt or start an agent. Conversations require explicit runtime selection.
-Document browsing remains read-only; conversation agents may use their native tools.
-Network link checks and asset export remain unsupported.
+Web document edits use the same structural checks as CLI/MCP. Conversations are opt-in.
+Network link checks are not performed; external citations remain explicitly unchecked.
 Example: factoryctl --path . records list --type Task --json
 `
 
@@ -61,7 +65,7 @@ func parse(args []string) (options, error) {
 	o := options{flags: map[string][]string{}}
 	bools := map[string]bool{"json": true, "non-interactive": true, "help": true, "version": true, "require-complete-links": true, "check-external": true}
 	allowed := map[string]bool{}
-	for _, k := range strings.Fields("path project checkout project-id starter type query limit cursor input slug expected-revision set file level kind record listen runtime runtime-executable model reasoning-effort preferences chat-settings prompt") {
+	for _, k := range strings.Fields("path project checkout project-id starter type query limit cursor input slug expected-revision expected-definition set file level kind record listen runtime runtime-executable model reasoning-effort preferences chat-settings prompt") {
 		allowed[k] = true
 	}
 	for i := 0; i < len(args); i++ {
@@ -176,7 +180,7 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 			return 1
 		case "invalid_arguments", "ambiguous_project", "invalid_path", "not_found", "cursor_expired", "lossless_edit_unavailable":
 			return 2
-		case "stale_revision", "already_exists":
+		case "stale_revision", "stale_definition", "already_exists":
 			return 3
 		case "validation_incomplete":
 			return 5
@@ -199,6 +203,9 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 		return fail(app.Fail("invalid_arguments", "missing command"))
 	}
 	cmd := o.args[0]
+	if cmd == "gui" {
+		cmd = "web"
+	}
 	sub := ""
 	if len(o.args) > 1 {
 		sub = o.args[1]
@@ -229,9 +236,17 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 	case "projects":
 	case "templates":
 		extra = "kind"
+	case "extensions":
+		extra = "input"
+		if sub == "call" {
+			expected = 3
+		}
 	case "actions":
 		extra = "record input"
 		if sub == "run" {
+			extra += " runtime runtime-executable model reasoning-effort preferences chat-settings"
+		}
+		if sub == "run" || sub == "render" {
 			expected = 3
 		}
 	case "records":
@@ -239,17 +254,17 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 		case "list":
 			extra = "type query limit cursor"
 		case "create":
-			extra = "type slug input"
+			extra = "type slug input expected-definition"
 		case "show":
 			expected = 3
 		case "update":
-			extra = "expected-revision set"
+			extra = "expected-revision expected-definition set"
 			expected = 3
 		case "replace":
-			extra = "expected-revision file"
+			extra = "expected-revision expected-definition file"
 			expected = 3
 		case "delete":
-			extra = "expected-revision"
+			extra = "expected-revision expected-definition"
 			expected = 3
 		}
 	}
@@ -266,7 +281,7 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 	if cmd != "gui" && len(o.args) != expected {
 		return fail(app.Fail("invalid_arguments", "unexpected or missing positional argument"))
 	}
-	if cmd == "gui" || (cmd == "actions" && sub == "run") || (cmd == "templates" && sub == "export") || o.get("check-external") != "" {
+	if o.get("check-external") != "" {
 		return fail(app.Fail("unsupported_capability", "this capability is not implemented in the document CLI milestone"))
 	}
 	if cmd == "doctor" {
@@ -424,6 +439,18 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 		}
 		return 0
 	}
+	if cmd == "templates" && sub == "export" {
+		p, e := one()
+		if e != nil {
+			return fail(e)
+		}
+		result, e := app.ExportTemplates(collection.Projects, p, o.get("kind"))
+		if e != nil {
+			return fail(e)
+		}
+		emit(result)
+		return 0
+	}
 	if cmd == "templates" && sub == "diff" {
 		p, e := one()
 		if e != nil {
@@ -454,6 +481,7 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 			}
 		}
 		nodes := []*knowledge.Document{}
+		matchesQuery := app.DocumentMatcher(o.get("query"))
 		names := map[string]string{}
 		for _, b := range snap.Bundles {
 			selected := false
@@ -470,7 +498,7 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 				if o.get("type") != "" && d.Type != o.get("type") {
 					continue
 				}
-				if q := strings.ToLower(o.get("query")); q != "" && !strings.Contains(strings.ToLower(string(d.Raw)), q) {
+				if !matchesQuery(d) {
 					continue
 				}
 				nodes = append(nodes, d)
@@ -509,37 +537,75 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 		return fail(e)
 	}
 	b := snap.Bundle(p.Checkout)
-	if cmd == "actions" && sub == "list" {
-		d := b.Docs[o.get("record")]
-		if d == nil {
-			return fail(app.Fail("not_found", "record not found"))
-		}
-		actions := []*knowledge.Document{}
-		def, known := b.Definitions[d.Type]
-		explicitActions := map[string]bool{}
-		for _, raw := range knowledge.List(def.Raw["actions"]) {
-			if target, ok := raw.(string); ok {
-				explicitActions[path.Clean(path.Join(path.Dir(def.Path), target))] = true
+	if cmd == "extensions" {
+		if sub == "list" {
+			r, e := app.ExtensionCatalog(collection.Projects, p)
+			if e != nil {
+				return fail(e)
 			}
+			emit(r)
+			return 0
 		}
-		if !known || (def.Enabled && !def.Invalid) {
-			for _, a := range b.Docs {
-				if a.Type == "Prompt" {
-					applicable := explicitActions[a.Ref.Path]
-					for _, typ := range knowledge.List(a.Frontmatter["applies_to"]) {
-						if typ == "*" || typ == d.Type {
-							applicable = true
-						}
-					}
-					if applicable {
-						actions = append(actions, a)
-					}
-				}
+		if sub == "call" {
+			args, e := values(o.flags["input"])
+			if e != nil {
+				return fail(e)
 			}
+			r, e := app.CallExtension(collection.Projects, p, o.args[2], args)
+			if e != nil {
+				return fail(e)
+			}
+			emit(r)
+			return 0
 		}
-		sort.Slice(actions, func(i, j int) bool { return actions[i].Ref.Path < actions[j].Ref.Path })
-		emit(actions)
-		return 0
+		return fail(app.Fail("invalid_arguments", "unknown extension command"))
+	}
+	if cmd == "actions" {
+		if sub == "list" {
+			r, e := app.Actions(collection.Projects, p, o.get("record"))
+			if e != nil {
+				return fail(e)
+			}
+			emit(r)
+			return 0
+		}
+		if sub == "render" || sub == "run" {
+			if sub == "run" && (jsonMode || o.get("non-interactive") != "") {
+				return fail(app.Fail("interaction_unavailable", "action launch requires an interactive terminal; use actions render for preview"))
+			}
+			inputs, e := values(o.flags["input"])
+			if e != nil {
+				return fail(e)
+			}
+			preview, e := app.RenderPrompt(collection.Projects, p, o.args[2], o.get("record"), inputs)
+			if e != nil {
+				return fail(e)
+			}
+			if sub == "render" {
+				emit(preview)
+				return 0
+			}
+			if jsonMode || o.get("non-interactive") != "" {
+				return fail(app.Fail("interaction_unavailable", "action launch requires an interactive terminal; use actions render for preview"))
+			}
+			cfg, e := runtimeConfig(o)
+			if e != nil {
+				return fail(e)
+			}
+			if cfg == nil {
+				return fail(app.Fail("invalid_arguments", "select --runtime codex or personal preferences"))
+			}
+			prompt, _ := preview["prompt"].(string)
+			profile, _ := preview["profile_instructions"].(string)
+			if profile != "" {
+				prompt = profile + "\n\n" + prompt
+			}
+			if e := web.ChatTerminal([]project.Project{p}, *cfg, prompt, in, out); e != nil {
+				return fail(e)
+			}
+			return 0
+		}
+		return fail(app.Fail("invalid_arguments", "unknown action command"))
 	}
 	if cmd != "records" {
 		return fail(app.Fail("invalid_arguments", "unknown command"))
@@ -552,7 +618,7 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 		if e != nil {
 			return fail(e)
 		}
-		d, e := app.Create(collection.Projects, p, o.get("type"), o.get("slug"), inputs)
+		d, e := app.CreateChecked(collection.Projects, p, o.get("type"), o.get("slug"), inputs, o.get("expected-definition"))
 		if e != nil {
 			return fail(e)
 		}
@@ -588,10 +654,10 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 		if _, ok := b.Definitions[d.Type]; ok {
 			schema = "available"
 		}
-		emit(map[string]any{"node": d, "document": string(d.Raw), "outgoing": outgoing, "backlinks": incoming, "schema": schema, "diagnostics": snap.Diagnostics})
+		emit(map[string]any{"node": d, "document": string(d.Raw), "outgoing": outgoing, "backlinks": incoming, "schema": schema, "definition_hash": app.DefinitionHash(b.Definitions[d.Type]), "diagnostics": snap.Diagnostics})
 		return 0
 	}
-	m := app.Mutation{Kind: sub, Path: recordPath, ExpectedRevision: o.get("expected-revision")}
+	m := app.Mutation{Kind: sub, Path: recordPath, ExpectedRevision: o.get("expected-revision"), ExpectedDefinition: o.get("expected-definition")}
 	if m.ExpectedRevision == "" {
 		return fail(app.Fail("invalid_arguments", "--expected-revision is required"))
 	}

@@ -201,9 +201,11 @@ func TestCLIArgumentsAndUnsupportedCapabilities(t *testing.T) {
 	wantError(t, cli(t, root, "", "records", "list", "--limit", "0"), 2, "invalid_arguments")
 	wantError(t, cli(t, root, "", "records", "show", "../factory.md"), 2, "invalid_path")
 	wantError(t, cli(t, root, "", "records", "list", "--unknown"), 2, "invalid_arguments")
-	for _, args := range [][]string{{"gui"}, {"actions", "run", "prompts/discuss.md"}, {"templates", "export", "--kind", "view"}, {"validate", "--check-external"}} {
+	for _, args := range [][]string{{"validate", "--check-external"}} {
 		wantError(t, cli(t, root, "", args...), 4, "unsupported_capability")
 	}
+	wantError(t, cli(t, root, "", "gui"), 2, "invalid_arguments")
+	wantError(t, cli(t, root, "", "actions", "run", "prompts/discuss.md"), 4, "interaction_unavailable")
 	r := invoke(t, "", "--path", root, "records", "list", "--limit", "0")
 	wantCode(t, r, 2)
 	if r.stdout != "" || !strings.Contains(r.stderr, "invalid_arguments") {

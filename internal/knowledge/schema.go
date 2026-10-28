@@ -10,10 +10,12 @@ import (
 
 type Definition struct {
 	Type, Directory, Filename, Path string
+	Revision                        string
 	Enabled                         bool
 	Fields                          map[string]any
 	Raw                             map[string]any
 	Invalid                         bool
+	ExtensionInvalid                bool
 }
 
 var Kinds = map[string]bool{"string": true, "text": true, "boolean": true, "integer": true, "number": true, "date": true, "datetime": true, "enum": true, "string-list": true, "reference": true, "reference-list": true, "mapping": true}
@@ -114,7 +116,7 @@ func CheckField(value any, spec map[string]any) error {
 	return nil
 }
 func ParseDefinition(d *Document) (Definition, []Diagnostic) {
-	def := Definition{Type: String(d.Frontmatter, "defines"), Directory: String(d.Frontmatter, "directory"), Filename: String(d.Frontmatter, "filename"), Path: d.Ref.Path, Enabled: true, Fields: Mapping(d.Frontmatter["fields"]), Raw: d.Frontmatter}
+	def := Definition{Revision: d.Revision, Type: String(d.Frontmatter, "defines"), Directory: String(d.Frontmatter, "directory"), Filename: String(d.Frontmatter, "filename"), Path: d.Ref.Path, Enabled: true, Fields: Mapping(d.Frontmatter["fields"]), Raw: d.Frontmatter}
 	ds := []Diagnostic{}
 	bad := func(field, msg string) {
 		def.Invalid = true
@@ -197,9 +199,11 @@ func ParseDefinition(d *Document) (Definition, []Diagnostic) {
 			bad("views.board.field", "board field must name an enum")
 		}
 	}
-	// Executable or conditional policy declarations are deliberately unsupported.
-	if ext := Mapping(d.Frontmatter["extension"]); ext != nil {
-		bad("extension", "runtime extension registration is not supported in this CLI milestone")
+	if raw, exists := d.Frontmatter["extension"]; exists {
+		if _, err := ParseExtension(raw, def.Fields); err != nil {
+			def.ExtensionInvalid = true
+			ds = append(ds, Diagnostic{Code: "invalid_extension", Severity: "error", Path: d.Ref.Path, Field: "extension", Line: 1, Column: 1, Message: err.Error()})
+		}
 	}
 	return def, ds
 }

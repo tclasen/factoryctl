@@ -9,7 +9,7 @@ factory:
     frame: desired
     certainty: mixed
     basis: mixed
-task_state: in_review
+task_state: done
 priority: high
 owner: coordinator
 depends_on: [00-runtime-spike.md, 06-transports.md]
@@ -54,10 +54,20 @@ Acceptance evidence separates deterministic fake-runtime tests, live runtime obs
 Qualification follow-up allocation: runtime implementer now owns README.md and a new `factory/sources/interaction-capabilities.md` capability Reference only, using this task's existing run and inherited model. Reconcile observed runtime/PTY evidence, exact first-party view limits, invocation examples and CLI retain recommendation; no edits to implementation, current matrix or other documents. Coordinator retains those and the final evidence package. Recorder implementer owns only `scripts/review-video/record.mjs` and `annotate.mjs`; final capture waits for source freeze. Reviewer remains independent and read-only.
 
 
-## Current bounded outcome and remaining qualification
+## Historical interaction-milestone checkpoint
 
 [Interaction milestone evidence](../sources/interaction-milestone-evidence.md) records the frozen product source, current tests, actual browser form/chart and same-thread dialogue, real terminal dialogue, concurrent project isolation, multiple selections, refusal, restart loss and sandbox boundaries. [Capability evidence](../sources/interaction-capabilities.md) recommends retaining the CLI. Native browser approval/input have deterministic fixture coverage; external Apps interoperability is not qualified. General GUI editing/boards, type-derived extension registration and delivery-status implementation remain outside this slice.
 
-The local stable demo is `/Users/Shared/factoryctl/artifacts/demo/latest.mp4`; complete current row accounting accompanies it. Full-matrix qualification remains explicitly incomplete. `in_review` preserves this distinction rather than calling all product requirements done. The implementation delivery is tracked by [PR #14](https://github.com/tclasen/factoryctl/pull/14); a proposed delivery record becomes effective only after merge and remote-main verification.
+The local stable demo is `/Users/Shared/factoryctl/artifacts/demo/latest.mp4`; complete current row accounting accompanies it. Full-matrix qualification remains explicitly incomplete. At that milestone, `in_review` preserved this distinction rather than calling all product requirements done. The implementation delivery is tracked by [PR #14](https://github.com/tclasen/factoryctl/pull/14); a proposed delivery record becomes effective only after merge and remote-main verification.
 
 Final qualification allocations: runtime implementer owned only local live PTY/isolation probe artifacts after releasing runtime source; recorder implementer additionally owned `scripts/review-video/qualification.mjs` and its local capture. Coordinator owned browser/terminal recorders, combination and current evidence. Reviewer remained read-only and independent. Functional capture failures and capacity failures were retained; a subsequent visual-review revision added chart/form/draft dwell without changing product source. This was a readability revision, not a hidden replacement of a failing functional outcome. No artifacts were staged or uploaded.
+
+## Completion revision 2 reconciliation
+
+Current product candidate: `a7c22ba847d58e8f4ece6a22ee9bb73302a64c02`. The explicit instruction to implement the remaining project tasks and its bounds are recorded in the [completion task](project-completion.md); the original authorization and historical checkpoints above remain distinct.
+
+Current native web/PTY and S1–S3 evidence exercises free text, choices/custom text, actual originating-tool answers, concurrent routing, same-thread follow-up and interruption. Distinct generated form/chart views, sandbox/refusal/fallback tests and personal settings have current coverage. The native approval cancellation criterion has bounded verified evidence while its whole-probe recorder failure is retained. External MCP Apps interoperability and unsupported elicitation variants remain unqualified; the CLI is retained (A08/A16/A17/A18).
+
+Current command, named-test, native/browser, scene and artifact identities are consolidated in [completion milestone evidence](../sources/completion-milestone-evidence.md), with the independent [code review](../sources/completion-code-review.md) and [acceptance review](../sources/completion-acceptance-review.md). The proposed matrix accounts for 105 passing rows and blocked U045; that proposal is not a full-product acceptance or release claim. Final combined evidence and independent review remain separate gates.
+
+Conditional closure proposal: the bounded work described here is implemented or reconciled and ready for reviewed delivery. The proposed `done` state becomes effective ONLY after this PR is independently reviewed, merged normally and verified on owning-remote main. Before those gates this is a closure proposal, not a delivered result. The final independent reviewer must assess this task's evidence basis. Coordinator retains delivery/reconciliation ownership; no earlier PR/main result is invented by this update. Task 11 and the root completion task retain the unresolved static-linkage/full-qualification boundary.
