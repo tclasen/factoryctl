@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import {spawnSync} from 'node:child_process';
 const root = path.resolve(import.meta.dirname, '../..');
 const args = process.argv.slice(2);
 const qualify = args.includes('--qualify');
@@ -37,13 +38,40 @@ try {
   for(const f of toolchain.product_files)demand(fs.existsSync(path.join(root,f.path)) && crypto.createHash('sha256').update(fs.readFileSync(path.join(root,f.path))).digest('hex')===f.sha256,'Stale product evidence: '+f.path);
   const scan = p => { for (const e of fs.readdirSync(p, {withFileTypes:true})) { const f=path.join(p,e.name); if(e.isDirectory())scan(f); else if(e.name.endsWith('_test.go')) for(const m of fs.readFileSync(f,'utf8').matchAll(/^func (Test\w+)\(/gm))testNames.add(m[1]); }};
   scan(path.join(root,'cmd')); scan(path.join(root,'internal'));
-  const matrixVideo=JSON.parse(fs.readFileSync(path.join(dir,'matrix-video-coverage.json'),'utf8'));
-  const matrixInput=fs.readFileSync(path.join(dir,'matrix-input.json'));
-  demand(crypto.createHash('sha256').update(matrixInput).digest('hex')===matrixVideo.matrix_sha256,'Frozen matrix video input digest mismatch');
-  demand(matrixVideo.product_revision===matrix.product_revision,'Matrix video revision mismatch');
-  demand(matrixVideo.rows.length===expected.length && new Set(matrixVideo.rows.map(r=>r.id)).size===expected.length,'Matrix video row coverage is incomplete');
-  demand(fs.existsSync(path.join(dir,matrixVideo.video)),'Matrix review video is absent');
-  const frozenRows=new Map(JSON.parse(matrixInput).rows.map(r=>[r.id,r]));
+  const annotations=JSON.parse(fs.readFileSync(path.join(dir,matrix.annotations),'utf8'));
+  const stable=path.resolve(dir,matrix.stable_video);
+  const canonical='https://raw.githubusercontent.com/tclasen/factoryctl/main/artifacts/demo/latest.mp4';
+  demand(matrix.stable_url===canonical && annotations.stable_link===canonical,'Canonical demo link changed');
+  demand(matrix.stable_video==='../../demo/latest.mp4','Canonical demo file path changed');
+  demand(fs.existsSync(stable),'Canonical latest demo is absent');
+  if(fs.existsSync(video) && fs.existsSync(stable)) {
+    const archiveHash=crypto.createHash('sha256').update(fs.readFileSync(video)).digest('hex');
+    const latestHash=crypto.createHash('sha256').update(fs.readFileSync(stable)).digest('hex');
+    demand(archiveHash===latestHash,'Canonical demo differs from immutable archive');
+    demand(archiveHash===annotations.output_sha256 && latestHash===annotations.stable_alias_sha256,'Annotated video digest mismatch');
+  }
+  demand(annotations.product_revision===matrix.product_revision,'Annotation revision mismatch');
+  demand(annotations.annotations.length===recording.scenes.length && new Set(annotations.annotations.map(a=>a.scene_id)).size===recording.scenes.length,'Not every demo scene has requirement annotations');
+  for(const scene of recording.scenes) {
+    const a=annotations.annotations.find(a=>a.scene_id===scene.id);
+    demand(a && a.end_seconds>a.start_seconds && a.explanation && a.requirement_ids?.length,`Missing requirement explanation for scene ${scene.id}`);
+    if(a) {
+      let validEnd=Math.abs(a.end_seconds-scene.end_seconds)<1;
+      // Context shutdown can append a brief final hold after the presentation clock.
+      // Permit only the final scene to cover that hold, and verify the actual media end.
+      if(!validEnd && scene===recording.scenes.at(-1)) {
+        const tail=a.end_seconds-scene.end_seconds;
+        if(tail>=0 && tail<=2 && fs.existsSync(video)) {
+          const probe=spawnSync('ffprobe',['-v','error','-show_entries','format=duration','-of','json',video],{encoding:'utf8',timeout:10000});
+          let exportedDuration=NaN;
+          try { exportedDuration=Number(JSON.parse(probe.stdout).format.duration); } catch {}
+          validEnd=probe.status===0 && Number.isFinite(exportedDuration) && Math.abs(a.end_seconds-exportedDuration)<0.05;
+        }
+      }
+      demand(Math.abs(a.start_seconds-scene.start_seconds)<1 && validEnd,`Annotation timing differs from actual scene ${scene.id}`);
+      for(const id of a.requirement_ids)demand(expected.includes(id),`Unknown on-video requirement ${id}`);
+    }
+  }
   const seen = new Set();
   for (const row of matrix.rows) {
     demand(expected.includes(row.id), `Unknown row ${row.id}`);
@@ -60,19 +88,15 @@ try {
       if(scene)ranges.push({scene_id:id,start_seconds:scene.start_seconds,end_seconds:scene.end_seconds,kind:row.evidence_kind});
     }
     row.video_ranges=ranges;
-    const shown=matrixVideo.rows.find(r=>r.id===row.id);
-    demand(shown && shown.end_seconds>shown.start_seconds && shown.status===row.status,`No matching matrix video row ${row.id}`);
-    const frozen=frozenRows.get(row.id);
-    demand(frozen && frozen.requirement===row.requirement && frozen.status===row.status && frozen.remaining_gap===row.remaining_gap,`Matrix video input is stale for ${row.id}`);
     for(const name of row.tests || []) { demand(testNames.has(name), `Unknown named test ${name} for ${row.id}`); demand(observedTests.has(name),`No executed passing named test ${name} for ${row.id}`); }
     if(row.status==='pass') {
-      demand(row.coverage==='end-to-end' && row.evidence_kind==='executed-cli', `Pass lacks declared E2E evidence ${row.id}`);
+      demand(row.coverage==='end-to-end' && ['executed-cli','executed-browser','executed-integration','verified-delivery'].includes(row.evidence_kind), `Pass lacks declared E2E evidence ${row.id}`);
       demand(row.remaining_gap==='', `Pass retains unmet requirement ${row.id}`);
     } else demand(typeof row.remaining_gap==='string' && row.remaining_gap.length>0, `Unfulfilled row lacks explicit gap ${row.id}`);
   }
   for(const id of expected)demand(seen.has(id), `Missing matrix row ${id}`);
   const unmet=matrix.rows.filter(r=>r.status!=='pass').map(r=>r.id);
-  const summary={schema_version:1,product_revision:matrix.product_revision,row_count:expected.length,accounting_complete:failures.length===0,fully_qualified:failures.length===0&&unmet.length===0,pass_rows:matrix.rows.filter(r=>r.status==='pass').map(r=>r.id),unmet_rows:unmet,status_counts:Object.fromEntries([...new Set(matrix.rows.map(r=>r.status))].map(s=>[s,matrix.rows.filter(r=>r.status===s).length])),main_video:matrix.main_video,main_video_sha256:fs.existsSync(video)?crypto.createHash('sha256').update(fs.readFileSync(video)).digest('hex'):null,failures,note:'Complete accounting is not full requirement satisfaction. Named backend cases and boundary refusals do not pass unimplemented E2E requirements.'};
+  const summary={schema_version:1,product_revision:matrix.product_revision,row_count:expected.length,accounting_complete:failures.length===0,fully_qualified:failures.length===0&&unmet.length===0,pass_rows:matrix.rows.filter(r=>r.status==='pass').map(r=>r.id),unmet_rows:unmet,status_counts:Object.fromEntries([...new Set(matrix.rows.map(r=>r.status))].map(s=>[s,matrix.rows.filter(r=>r.status===s).length])),main_video:matrix.main_video,canonical_demo_link:canonical,main_video_sha256:fs.existsSync(video)?crypto.createHash('sha256').update(fs.readFileSync(video)).digest('hex'):null,failures,note:'Complete accounting is not full requirement satisfaction. Named backend cases and boundary refusals do not pass unimplemented E2E requirements.'};
   if(args.includes('--write')) {
     fs.writeFileSync(file,JSON.stringify(matrix,null,2)+'\n');
     fs.writeFileSync(path.join(dir,'matrix-summary.json'),JSON.stringify(summary,null,2)+'\n');

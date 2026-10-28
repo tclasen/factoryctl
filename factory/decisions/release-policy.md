@@ -51,3 +51,5 @@ Agents apply this policy immediately when committing and merging. Automated comm
 ## Mandatory milestone review gate
 
 Every milestone delivery must include a current Playwright demo exercising the complete requirements traceability matrix end to end, as explicitly directed by the operator. Apply [the demonstration gate](../specifications/release-evidence.md#milestone-review-delivery) before declaring delivery complete. Reconcile every atomic row with current executable evidence, video scene timestamps and exact gaps. A partial review artifact may be shared, but no missing or unsupported capability may be reported as passing, and no video may be deferred merely because the milestone is not a tagged release.
+
+Use one scene-annotated demo and the canonical latest-demo link defined in the demonstration contract. Requirement explanations accompany actual behavior at its timestamp; matrix-only presentations do not satisfy the demo requirement. Preserve immutable video history while replacing the canonical latest file through normal reviewed delivery.

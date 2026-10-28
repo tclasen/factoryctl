@@ -7,3 +7,11 @@
 /artifacts/cli-review/*/encoder-smoke/
 /artifacts/cli-review/*/scene-*.png
 /artifacts/cli-review/*/review-*.png
+
+# Original captures and superseded presentation retained locally/history.
+/artifacts/cli-review/*/cli-review.mp4
+/artifacts/cli-review/*/annotation-bands/
+/artifacts/cli-review/*/matrix-review.mp4
+/artifacts/cli-review/*/matrix-poster.png
+/artifacts/cli-review/*/matrix-video-coverage.json
+/artifacts/cli-review/*/matrix-input.json

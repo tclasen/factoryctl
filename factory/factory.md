@@ -59,6 +59,6 @@ The product must exercise [one project, monorepo projects and sibling repositori
 
 The [requirements traceability matrix](specifications/requirements-traceability.md) maps each operator requirement to implementation tasks and acceptance. Initial CLI implementation evidence is tracked separately from unimplemented runtime and release requirements. Every release requires current regression evidence and a [full-feature Playwright video](specifications/release-evidence.md), covering older features as well as new ones with readable pacing, smooth scrolling, overlays and highlights.
 
-## Milestone review videos
+## Milestone demo
 
-The [CLI review package](sources/cli-review-video-evidence.md) contains the executed walkthrough and complete matrix gap accounting. Full-matrix end-to-end qualification remains incomplete. Every future milestone delivery must follow the [mandatory demonstration gate](specifications/release-evidence.md#milestone-review-delivery), including current evidence for old and new implemented features.
+The [CLI review package](sources/cli-review-video-evidence.md) contains one scene-annotated CLI demo at a stable link, with complete matrix gap accounting in supporting documents. Full-matrix end-to-end qualification remains incomplete. Every future milestone delivery must follow the [mandatory demonstration gate](specifications/release-evidence.md#milestone-review-delivery), including current evidence for old and new implemented features.
