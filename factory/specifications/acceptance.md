@@ -69,6 +69,8 @@ Use custom research and opportunity definitions in synthetic scratch repositorie
 
 ## A12 Portable operation and persistence
 
+Current scope: ordinary-user single-file portability may rely on normal OS components, without developer dependencies or manual shared-library administration. Report exact supported OS versions using standard supported tools. Retain the requested 2016 OS coverage as unqualified where unsupported; current-host success cannot establish it. Do not satisfy this criterion through shellcode, raw/inline assembly, runtime/standard-library overlays or forks, custom syscall/ABI bridges, executable/loader patching or shell-script workarounds. The custom legacy-browser expansion is also excluded. Product implementation remains paused under the [operator correction](../sources/operator-brief.md#compatibility-scope-correction--2026-10-28); this documentation change supplies no runtime qualification or exception.
+
 Run desktop and CI modes on the current Mac; exercise local server shutdown/restart and an invocation-configured server example with optional personal preferences mounted outside the checkout without deployment. Cross-compile supported targets, inspect linkage/embedded assets, label non-host execution untested, and verify no app Git subprocesses or mutations, runtime-specific config files, database, transcript copy or persistent index.
 
 ## A13 Scale and release completeness

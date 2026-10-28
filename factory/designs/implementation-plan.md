@@ -19,6 +19,16 @@ sources:
 
 # Current implementation plan
 
+## Current revision 4 — remove compatibility scope creep
+
+The [operator correction](../sources/operator-brief.md#compatibility-scope-correction--2026-10-28) supersedes all portability/compatibility implementation admissions, including the uncommitted revision 3 and its technical readiness approvals. Product work remains paused. The only active slice is the [documentation scope correction](../tasks/remove-compatibility-scope.md), owned by Coordinator with independent document review and normal PR/main delivery. No new product demo or runtime execution is part of this documentation slice; existing product milestone gates remain unchanged.
+
+Removed work: custom Go runtime/standard-library overlays or forks, assembly and syscall/ABI adaptation, manual loader/binary rewriting and the legacy-browser compiler/polyfill/frame-transport expansion. No research/probe exception permits shellcode or raw/inline assembly. No shell-script portability workaround substitutes for these removed approaches. Technical readiness or the earlier general completion instruction cannot re-admit them. Use standard supported application tools; report unsupported OS coverage rather than inventing a new compatibility subsystem.
+
+Single-file ordinary-user portability with embedded assets and ordinary OS components remains desired. No developer dependencies or manual shared-library administration may be required of users. The requested 2016 OS baseline remains an explicit coverage gap where standard tooling does not support it; the six macOS/Linux/Windows × ARM64/x86-64 targets stay in the specification. This is not a declaration of baseline compliance, an approved narrowing of OS coverage, or a full-product acceptance.
+
+The existing dirty compatibility checkout and ignored evidence are retained as rejected, paused experiments and excluded from this delivery. No product-file deletion or implementation resumption is authorized by this plan correction. Historical sections below describe prior scope/evidence only where they conflict with this revision. Resume ordinary product work only after an explicit operator instruction; do not automatically reactivate prior worker claims.
+
 This is the single current desired-outcome and implementation plan. A plan entry is not a build grant. It separates accepted working-method changes, observed implementation and assistant-selected next-step proposals. The [operator source](../sources/operator-brief.md#working-method-correction-and-tangible-review) records the actual instruction and its context. A source attribution does not make every sentence in this plan operator-authored.
 
 ## Delivered browser foundation
@@ -62,7 +72,7 @@ After authorized product implementation, lead its review with a working demo and
 
 The [requirements matrix](../specifications/requirements-traceability.md) is the detailed evidence map. A readable document or recorded “accepted” label is not proof that all of its claims were accepted. Unknown authority remains unresolved. The application displays source and authorization claims; it does not implement a policy or approval engine.
 
-Current unresolved work is strict static linkage U045, final independent matrix/media review, qualification gates and owning-remote main delivery. The proposed one-second loader refresh target was missed; its engineering-proposal status and measurement limits must remain explicit. S1–S3 safe-edit/native-dialogue evidence and generated-view checks support the current candidate, while external MCP Apps interoperability and foreign-platform execution remain unqualified. Full-product completion still requires [acceptance](../specifications/acceptance.md); passing tests or proposed matrix rows do not establish it. Changes to the active plan must identify superseded choices and affected dependencies instead of appending a competing roadmap.
+Current unresolved work is U045 baseline coverage under revision 4, final independent matrix/media review, qualification gates and owning-remote main delivery. The proposed one-second loader refresh target was missed; its engineering-proposal status and measurement limits must remain explicit. S1–S3 safe-edit/native-dialogue evidence and generated-view checks support the current candidate, while external MCP Apps interoperability and foreign-platform execution remain unqualified. Full-product completion still requires [acceptance](../specifications/acceptance.md); passing tests or proposed matrix rows do not establish it. Changes to the active plan must identify superseded choices and affected dependencies instead of appending a competing roadmap.
 
 
 ## Observed recent changes and authorization correction

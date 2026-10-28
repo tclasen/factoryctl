@@ -40,6 +40,8 @@ requirements:
 
 # Qualify performance, portability and complete release behavior
 
+**Current scope correction:** product implementation is paused. The [operator correction](../sources/operator-brief.md#compatibility-scope-correction--2026-10-28) removes the custom runtime/assembly/ABI/loader and legacy-browser compatibility expansion from active scope. Ordinary OS libraries are permitted; the requested 2016 OS coverage remains unqualified where standard tools cannot provide it. Earlier static-interpretation and implementation-admission statements below are historical where superseded. No product completion or baseline compliance is claimed. Only the documentation scope correction is active.
+
 ## Outcome
 
 Run the full Mac acceptance suite and benchmark, cross-compile the six target OS/architecture combinations where supported, inspect linkage and prepare user/operator documentation.

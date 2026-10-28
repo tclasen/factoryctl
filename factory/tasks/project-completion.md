@@ -12,6 +12,8 @@ intent_owner: human:operator
 
 # Complete the remaining factoryctl requirements
 
+**Current scope correction:** product implementation is paused. The [operator correction](../sources/operator-brief.md#compatibility-scope-correction--2026-10-28) removes the custom runtime/assembly/ABI/loader and legacy-browser compatibility expansion from active scope. Ordinary OS libraries are permitted; the requested 2016 OS coverage remains unqualified where standard tools cannot provide it. Earlier static-interpretation and implementation-admission statements below are historical where superseded. No product completion or baseline compliance is claimed. Only the documentation scope correction is active.
+
 Original request: “Please implement the remaining tasks for this project until it is complete.” The current session is the source; this is an agent-maintained excerpt without a message URL. Intended outcome: complete all existing mandatory product requirements and honest end-to-end evidence, independent review and owning-remote main delivery. Plan: [completion revision 2](../designs/implementation-plan.md#completion-plan-revision-2--authorized-implementation). Build authority is explicit in that request, following the discussed remaining-task inventory; planning reconciliation precedes implementation.
 
 Target System: project. Change Classification: project. Authorized scope: this repository's product, tests, tooling and documentation plus ignored local qualification artifacts; excludes video/artifact publication, release publication, v1.0, real procurement and external messages. Canonical remote is existing origin and branch main. Preserve .DS_Store user files and all existing local evidence. No organization files are mutation scope.

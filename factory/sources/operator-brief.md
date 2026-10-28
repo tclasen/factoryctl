@@ -19,6 +19,20 @@ sources:
 
 # Operator requirements and design authority
 
+## Compatibility scope correction — 2026-10-28
+
+These exact excerpts are retained from the current conversation; no independently addressable original-message URL is available. They supersede conflicting earlier interpretations.
+
+The operator first said “Zero dynamic imports is a hard requirement.” The later instruction relaxed static builds to “industry standard definitions of portable” and allowed ordinary system components, without users managing shared libraries or installing developer dependencies. In answer to the baseline question the operator said: “Include OS releases from 2016 onward.”
+
+After pausing work and asking whether assembly was being written, the operator instructed:
+
+> A massive amount of scope creep has been introduced. Please help me remove this from the scope. There is no way in which I want you to do anything even remotely close to shell code or raw assembly, even inline.
+
+Current outcome: remove the custom compatibility expansion, not reinterpret the initial completion instruction as authority for runtime/toolchain patches, executable rewriting, low-level bridges or assembly probes. As a conservative implementation boundary, shellcode, raw/inline assembly and shell-script portability workarounds are prohibited. Standard application engineering with supported tools remains the intended approach. The custom Darwin overlay/loader converter and legacy-browser pipeline were assistant-selected means, not operator-requested features, and are no longer admitted.
+
+The 2016 OS outcome is retained as desired but unqualified where standard tooling cannot provide it. This correction does not claim that newer-OS builds meet that baseline, remove any of the six OS/architecture targets, or establish product completion. Product implementation remains paused. The present instruction authorizes the [documentation scope correction](../tasks/remove-compatibility-scope.md), not resuming or deleting paused product changes. Earlier completion authorization is subordinate to this restriction.
+
 This is an LLM-authored extraction of the operator's statements in the factoryctl design interview. The quoted sentences below are direct statements; the grouped requirements are a faithful synthesis, not independent external verification. The conversation is the primary source and is not publicly addressable from this repository. The operator has authorized research and a complete design-document package; application implementation is the subsequent stage.
 
 ## Direct authoritative statements

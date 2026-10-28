@@ -21,6 +21,8 @@ bundle_uri: "https://github.com/tclasen/factoryctl/blob/main/factory/"
 
 # Factoryctl
 
+**Current scope correction:** product implementation is paused. The [operator correction](sources/operator-brief.md#compatibility-scope-correction--2026-10-28) removes the custom runtime/assembly/ABI/loader and legacy-browser compatibility expansion from active scope. Ordinary OS libraries are permitted; the requested 2016 OS coverage remains unqualified where standard tools cannot provide it. Earlier static-interpretation and implementation-admission statements below are historical where superseded. No product completion or baseline compliance is claimed. Only the documentation scope correction is active.
+
 Factoryctl is a minimal CLI, local GUI and MCP interface to Markdown. The AI harness interprets that Markdown to understand and run a software factory or any other kind of knowledge-work factory. Factoryctl makes the files navigable and supplies standardized document tools; it does not implement the factory's workflow or policy.
 
 The [minimal-interface decision](decisions/minimal-interface.md) governs implementation: keep structural validation and safe file access in factoryctl, and keep roles, readiness, approvals, lifecycle decisions and execution in the agent's interpretation of Markdown.

@@ -38,6 +38,12 @@ Qualify dependency linkage per target. Fully static Darwin linkage is not promis
 
 See [architecture](../designs/architecture.md) and [release acceptance](../specifications/acceptance.md).
 
-## Clarification and unresolved platform qualification
+## Current decision — standard supported tools only
+
+The [operator correction](../sources/operator-brief.md#compatibility-scope-correction--2026-10-28) supersedes strict-static acceptance and rejects the custom compatibility expansion. A single compiled application may use ordinary OS components without users installing developer dependencies or managing shared libraries. All six targets remain desired. Standard supported toolchains/interfaces define the available implementation approach; shellcode, raw/inline assembly, runtime/standard-library forks or overlays, custom syscall/ABI bridges and executable loader/binary patching are excluded, including probes. No shell-script workaround is admitted. The legacy-browser pipeline expansion is also removed from active scope.
+
+The requested 2016 OS baseline is retained as a desired outcome, with an explicit unsupported/unqualified gap wherever standard tooling cannot provide it. Do not claim baseline compliance or silently substitute newer OS releases. Product implementation remains paused; this decision authorizes no compatibility engineering. See [plan revision 4](../designs/implementation-plan.md#current-revision-4--remove-compatibility-scope-creep).
+
+## Historical clarification — superseded
 
 The operator explicitly requires a single static binary; a compiled executable alone is insufficient. Linux releases must demonstrate absence of dynamic-library dependencies. macOS/Windows normally retain platform system interfaces; the earlier self-contained interpretation is a documented platform limitation, not permission to silently weaken the static requirement. Release qualification must report actual linkage and resolve any unsupported target/requirement conflict with the operator before labeling it compliant. This documentation change makes no platform compliance claim. External type definitions are data; optional UI code runs in the browser. Neither is a companion backend library required for base operation.
