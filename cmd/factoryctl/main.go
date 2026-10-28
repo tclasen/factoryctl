@@ -61,7 +61,7 @@ func parse(args []string) (options, error) {
 	o := options{flags: map[string][]string{}}
 	bools := map[string]bool{"json": true, "non-interactive": true, "help": true, "version": true, "require-complete-links": true, "check-external": true}
 	allowed := map[string]bool{}
-	for _, k := range strings.Fields("path project checkout project-id starter type query limit cursor input slug expected-revision set file level kind record listen runtime runtime-executable model reasoning-effort preferences prompt") {
+	for _, k := range strings.Fields("path project checkout project-id starter type query limit cursor input slug expected-revision set file level kind record listen runtime runtime-executable model reasoning-effort preferences chat-settings prompt") {
 		allowed[k] = true
 	}
 	for i := 0; i < len(args); i++ {
@@ -211,10 +211,10 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 	expected := 2
 	switch cmd {
 	case "web":
-		extra = "listen runtime runtime-executable model reasoning-effort preferences"
+		extra = "listen runtime runtime-executable model reasoning-effort preferences chat-settings"
 		expected = 1
 	case "chat":
-		extra = "runtime runtime-executable model reasoning-effort preferences prompt"
+		extra = "runtime runtime-executable model reasoning-effort preferences chat-settings prompt"
 		expected = 1
 	case "mcp":
 		expected = 1
@@ -644,14 +644,14 @@ func (w *checkedWriter) Write(p []byte) (int, error) {
 
 func runtimeConfig(o options) (*web.RuntimeConfig, error) {
 	if o.get("runtime") == "" && o.get("preferences") == "" {
-		if o.get("runtime-executable") != "" || o.get("model") != "" || o.get("reasoning-effort") != "" {
+		if o.get("runtime-executable") != "" || o.get("model") != "" || o.get("reasoning-effort") != "" || o.get("chat-settings") != "" {
 			return nil, app.Fail("invalid_arguments", "runtime options require --runtime or --preferences")
 		}
 		return nil, nil
 	}
-	selected, e := rt.ResolvePreferences(rt.Selection{Runtime: o.get("runtime"), Executable: o.get("runtime-executable"), Model: o.get("model"), Effort: o.get("reasoning-effort"), Preferences: o.get("preferences")})
+	selected, e := rt.ResolvePreferences(rt.Selection{Runtime: o.get("runtime"), Executable: o.get("runtime-executable"), Preferences: o.get("preferences")})
 	if e != nil {
 		return nil, app.Fail("invalid_arguments", e.Error())
 	}
-	return &web.RuntimeConfig{Executable: selected.Executable, Model: selected.Model, Effort: selected.Effort}, nil
+	return &web.RuntimeConfig{Executable: selected.Executable, Model: o.get("model"), Effort: o.get("reasoning-effort"), Legacy: rt.ChatSelection{Model: selected.Model, Effort: selected.Effort}, SettingsPath: o.get("chat-settings")}, nil
 }

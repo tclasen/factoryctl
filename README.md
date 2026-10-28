@@ -44,6 +44,10 @@ Start the browser with an explicit runtime selection:
 
 Open the **Conversation access** URL printed by the process. Its fragment grants access to the trusted conversation controls; keep that URL private. Select a project, optionally include the selected document, and send a message. Questions accept text or choices with custom answers; follow-up messages keep the same native thread. Stop turn interrupts the runtime. Generated views require an explicit trust action and retain a plain-text fallback. A view can draft an answer, but you review and submit it through the trusted host controls. Browser document editing remains unimplemented. Starting `web` without `--runtime` or `--preferences` only enables document browsing and does not read runtime preferences.
 
+The chat composer includes **Model** and **Reasoning** selectors using the installed runtime's advertised capabilities. Choose before starting a chat or while an existing conversation is idle; the choice applies to the next message. Enter sends and Shift+Enter inserts a newline.
+
+Open **Defaults** to explicitly save the selected pair globally or for this project. Personal defaults live in `~/.factoryctl/chat-settings.json`, outside project Git. Project overrides use canonical local project roots, so separate projects with the same ID do not share defaults. Reset removes the chosen override; new chats inherit the remaining defaults. Existing conversations keep their own selection. Choosing a model or sending a message does not save defaults. Factoryctl creates the private configuration file only when you choose Save or Reset, and reports stale-write conflicts rather than overwriting a newer save.
+
 The retained interactive terminal uses the same conversation services:
 
 ```sh
@@ -52,7 +56,7 @@ The retained interactive terminal uses the same conversation services:
 
 Run `chat` in an actual terminal: piped stdin, `--json` and `--non-interactive` are rejected. Enter text or displayed choice IDs (comma-separated for multiple choices), or a custom answer. `/decline` declines a question, `/cancel` interrupts the active turn, and `/quit` closes the conversation. Generated views have a text fallback here. Ordinary document commands never prompt.
 
-Both `web` and `chat` accept `--runtime-executable /absolute/path/to/codex`, `--model NAME`, `--reasoning-effort VALUE` and `--preferences FILE`. Explicit values override optional personal preferences; model/effort absent from both use native defaults. Runtime options require `--runtime` or an explicit `--preferences` file. Only the Codex adapter is implemented; unsupported selections fail without substitution.
+Both `web` and `chat` accept `--runtime-executable /absolute/path/to/codex`, `--model NAME`, `--reasoning-effort VALUE`, `--preferences FILE` and `--chat-settings /absolute/path/to/file.json`. The last flag selects an alternate personal settings file for services or isolated testing. Explicit conversation selections override invocation flags, then saved project defaults, saved global defaults, legacy personal preferences and native defaults. A model flag clears inherited reasoning unless an effort flag is also supplied; an effort-only flag keeps the inherited model. Runtime options require `--runtime` or an explicit `--preferences` file. Only the Codex adapter is implemented; unsupported selections fail without substitution.
 
 On an explicit runtime action, the default preference location is the current OS user's `~/.factoryctl/preferences.md`. Factoryctl does not create or update it. An optional file looks like:
 

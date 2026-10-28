@@ -19,7 +19,10 @@ import (
 	rt "github.com/tclasen/factoryctl/internal/runtime"
 )
 
-type RuntimeConfig struct{ Executable, Model, Effort string }
+type RuntimeConfig struct {
+	Executable, Model, Effort, SettingsPath string
+	Legacy                                  rt.ChatSelection
+}
 type chatMessage struct {
 	Role string `json:"role"`
 	Text string `json:"text"`
@@ -31,23 +34,28 @@ type nativeRequest struct {
 	Params json.RawMessage `json:"params"`
 }
 type conversation struct {
-	generation uint64
-	ID         string          `json:"id"`
-	Project    string          `json:"project"`
-	Title      string          `json:"title"`
-	Status     string          `json:"status"`
-	ThreadID   string          `json:"thread_id"`
-	TurnID     string          `json:"turn_id"`
-	Messages   []chatMessage   `json:"messages"`
-	Native     []nativeRequest `json:"native_requests"`
-	Error      string          `json:"error,omitempty"`
-	client     *rt.Client
-	scope      string
-	token      string
-	root       string
+	generation        uint64
+	Selection         rt.ChatSelection `json:"selection"`
+	ResolvedSelection rt.ChatSelection `json:"resolved_selection"`
+	ID                string           `json:"id"`
+	Project           string           `json:"project"`
+	Checkout          string           `json:"checkout"`
+	Title             string           `json:"title"`
+	Status            string           `json:"status"`
+	ThreadID          string           `json:"thread_id"`
+	TurnID            string           `json:"turn_id"`
+	Messages          []chatMessage    `json:"messages"`
+	Native            []nativeRequest  `json:"native_requests"`
+	Error             string           `json:"error,omitempty"`
+	client            *rt.Client
+	scope             string
+	token             string
+	root              string
 }
 type frameGrant struct{ Scope, View string }
 type conversationHost struct {
+	catalogs      catalogCache
+	catalogLookup func(context.Context, project.Project) (catalogSnapshot, error)
 	closeOnce     sync.Once
 	closing       bool
 	frames        map[string]frameGrant
@@ -196,6 +204,10 @@ func (h *Handler) conversationHTTP(w http.ResponseWriter, r *http.Request) {
 		apiError(w, 503, fmt.Errorf("Server is shutting down"))
 		return
 	}
+	if r.URL.Path == "/api/chat-settings" {
+		c.settingsHTTP(w, r)
+		return
+	}
 	tail := strings.TrimPrefix(r.URL.Path, "/api/conversations")
 	parts := strings.Split(strings.Trim(tail, "/"), "/")
 	if tail == "" || tail == "/" {
@@ -214,9 +226,10 @@ func (h *Handler) conversationHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		var v struct {
-			Project    string `json:"project"`
-			DocumentID string `json:"document_id"`
-			Prompt     string `json:"prompt"`
+			Project    string          `json:"project"`
+			DocumentID string          `json:"document_id"`
+			Prompt     string          `json:"prompt"`
+			Selection  *selectionInput `json:"selection"`
 		}
 		if e := decodeRequest(w, r, &v); e != nil {
 			apiError(w, 400, e)
@@ -236,6 +249,26 @@ func (h *Handler) conversationHTTP(w http.ResponseWriter, r *http.Request) {
 		prompt := strings.TrimSpace(v.Prompt)
 		if prompt == "" || len(prompt) > 16384 {
 			apiError(w, 400, fmt.Errorf("Prompt must contain 1–16384 bytes"))
+			return
+		}
+		explicit, e := v.Selection.selection()
+		if e != nil {
+			apiError(w, 400, e)
+			return
+		}
+		chosen, e := c.selectedDefaults(selected.Root, explicit)
+		if e != nil {
+			apiError(w, 400, e)
+			return
+		}
+		catalog, e := c.catalog(r.Context(), *selected, false)
+		if e != nil {
+			apiError(w, 502, e)
+			return
+		}
+		chosen, e = validateCatalogSelection(chosen, catalog)
+		if e != nil {
+			apiError(w, 400, e)
 			return
 		}
 		if v.DocumentID != "" {
@@ -267,7 +300,7 @@ func (h *Handler) conversationHTTP(w http.ResponseWriter, r *http.Request) {
 		if len(title) > 80 {
 			title = title[:80]
 		}
-		chat := &conversation{ID: id, Project: selected.ID, Title: title, Status: "starting", Messages: []chatMessage{{Role: "user", Text: v.Prompt}}, Native: []nativeRequest{}, scope: scope, token: token, root: selected.Root}
+		chat := &conversation{Selection: chosen, ID: id, Project: selected.ID, Checkout: selected.Checkout, Title: title, Status: "starting", Messages: []chatMessage{{Role: "user", Text: v.Prompt}}, Native: []nativeRequest{}, scope: scope, token: token, root: selected.Root}
 		c.conversations[id] = chat
 		c.mu.Unlock()
 		go c.start(chat, *selected, prompt)
@@ -346,7 +379,8 @@ func (h *Handler) conversationHTTP(w http.ResponseWriter, r *http.Request) {
 
 	case "turn":
 		var v struct {
-			Text string `json:"text"`
+			Text      string          `json:"text"`
+			Selection *selectionInput `json:"selection"`
 		}
 		if e := decodeRequest(w, r, &v); e != nil {
 			apiError(w, 400, e)
@@ -361,6 +395,36 @@ func (h *Handler) conversationHTTP(w http.ResponseWriter, r *http.Request) {
 			c.mu.Unlock()
 			apiError(w, 409, fmt.Errorf("Wait for or interrupt the active turn"))
 			return
+		}
+		generation := chat.generation
+		c.mu.Unlock()
+		explicit, e := v.Selection.selection()
+		if e != nil {
+			apiError(w, 400, e)
+			return
+		}
+		var chosen rt.ChatSelection
+		if explicit != nil {
+			p := project.Project{Root: chat.root}
+			catalog, e := c.catalog(r.Context(), p, false)
+			if e != nil {
+				apiError(w, 502, e)
+				return
+			}
+			chosen, e = validateCatalogSelection(*explicit, catalog)
+			if e != nil {
+				apiError(w, 400, e)
+				return
+			}
+		}
+		c.mu.Lock()
+		if generation != chat.generation || (chat.Status != "idle" && chat.Status != "interrupted") {
+			c.mu.Unlock()
+			apiError(w, 409, fmt.Errorf("Conversation changed while choosing the model; retry when idle"))
+			return
+		}
+		if explicit != nil {
+			chat.Selection = chosen
 		}
 		chat.Status = "running"
 		chat.Messages = append(chat.Messages, chatMessage{Role: "user", Text: v.Text})
@@ -523,7 +587,7 @@ func (c *conversationHost) start(chat *conversation, p project.Project, prompt s
 		c.fail(chat, e)
 		return
 	}
-	client, e := rt.Start(c.ctx, rt.Config{Executable: c.config.Executable, Dir: p.Root, Model: c.config.Model, Effort: c.config.Effort, MCPCommand: exe, MCPArgs: []string{"mcp", "--path", p.Root, "--project", p.ID}, MCPEnv: map[string]string{"FACTORYCTL_BRIDGE_URL": c.base + "/internal/tool", "FACTORYCTL_BRIDGE_TOKEN": chat.token}})
+	client, e := rt.Start(c.ctx, rt.Config{Executable: c.config.Executable, Dir: p.Root, MCPCommand: exe, MCPArgs: []string{"mcp", "--path", p.Root, "--project", p.ID}, MCPEnv: map[string]string{"FACTORYCTL_BRIDGE_URL": c.base + "/internal/tool", "FACTORYCTL_BRIDGE_TOKEN": chat.token}})
 	if e != nil {
 		c.fail(chat, e)
 		return
@@ -535,9 +599,17 @@ func (c *conversationHost) start(chat *conversation, p project.Project, prompt s
 	ctx, cancel := context.WithTimeout(c.ctx, 30*time.Second)
 	defer cancel()
 	params := map[string]any{"cwd": p.Root, "approvalPolicy": "on-request", "sandbox": "workspace-write"}
-	if c.config.Model != "" {
-		params["model"] = c.config.Model
+	models, e := client.Models(ctx)
+	if e != nil {
+		c.fail(chat, e)
+		return
 	}
+	resolved, e := client.ResolveNativeSelection(ctx, chat.Selection, models, p.Root)
+	if e != nil {
+		c.fail(chat, e)
+		return
+	}
+	params["model"] = resolved.Model
 	raw, e := client.Request(ctx, "thread/start", params)
 	if e != nil {
 		c.fail(chat, e)
@@ -591,7 +663,7 @@ func (c *conversationHost) start(chat *conversation, p project.Project, prompt s
 }
 func (c *conversationHost) turn(chat *conversation, text string) {
 	c.mu.Lock()
-	client, thread := chat.client, chat.ThreadID
+	client, thread, desired := chat.client, chat.ThreadID, chat.Selection
 	chat.generation++
 	generation := chat.generation
 	chat.Status = "running"
@@ -599,9 +671,21 @@ func (c *conversationHost) turn(chat *conversation, text string) {
 	ctx, cancel := context.WithTimeout(c.ctx, 30*time.Second)
 	defer cancel()
 	params := map[string]any{"threadId": thread, "input": []map[string]string{{"type": "text", "text": text}}}
-	if c.config.Effort != "" {
-		params["effort"] = c.config.Effort
+	models, e := client.Models(ctx)
+	if e != nil {
+		c.fail(chat, e)
+		return
 	}
+	resolved, e := client.ResolveNativeSelection(ctx, desired, models, chat.root)
+	if e != nil {
+		c.fail(chat, e)
+		return
+	}
+	params["model"] = resolved.Model
+	params["effort"] = resolved.Effort
+	c.mu.Lock()
+	chat.ResolvedSelection = resolved
+	c.mu.Unlock()
 	raw, e := client.Request(ctx, "turn/start", params)
 	if e != nil {
 		c.fail(chat, e)

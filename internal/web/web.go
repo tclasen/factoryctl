@@ -253,7 +253,7 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		h.viewHTTP(w, r)
 		return
 	}
-	if strings.HasPrefix(r.URL.Path, "/api/conversations") || r.URL.Path == "/internal/tool" {
+	if strings.HasPrefix(r.URL.Path, "/api/conversations") || r.URL.Path == "/internal/tool" || r.URL.Path == "/api/chat-settings" {
 		h.conversationHTTP(w, r)
 		return
 	}

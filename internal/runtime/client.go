@@ -1,5 +1,5 @@
 // Package runtime connects an explicitly selected installed Codex app-server.
-// It owns no project workflow, transcript store, credentials or configuration files.
+// It owns no project workflow, transcript store or credentials. Personal chat settings are explicit host-owned configuration.
 package runtime
 
 import (
@@ -362,47 +362,10 @@ func (c *Client) Close() error {
 }
 
 func (c *Client) validateSelection(ctx context.Context, cfg Config) error {
-	cursor := ""
-	for pages := 0; pages < 20; pages++ {
-		params := map[string]any{"limit": 100}
-		if cursor != "" {
-			params["cursor"] = cursor
-		}
-		raw, err := c.Request(ctx, "model/list", params)
-		if err != nil {
-			return fmt.Errorf("cannot verify runtime model selection: %w", err)
-		}
-		var page struct {
-			Data []struct {
-				ID      string `json:"id"`
-				Model   string `json:"model"`
-				Default bool   `json:"isDefault"`
-				Efforts []struct {
-					Value string `json:"reasoningEffort"`
-				} `json:"supportedReasoningEfforts"`
-			} `json:"data"`
-			Next *string `json:"nextCursor"`
-		}
-		if err = json.Unmarshal(raw, &page); err != nil {
-			return errors.New("invalid runtime model catalog")
-		}
-		for _, m := range page.Data {
-			if (cfg.Model != "" && (cfg.Model == m.ID || cfg.Model == m.Model)) || (cfg.Model == "" && m.Default) {
-				if cfg.Effort == "" {
-					return nil
-				}
-				for _, e := range m.Efforts {
-					if e.Value == cfg.Effort {
-						return nil
-					}
-				}
-				return errors.New("unsupported reasoning effort for selected runtime model")
-			}
-		}
-		if page.Next == nil || *page.Next == "" {
-			break
-		}
-		cursor = *page.Next
+	models, err := c.Models(ctx)
+	if err != nil {
+		return err
 	}
-	return errors.New("selected runtime model or default model could not be verified")
+	_, err = ValidateChatSelection(ChatSelection{Model: cfg.Model, Effort: cfg.Effort}, models)
+	return err
 }
