@@ -37,7 +37,7 @@ Create a bounded integration experiment using the installed app-server schema. E
 
 ## Scope and handoff
 
-Implement the relevant modules in the [architecture](../designs/architecture.md), following the linked specifications in frontmatter. Read [operator authority](../sources/operator-brief.md) before any external effects. This task is planned, not started; source paths named in the architecture do not yet exist. The [implementation plan](../designs/implementation-plan.md) establishes build order and shared contracts.
+Implement the relevant modules in the [architecture](../designs/architecture.md), following the linked specifications in frontmatter. Read [operator authority](../sources/operator-brief.md) before any external effects. Installed Codex 0.164.0 schema, native turns, MCP attachment, same-thread follow-up, native input and interruption have bounded qualification in [capability evidence](../sources/interaction-capabilities.md). Native approval UI is covered by deterministic tests; full A08 and platform qualification are not asserted. The [implementation plan](../designs/implementation-plan.md) establishes build order and shared contracts.
 
 ## Verification and done criteria
 

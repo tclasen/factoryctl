@@ -18,7 +18,7 @@ sources:
 
 # Agent questions and rich web interaction
 
-The operator requires an agent-callable question tool, free text, multiple choice and continuing dialogue in both current user interfaces. They favor a rich web interface and propose retiring the interactive CLI if MCP Apps and generative UI prove sufficient. Exact names and protocol choices below are proposed, not implemented capabilities.
+The operator requires an agent-callable question tool, free text, multiple choice and continuing dialogue in both current user interfaces. They favor a rich web interface and propose retiring the interactive CLI if MCP Apps and generative UI prove sufficient. The bounded first-party implementation now uses the question/wait/present names below. External Apps resource advertising and interoperability remain proposals, not implemented capabilities; see [capability evidence](../sources/interaction-capabilities.md).
 
 ## Shared question contract
 

@@ -21,11 +21,15 @@ sources:
 
 This is the single current build plan. It separates accepted working-method changes, observed implementation and assistant-selected next-step proposals. The [operator source](../sources/operator-brief.md#working-method-correction-and-tangible-review) records the actual instruction and its context. A source attribution does not make every sentence in this plan operator-authored.
 
-## Current tangible slice
+## Delivered browser foundation
 
 [Visible intent](../tasks/visible-intent.md) applies the accepted working-method correction and delivers a small read-only browser explorer of the real planning bundle. You can find a document, inspect its recorded intent state, open source/authorization details and linked documents, and inspect the underlying Markdown. The demo uses actual product interactions and remains at one stable local video path.
 
 The operator authorized implementing the working-method proposals and asked for something tangible. The assistant chose this bounded browser slice as the implementation approach. Layout, launch syntax and data representation are engineering choices. The slice does not silently accept future MCP/GUI designs or retire all terminal launch/automation commands.
+
+## Current admitted milestone
+
+The operator requested completion of the described agent-questions and rich-web milestone. [Task13](../tasks/13-user-interaction.md#current-admission-and-implementation-brief) owns the bounded build and runtime/transport qualification: question or generated view → actual response → correlated result → same-conversation follow-up. Native attachment, browser answers/generated views and same-thread follow-up have current bounded evidence; see [the review package](../sources/interaction-milestone-evidence.md). This is not authorization to implement every remaining full-GUI or delivery-status feature, publish media, change harness configuration or retire the CLI.
 
 ## Current work and proposed continuation
 
@@ -34,8 +38,8 @@ The operator authorized implementing the working-method proposals and asked for 
 | [Intent and tangible review](../decisions/intent-and-review.md) | Accepted method; current task applies it | Requests, agent choices and execution authorization remain separate; demos precede long completion prose |
 | [Read-only browser explorer](../tasks/visible-intent.md) | Implemented in [PR #11](https://github.com/tclasen/factoryctl/pull/11); assistant-selected reversible means (historical delivery observation, not a live status) | Navigate real documents and recorded provenance without editing or submitting acceptance |
 | [Existing document services](../tasks/first-cli-milestone.md) | Implemented bounded CLI work; sequence was assistant-selected | Reuse discovery, parsing, validation and safe storage; no further CLI feature milestone selected |
-| [Native runtime qualification](../tasks/00-runtime-spike.md) and [MCP Apps/questions](../tasks/13-user-interaction.md) | Required direction to explore; exact next implementation scope is proposed | Generated view/question → actual response → correlated tool result → same-conversation follow-up; installed host support remains unverified |
-| [Shared transports](../tasks/06-transports.md) and [full GUI](../tasks/08-gui.md) | Remaining capability scope; implement only the services needed by an admitted vertical slice | Editing, board and conversation interfaces remain outstanding; reading documents does not require completed runtime integration |
+| [Native runtime qualification](../tasks/00-runtime-spike.md) and [MCP Apps/questions](../tasks/13-user-interaction.md) | Implemented bounded slice in review under the operator request; full-product qualification remains incomplete | Generated view/question → actual response → correlated tool result → same-conversation follow-up; native Codex attachment and first-party views have live evidence; external Apps interoperability remains unqualified |
+| [Shared transports](../tasks/06-transports.md) and [full GUI](../tasks/08-gui.md) | Remaining capability scope; implement only the services needed by an admitted vertical slice | Editing and board interfaces remain outstanding; the current slice adds conversations; reading documents does not require completed runtime integration |
 | [Extensions](../tasks/12-extension-contract.md), [custom views](../tasks/09-custom-views.md), [non-software use](../tasks/10-knowledge-work.md), [release qualification](../tasks/11-release-qualification.md) | Planned and unqualified | Existing requirements remain; no full product/release acceptance is claimed |
 
 ## Delivery-status design follow-up

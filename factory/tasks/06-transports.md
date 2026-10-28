@@ -41,7 +41,7 @@ Implement MCP stdio tools and HTTP/SSE adapters around the same application serv
 
 ## Scope and handoff
 
-Implement the relevant modules in the [architecture](../designs/architecture.md), following the linked specifications in frontmatter. Read [operator authority](../sources/operator-brief.md) before any external effects. This task is planned, not started; source paths named in the architecture do not yet exist. The [implementation plan](../designs/implementation-plan.md) establishes build order and shared contracts.
+Implement the relevant modules in the [architecture](../designs/architecture.md), following the linked specifications in frontmatter. Read [operator authority](../sources/operator-brief.md) before any external effects. Shared MCP document tools and scoped question/view attachment are implemented, with protocol, revision-conflict and capability-separation tests. Browser conversation routes are implemented; general browser document mutation, extension dispatch and full transport parity remain outstanding. See [capability evidence](../sources/interaction-capabilities.md). The [implementation plan](../designs/implementation-plan.md) establishes build order and shared contracts.
 
 ## Verification and done criteria
 

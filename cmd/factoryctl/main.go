@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/base64"
 	"encoding/json"
 	"errors"
@@ -16,7 +17,9 @@ import (
 	"github.com/tclasen/factoryctl/internal/app"
 	"github.com/tclasen/factoryctl/internal/defaults"
 	"github.com/tclasen/factoryctl/internal/knowledge"
+	"github.com/tclasen/factoryctl/internal/mcp"
 	"github.com/tclasen/factoryctl/internal/project"
+	rt "github.com/tclasen/factoryctl/internal/runtime"
 	"github.com/tclasen/factoryctl/internal/web"
 )
 
@@ -27,7 +30,9 @@ Global flags (before or after commands):
   --path DIR --project ID --checkout TOKEN --json --non-interactive
 
 Commands:
-  web [--listen 127.0.0.1:8080]  (read-only browser document explorer)
+  web [--listen 127.0.0.1:8080] [--runtime codex]  (documents and opt-in conversations)
+  chat --runtime codex --prompt TEXT  (interactive terminal conversation)
+  mcp  (scoped stdio document and question tools)
   projects list
   init --project-id ID [--starter software]
   records list [--type TYPE] [--query TEXT] [--limit N] [--cursor C]
@@ -41,8 +46,9 @@ Commands:
   actions list --record PATH
   doctor
 
-All input is explicit; this milestone never prompts or starts an agent.
-The web explorer is read-only. Editing GUI, MCP, agent actions, network link checks and asset export are unsupported.
+Document commands never prompt or start an agent. Conversations require explicit runtime selection.
+Document browsing remains read-only; conversation agents may use their native tools.
+Network link checks and asset export remain unsupported.
 Example: factoryctl --path . records list --type Task --json
 `
 
@@ -55,7 +61,7 @@ func parse(args []string) (options, error) {
 	o := options{flags: map[string][]string{}}
 	bools := map[string]bool{"json": true, "non-interactive": true, "help": true, "version": true, "require-complete-links": true, "check-external": true}
 	allowed := map[string]bool{}
-	for _, k := range strings.Fields("path project checkout project-id starter type query limit cursor input slug expected-revision set file level kind record listen") {
+	for _, k := range strings.Fields("path project checkout project-id starter type query limit cursor input slug expected-revision set file level kind record listen runtime runtime-executable model reasoning-effort preferences prompt") {
 		allowed[k] = true
 	}
 	for i := 0; i < len(args); i++ {
@@ -205,7 +211,12 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 	expected := 2
 	switch cmd {
 	case "web":
-		extra = "listen"
+		extra = "listen runtime runtime-executable model reasoning-effort preferences"
+		expected = 1
+	case "chat":
+		extra = "runtime runtime-executable model reasoning-effort preferences prompt"
+		expected = 1
+	case "mcp":
 		expected = 1
 	case "init":
 		extra = "project-id starter"
@@ -245,21 +256,21 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 	for _, k := range strings.Fields(extra) {
 		allowedFlags[k] = true
 	}
-	if cmd != "gui" && cmd != "mcp" {
+	if cmd != "gui" {
 		for k := range o.flags {
 			if !allowedFlags[k] {
 				return fail(app.Fail("invalid_arguments", "flag --"+k+" is not valid for this command"))
 			}
 		}
 	}
-	if cmd != "gui" && cmd != "mcp" && len(o.args) != expected {
+	if cmd != "gui" && len(o.args) != expected {
 		return fail(app.Fail("invalid_arguments", "unexpected or missing positional argument"))
 	}
-	if cmd == "gui" || cmd == "mcp" || (cmd == "actions" && sub == "run") || (cmd == "templates" && sub == "export") || o.get("check-external") != "" {
+	if cmd == "gui" || (cmd == "actions" && sub == "run") || (cmd == "templates" && sub == "export") || o.get("check-external") != "" {
 		return fail(app.Fail("unsupported_capability", "this capability is not implemented in the document CLI milestone"))
 	}
 	if cmd == "doctor" {
-		emit(map[string]any{"version": version, "runtime": "unsupported", "git_subprocesses": false, "network_required": false, "limits": map[string]int{"document_bytes": knowledge.MaxDocument, "frontmatter_bytes": knowledge.MaxFrontmatter, "yaml_depth": knowledge.MaxDepth}, "writer_coordination": "advisory per bundle; external editors and other bundles can race"})
+		emit(map[string]any{"version": version, "runtime": "codex-opt-in", "git_subprocesses": false, "network_required": false, "limits": map[string]int{"document_bytes": knowledge.MaxDocument, "frontmatter_bytes": knowledge.MaxFrontmatter, "yaml_depth": knowledge.MaxDepth}, "writer_coordination": "advisory per bundle; external editors and other bundles can race"})
 		return 0
 	}
 	selectedPath := o.get("path")
@@ -309,6 +320,37 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 	if len(projects) == 0 {
 		return fail(app.Fail("ambiguous_project", "no initialized project in this scope; use init --project-id ID"))
 	}
+	if cmd == "mcp" {
+		if jsonMode {
+			return fail(app.Fail("invalid_arguments", "MCP uses its own stdio protocol, not --json"))
+		}
+		if len(projects) != 1 {
+			return fail(app.Fail("ambiguous_project", "MCP requires one explicit project"))
+		}
+		if e := mcp.Run(context.Background(), in, out, mcp.Config{Projects: projects, Selected: projects[0], BridgeURL: os.Getenv("FACTORYCTL_BRIDGE_URL"), BridgeToken: os.Getenv("FACTORYCTL_BRIDGE_TOKEN")}); e != nil {
+			return fail(e)
+		}
+		return 0
+	}
+	if cmd == "chat" {
+		if jsonMode || o.get("non-interactive") != "" {
+			return fail(app.Fail("interaction_unavailable", "chat requires an interactive answer surface"))
+		}
+		if len(projects) != 1 {
+			return fail(app.Fail("ambiguous_project", "chat requires one project"))
+		}
+		cfg, e := runtimeConfig(o)
+		if e != nil {
+			return fail(e)
+		}
+		if cfg == nil {
+			return fail(app.Fail("invalid_arguments", "select --runtime codex"))
+		}
+		if e := web.ChatTerminal(projects, *cfg, o.get("prompt"), in, out); e != nil {
+			return fail(e)
+		}
+		return 0
+	}
 	if cmd == "web" {
 		if jsonMode {
 			return fail(app.Fail("invalid_arguments", "web is a local browser server, not a JSON command"))
@@ -317,7 +359,11 @@ func run(args []string, in io.Reader, out, errOut io.Writer) (exitCode int) {
 		if address == "" {
 			address = "127.0.0.1:8080"
 		}
-		if err := web.Serve(projects, address, out); err != nil {
+		cfg, e := runtimeConfig(o)
+		if e != nil {
+			return fail(e)
+		}
+		if err := web.ServeWithRuntime(projects, address, out, cfg); err != nil {
 			return fail(err)
 		}
 		return 0
@@ -594,4 +640,18 @@ func (w *checkedWriter) Write(p []byte) (int, error) {
 		*w.err = e
 	}
 	return n, e
+}
+
+func runtimeConfig(o options) (*web.RuntimeConfig, error) {
+	if o.get("runtime") == "" && o.get("preferences") == "" {
+		if o.get("runtime-executable") != "" || o.get("model") != "" || o.get("reasoning-effort") != "" {
+			return nil, app.Fail("invalid_arguments", "runtime options require --runtime or --preferences")
+		}
+		return nil, nil
+	}
+	selected, e := rt.ResolvePreferences(rt.Selection{Runtime: o.get("runtime"), Executable: o.get("runtime-executable"), Model: o.get("model"), Effort: o.get("reasoning-effort"), Preferences: o.get("preferences")})
+	if e != nil {
+		return nil, app.Fail("invalid_arguments", e.Error())
+	}
+	return &web.RuntimeConfig{Executable: selected.Executable, Model: selected.Model, Effort: selected.Effort}, nil
 }
